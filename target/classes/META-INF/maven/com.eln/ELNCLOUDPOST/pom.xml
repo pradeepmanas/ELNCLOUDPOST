@@ -3,7 +3,6 @@
   <groupId>com.eln</groupId>
   <artifactId>ELNCLOUDPOST</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
   <name>ELN</name>
   <description>Electronic note book</description>
   
@@ -200,6 +199,7 @@
     <build>
     
         <plugins>
+        	
 	        <plugin>
 			    <groupId>org.flywaydb</groupId>
 			    <artifactId>flyway-maven-plugin</artifactId>
