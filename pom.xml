@@ -3,7 +3,7 @@
   <groupId>com.eln</groupId>
   <artifactId>ELNCLOUDPOST</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>ELN</name>
   <description>Electronic note book</description>
   
