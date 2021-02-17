@@ -4,37 +4,37 @@
     {
       "sourceType": "com.agaram.eln.secondary.config.ArchieveDataSourceConfiguration",
       "name": "app.datasource.archive",
-      "sourceMethod": "archieveDataSourceProperties()",
+      "sourceMethod": "public org.springframework.boot.autoconfigure.jdbc.DataSourceProperties archieveDataSourceProperties() ",
       "type": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties"
     },
     {
       "sourceType": "com.agaram.eln.secondary.config.ArchieveDataSourceConfiguration",
       "name": "app.datasource.archive.configuration",
-      "sourceMethod": "archiveDataSource()",
+      "sourceMethod": "public javax.sql.DataSource archiveDataSource() ",
       "type": "javax.sql.DataSource"
     },
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
       "name": "app.datasource.archive.xa",
-      "sourceMethod": "getXa()",
+      "sourceMethod": "public org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.Xa getXa() ",
       "type": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$Xa"
     },
     {
       "sourceType": "com.agaram.eln.primary.config.HibernateConfig",
       "name": "app.datasource.eln",
-      "sourceMethod": "elnDataSourceProperties()",
+      "sourceMethod": "public org.springframework.boot.autoconfigure.jdbc.DataSourceProperties elnDataSourceProperties() ",
       "type": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties"
     },
     {
       "sourceType": "com.agaram.eln.primary.config.HibernateConfig",
       "name": "app.datasource.eln.configuration",
-      "sourceMethod": "elnDataSource()",
+      "sourceMethod": "public javax.sql.DataSource elnDataSource() ",
       "type": "javax.sql.DataSource"
     },
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
       "name": "app.datasource.eln.xa",
-      "sourceMethod": "getXa()",
+      "sourceMethod": "public org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.Xa getXa() ",
       "type": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$Xa"
     }
   ],
