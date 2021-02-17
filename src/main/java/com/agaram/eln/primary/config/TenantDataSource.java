@@ -70,13 +70,13 @@ public class TenantDataSource implements Serializable {
     public Map<String, DataSource> getAll() {
         List<DataSourceConfig> configList = configRepo.findAll();
         Map<String, DataSource> result = new HashMap<>();
-        for (DataSourceConfig config : configList) {
-            DataSource dataSource = getDataSource(config.getName(), config.getArchivename());
-            result.put(config.getName(), dataSource); 
-            
-            Flyway flyway = Flyway.configure().dataSource(dataSource).load();
-            flyway.repair();
-            flyway.migrate();
+//        for (DataSourceConfig config : configList) {
+//            DataSource dataSource = getDataSource(config.getName(), config.getArchivename());
+//            result.put(config.getName(), dataSource); 
+//            
+//            Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+//            flyway.repair();
+//            flyway.migrate();
 //            
 //            String url = env.getProperty("app.datasource.eln.url");
 //            String user = env.getProperty("app.datasource.eln.username");
@@ -98,7 +98,7 @@ public class TenantDataSource implements Serializable {
 ////    	            Logger lgr = Logger.getLogger(JavaPostgreSqlVersion.class.getName());
 ////    	            lgr.log(Level.SEVERE, ex.getMessage(), ex);
 //    	        }
-        }
+//        }
         return result;
     }
 
