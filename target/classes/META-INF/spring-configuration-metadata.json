@@ -47,7 +47,7 @@
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
       "name": "app.datasource.archive.data",
-      "type": "java.util.List<java.lang.String>"
+      "type": "java.lang.String"
     },
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
@@ -97,7 +97,7 @@
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
       "name": "app.datasource.archive.schema",
-      "type": "java.util.List<java.lang.String>"
+      "type": "java.lang.String"
     },
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
@@ -152,7 +152,7 @@
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
       "name": "app.datasource.eln.data",
-      "type": "java.util.List<java.lang.String>"
+      "type": "java.lang.String"
     },
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
@@ -202,7 +202,7 @@
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
       "name": "app.datasource.eln.schema",
-      "type": "java.util.List<java.lang.String>"
+      "type": "java.lang.String"
     },
     {
       "sourceType": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
