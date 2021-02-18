@@ -93,13 +93,13 @@ public class ArchieveDataSourceConfiguration {
 	        em.setPackagesToScan(new String[]{"com.agaram.eln.secondary.model.*"});
 	        em.setJpaVendorAdapter(this.jpaVendorAdapter());
 	        
-	        Properties jpaProperties = new Properties();
-	        jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
-	        jpaProperties.put("hibernate.connection.useUnicode", true);
-	        jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
-	        em.setJpaProperties(jpaProperties);
+//	        Properties jpaProperties = new Properties();
+//	        jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
+//	        jpaProperties.put("hibernate.connection.useUnicode", true);
+//	        jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
+	        //em.setJpaProperties(jpaProperties);
 	        
-//	        em.setJpaPropertyMap(jpaPropertiesMap);
+	        em.setJpaPropertyMap(jpaPropertiesMap);
 	        return em;
 //		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 //        factory.setDataSource(archiveDataSource());
