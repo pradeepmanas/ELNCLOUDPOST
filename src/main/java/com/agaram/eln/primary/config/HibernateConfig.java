@@ -47,6 +47,9 @@ import java.util.Properties;
 @EntityScan({"com.agaram.eln.primary"})
 public class HibernateConfig {
 	@Autowired
+    private org.springframework.core.env.Environment env;
+	
+	@Autowired
     private JpaProperties jpaProperties;
 	
 	@Autowired
@@ -107,24 +110,26 @@ public class HibernateConfig {
 				, "com.agaram.eln.primary.model.jwt"
 				, "com.agaram.eln.primary.model.cloudFileManip"});
         em.setJpaVendorAdapter(this.jpaVendorAdapter());
-        em.setJpaPropertyMap(jpaPropertiesMap);
         
-//        Properties jpaProperties = new Properties();
-//      if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null)
-//      {
-//      	jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
-//      }
-//      else
-//      {
-//      	jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-//      }
-//      
-//      jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
-//      jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));
-//      jpaProperties.put("hibernate.connection.useUnicode", true);
-//      jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
+        
+       Properties jpaProperties = new Properties();
+      if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null)
+      {
+      	jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
+      }
+      else
+      {
+      	jpaProperties.put("hibernate.hbm2ddl.auto", "update");
+      }
       
-//      em.setJpaProperties(jpaProperties);
+      jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
+      jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));
+      jpaProperties.put("hibernate.connection.useUnicode", true);
+      jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
+      
+      em.setJpaProperties(jpaProperties);
+        
+//        em.setJpaPropertyMap(jpaPropertiesMap);
         
         return em;
     }
