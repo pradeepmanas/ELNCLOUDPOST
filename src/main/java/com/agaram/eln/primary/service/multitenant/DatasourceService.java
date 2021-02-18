@@ -101,11 +101,11 @@ public class DatasourceService {
 		}
 		
 		Tenantname.setName(Tenantname.getName().toLowerCase());
-		Tenantname.setDriverClassName(env.getProperty("app.datasource.eln.driverClassName"));
+		//Tenantname.setDriverClassName(env.getProperty("app.datasource.eln.driverClassName"));
 		//Tenantname.setUrl(gettenanturlDataBasename(Tenantname.getName()));
 		Tenantname.setInitialize(true);
-		Tenantname.setUsername(env.getProperty("app.datasource.eln.username"));
-		Tenantname.setPassword(env.getProperty("app.datasource.eln.password"));
+		//Tenantname.setUsername(env.getProperty("app.datasource.eln.username"));
+		//Tenantname.setPassword(env.getProperty("app.datasource.eln.password"));
 		Tenantname.setArchivename(Tenantname.getName().toLowerCase()+"archive");
 		///Tenantname.setArchiveurl(gettenanturlDataBasename(Tenantname.getName().toLowerCase()+"archive"));
 		objres.setStatus(true);
