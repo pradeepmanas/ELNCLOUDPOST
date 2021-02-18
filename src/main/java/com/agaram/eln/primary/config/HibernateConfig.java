@@ -126,9 +126,9 @@ public class HibernateConfig {
         jpaProperties.put("hibernate.connection.useUnicode", true);
         jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
         
-        em.setJpaProperties(jpaProperties);
+//        em.setJpaProperties(jpaProperties);
         
-//        em.setJpaPropertyMap(jpaPropertiesMap);
+        em.setJpaPropertyMap(jpaPropertiesMap);
         
 //        Properties jpaProperties = new Properties();
 //      if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null)

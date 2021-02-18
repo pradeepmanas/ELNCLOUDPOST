@@ -99,9 +99,9 @@ public class ArchieveDataSourceConfiguration {
 	        //jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.hibernate.dialect"));
 	        jpaProperties.put("hibernate.connection.useUnicode", true);
 	        jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
-	        em.setJpaProperties(jpaProperties);
+//	        em.setJpaProperties(jpaProperties);
 	        
-	        //em.setJpaPropertyMap(jpaPropertiesMap);
+	        em.setJpaPropertyMap(jpaPropertiesMap);
 	        return em;
 //		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 //        factory.setDataSource(archiveDataSource());
