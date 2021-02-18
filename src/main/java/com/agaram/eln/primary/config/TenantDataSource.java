@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +68,7 @@ public class TenantDataSource implements Serializable {
 
 	@PostConstruct
     public Map<String, DataSource> getAll() {
-        List<DataSourceConfig> configList = new ArrayList<DataSourceConfig>();
-        		//configRepo.findAll();
+        List<DataSourceConfig> configList = configRepo.findAll();
         Map<String, DataSource> result = new HashMap<>();
         for (DataSourceConfig config : configList) {
             DataSource dataSource = getDataSource(config.getName(), config.getArchivename());
@@ -105,8 +103,7 @@ public class TenantDataSource implements Serializable {
     }
 
     private DataSource createDataSource(String name) {
-        DataSourceConfig config = null;
-        		//configRepo.findByName(name);
+        DataSourceConfig config = configRepo.findByName(name);
         if (config != null) {
             DataSourceBuilder factory = DataSourceBuilder
                     .create().driverClassName(config.getDriverClassName())
@@ -120,8 +117,7 @@ public class TenantDataSource implements Serializable {
     }   
     
     private DataSource createarchiveDataSource(String name) {
-        DataSourceConfig config = null;
-        		//configRepo.findByArchivename(name);
+        DataSourceConfig config = configRepo.findByArchivename(name);
         if (config != null) {
             DataSourceBuilder factory = DataSourceBuilder
                     .create().driverClassName(config.getDriverClassName())

@@ -113,7 +113,7 @@ public class DatasourceService {
 		
 		configRepo.save(Tenantname);
 		
-		createDatabase(env.getProperty("app.datasource.eln.url"), Tenantname.getName(), Tenantname);
+		//createDatabase(env.getProperty("app.datasource.eln.url"), Tenantname.getName(), Tenantname);
 	
 		return Tenantname;
 	}
