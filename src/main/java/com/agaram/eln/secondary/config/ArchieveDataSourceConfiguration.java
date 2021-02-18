@@ -40,8 +40,6 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = {"com.agaram.eln.secondary"})
 @EntityScan({"com.agaram.eln.secondary"})
 public class ArchieveDataSourceConfiguration {
-	@Autowired
-    private org.springframework.core.env.Environment env;
 	
 	@Autowired
     private JpaProperties jpaProperties;
@@ -92,15 +90,6 @@ public class ArchieveDataSourceConfiguration {
 	        em.setDataSource(archiveDataSource());
 	        em.setPackagesToScan(new String[]{"com.agaram.eln.secondary.model.*"});
 	        em.setJpaVendorAdapter(this.jpaVendorAdapter());
-	        
-	        Properties jpaProperties = new Properties();
-	        jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-	        jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
-	        //jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.hibernate.dialect"));
-	        jpaProperties.put("hibernate.connection.useUnicode", true);
-	        jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
-//	        em.setJpaProperties(jpaProperties);
-	        
 	        em.setJpaPropertyMap(jpaPropertiesMap);
 	        return em;
 //		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();

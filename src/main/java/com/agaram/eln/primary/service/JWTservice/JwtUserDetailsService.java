@@ -46,7 +46,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		LSuserMaster user = userDao.findByusername(username);
+		LSuserMaster user = userDao.findByusernameIgnoreCase(username);
 
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
