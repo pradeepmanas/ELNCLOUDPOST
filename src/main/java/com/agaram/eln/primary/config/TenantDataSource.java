@@ -68,7 +68,7 @@ public class TenantDataSource implements Serializable {
 
 	@PostConstruct
     public Map<String, DataSource> getAll() {
-        List<DataSourceConfig> configList = configRepo.findAll();
+        List<DataSourceConfig> configList = configRepo.findByInitialize(true);
         Map<String, DataSource> result = new HashMap<>();
         for (DataSourceConfig config : configList) {
             DataSource dataSource = getDataSource(config.getName(), config.getArchivename());
@@ -77,27 +77,7 @@ public class TenantDataSource implements Serializable {
             Flyway flyway = Flyway.configure().dataSource(dataSource).load();
             flyway.repair();
             flyway.migrate();
-//            
-//            String url = env.getProperty("app.datasource.eln.url");
-//            String user = env.getProperty("app.datasource.eln.username");
-//            String password = env.getProperty("app.datasource.eln.password");
-//
-//    	        try (Connection con = DriverManager.getConnection(url, user, password);
-//    	                Statement st = con.createStatement();
-//    	        		 
-//    	                ResultSet rs = st.executeQuery("SELECT VERSION()")) {
-//    	        	st.execute("SELECT pg_terminate_backend(pid) FROM pg_stat_activity \r\n" + 
-//    	        			"WHERE pid <> pg_backend_pid() AND datname = '"+config.getName()+"';");
-//            		con.commit();
-//    	            if (rs.next()) {
-//    	                System.out.println(rs.getString(1));
-//    	            }
-//
-//    	        } catch (SQLException ex) {
-//    	        
-////    	            Logger lgr = Logger.getLogger(JavaPostgreSqlVersion.class.getName());
-////    	            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-//    	        }
+
         }
         return result;
     }
@@ -138,27 +118,7 @@ public class TenantDataSource implements Serializable {
             Flyway flyway = Flyway.configure().dataSource(dataSource).load();
             flyway.repair();
             flyway.migrate();
-            
-//            String url = env.getProperty("app.datasource.eln.url");
-//          String user = env.getProperty("app.datasource.eln.username");
-//          String password = env.getProperty("app.datasource.eln.password");
-//
-//  	        try (Connection con = DriverManager.getConnection(url, user, password);
-//  	                Statement st = con.createStatement();
-//  	        		 
-//  	                ResultSet rs = st.executeQuery("SELECT VERSION()")) {
-//  	        	st.execute("SELECT pg_terminate_backend(pid) FROM pg_stat_activity \r\n" + 
-//  	        			"WHERE pid <> pg_backend_pid() AND datname = '"+name+"';");
-//          		con.commit();
-//  	            if (rs.next()) {
-//  	                System.out.println(rs.getString(1));
-//  	            }
-//
-//  	        } catch (SQLException ex) {
-//  	        
-////  	            Logger lgr = Logger.getLogger(JavaPostgreSqlVersion.class.getName());
-////  	            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-//  	        }
+           
         }
     	return true;
     }
@@ -172,26 +132,6 @@ public class TenantDataSource implements Serializable {
             flyway.repair();
             flyway.migrate();
             
-//            String url = env.getProperty("app.datasource.eln.url");
-//            String user = env.getProperty("app.datasource.eln.username");
-//            String password = env.getProperty("app.datasource.eln.password");
-//
-//    	        try (Connection con = DriverManager.getConnection(url, user, password);
-//    	                Statement st = con.createStatement();
-//    	        		 
-//    	                ResultSet rs = st.executeQuery("SELECT VERSION()")) {
-//    	        	st.execute("SELECT pg_terminate_backend(pid) FROM pg_stat_activity \r\n" + 
-//    	        			"WHERE pid <> pg_backend_pid() AND datname = '"+name+"';");
-//            		con.commit();
-//    	            if (rs.next()) {
-//    	                System.out.println(rs.getString(1));
-//    	            }
-//
-//    	        } catch (SQLException ex) {
-//    	        
-////    	            Logger lgr = Logger.getLogger(JavaPostgreSqlVersion.class.getName());
-////    	            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-//    	        }
         }
     	return true;
     }

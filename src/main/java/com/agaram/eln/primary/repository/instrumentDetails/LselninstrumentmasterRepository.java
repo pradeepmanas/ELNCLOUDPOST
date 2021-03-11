@@ -12,4 +12,7 @@ public interface LselninstrumentmasterRepository extends JpaRepository<Lselninst
 	public List<Lselninstrumentmaster> findBylssitemasterAndStatusOrderByInstrumentcodeDesc(LSSiteMaster sitemaster,Integer status);
 	public Lselninstrumentmaster findByInstrumentnameAndStatus(String instrumentname, Integer status);
 	public Lselninstrumentmaster findByInstrumentnameAndStatusAndInstrumentcodeNot(String instrumentname, Integer status, Integer instrumentcode);
+	public Lselninstrumentmaster findByInstrumentnameIgnoreCaseAndStatus(String instrumentname, Integer status);
+	public Lselninstrumentmaster findByInstrumentnameIgnoreCaseAndStatusAndInstrumentcodeNot(String instrumentname, Integer status,
+			Integer instrumentcode);
 }

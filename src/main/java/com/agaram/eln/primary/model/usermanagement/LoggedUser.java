@@ -24,6 +24,10 @@ public class LoggedUser {
 	
 //	private LSSiteMaster objsite;
 	private Integer objsite;
+
+	private Integer ismultitenant;
+	
+	private Integer multitenantusercount;
 	
 	public Integer getObjsite() {
 		return objsite;
@@ -244,6 +248,22 @@ public class LoggedUser {
 
 	public void setObjuser(LoggedUser objuser) {
 		this.objuser = objuser;
+	}
+
+	public Integer getIsmultitenant() {
+		return ismultitenant;
+	}
+
+	public void setIsmultitenant(Integer ismultitenant) {
+		this.ismultitenant = ismultitenant;
+	}
+
+	public Integer getMultitenantusercount() {
+		return multitenantusercount;
+	}
+
+	public void setMultitenantusercount(Integer multitenantusercount) {
+		this.multitenantusercount = multitenantusercount;
 	}
 		
 	

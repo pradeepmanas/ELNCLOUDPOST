@@ -24,6 +24,7 @@ import com.agaram.eln.primary.model.cfr.LScfrreasons;
 import com.agaram.eln.primary.model.cfr.LScfttransaction;
 import com.agaram.eln.primary.model.cfr.LSreviewdetails;
 import com.agaram.eln.primary.model.general.Response;
+import com.agaram.eln.primary.model.usermanagement.LSSiteMaster;
 import com.agaram.eln.primary.model.usermanagement.LSuserMaster;
 import com.agaram.eln.primary.model.usermanagement.LoggedUser;
 import com.agaram.eln.primary.repository.cfr.LSaudittrailconfigmasterRepository;
@@ -32,6 +33,7 @@ import com.agaram.eln.primary.repository.cfr.LScfrreasonsRepository;
 import com.agaram.eln.primary.repository.cfr.LScfttransactionRepository;
 import com.agaram.eln.primary.repository.cfr.LSpreferencesRepository;
 import com.agaram.eln.primary.repository.cfr.LSreviewdetailsRepository;
+import com.agaram.eln.primary.repository.usermanagement.LSSiteMasterRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSuserMasterRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSusergrouprightsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,6 +63,9 @@ public class AuditService {
 	private LSreviewdetailsRepository LSreviewdetailsRepository;
 	@Autowired
 	private LSusergrouprightsRepository LSusergrouprightsRepository;
+	
+	@Autowired
+    private LSSiteMasterRepository lSSiteMasterRepository;
 	@SuppressWarnings("unused")
 	@Autowired
 	private	LSpreferencesRepository LSpreferencesRepository;
@@ -91,7 +96,7 @@ public class AuditService {
 	public LScfrreasons InsertupdateReasons(LScfrreasons objClass) {
 		
 		objClass.setResponse(new Response());
-		if(objClass.getReasoncode() == null && LScfrreasonsRepository.findByComments(objClass.getComments()) != null)
+		if(objClass.getReasoncode() == null && LScfrreasonsRepository.findByCommentsIgnoreCase(objClass.getComments()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_CFREXIST");
@@ -193,7 +198,6 @@ public class AuditService {
 			String module = (String)objCFRFilter.get("module");
 			@SuppressWarnings("unchecked")
 			Map<String, String> system=(Map)objCFRFilter.get("system");
-			//kumaresan
 			
 			String Audit=(String)system.get("Audit");
 			if(system.get("Audit").equals("All")||system.get("Audit").equals("User Generated")||system.get("Audit").equals("System Generated")) {
@@ -258,6 +262,9 @@ public class AuditService {
 			int i = 0;
 			
 			List<LSuserMaster> userDetails = lSuserMasterRepository.findAll();
+//			list.stream().forEach(obj1->{ userDetails.stream().filter(obj2->{ return obj2.getUsercode().equals(obj1.getLsuserMaster());})
+//				.limit(1)
+//				.forEach(obj2->{obj1.setUsername(obj2.getUsername());}); });
 			
 			while(list.size() > i) {
 				int k = 0;
@@ -435,18 +442,24 @@ public class AuditService {
 		return lsAudit;
 	}
 
-	@SuppressWarnings("null")
 	public LSuserMaster CheckUserPassWord(LoggedUser objuser) {
-		
-//		LoggedUser objuser = (LoggedUser) objMap.get("AuditTrailValues");
 		
 		LSuserMaster objExitinguser = new LSuserMaster();
 		String username = objuser.getsUsername();
-		objExitinguser = lSuserMasterRepository.findByusername(username);
+		LSSiteMaster objsite = lSSiteMasterRepository.findBysitecode(Integer.parseInt(objuser.getsSiteCode()));
+		objExitinguser = lSuserMasterRepository.findByusernameAndLssitemaster(username, objsite);
 		
 		if(objExitinguser != null)
 		{
-			String Password = AESEncryption.decrypt(objExitinguser.getPassword());
+			String Password = "";
+			if(objExitinguser.getLoginfrom().equals("1"))
+			{
+				Password = objExitinguser.getPassword();
+			}
+			else
+			{
+				Password = AESEncryption.decrypt(objExitinguser.getPassword());
+			}
 		    objExitinguser.setObjResponse(new Response());
 		    
 		    if(Password.equals(objuser.getsPassword().trim())){
@@ -461,6 +474,47 @@ public class AuditService {
 		}
 		else
 		{
+			objExitinguser = new LSuserMaster();
+			objExitinguser.setObjResponse(new Response());
+			objExitinguser.getObjResponse().setInformation("Invalid user");
+			objExitinguser.getObjResponse().setStatus(false);
+		}
+		return objExitinguser;
+	}
+	
+	public LSuserMaster CheckUserPassWord(LSuserMaster objuser) {
+	
+		LSuserMaster objExitinguser = new LSuserMaster();
+		String username = objuser.getObjuser().getsUsername();
+		objExitinguser = lSuserMasterRepository.findByusernameAndLssitemaster(username, objuser.getLssitemaster());
+		
+		if(objExitinguser != null)
+		{
+			String Password = "";
+			if(objExitinguser.getLoginfrom().equals("1"))
+			{
+				Password = objExitinguser.getPassword();
+			}
+			else
+			{
+				Password = AESEncryption.decrypt(objExitinguser.getPassword());
+			}
+		    objExitinguser.setObjResponse(new Response());
+		    
+		    if(Password.equals(objuser.getObjuser().getsPassword().trim())){
+		    	objExitinguser.getObjResponse().setInformation("Valid user and password");
+		    	objExitinguser.getObjResponse().setStatus(true);
+		    }
+		    else
+			{
+				objExitinguser.getObjResponse().setInformation("Invalid password");
+				objExitinguser.getObjResponse().setStatus(false);
+			}
+		}
+		else
+		{
+			objExitinguser = new LSuserMaster();
+			objExitinguser.setObjResponse(new Response());
 			objExitinguser.getObjResponse().setInformation("Invalid user");
 			objExitinguser.getObjResponse().setStatus(false);
 		}
@@ -570,7 +624,9 @@ public class AuditService {
 			cfttransaction.setTableName("LScfttransaction");
 			if(objaudit.containsKey("username")) {
 				String username= objMapper.convertValue(objaudit.get("username"), String.class);
-				LSuserMaster objuser= lSuserMasterRepository.findByusername(username);
+				Integer sitecode= cfttransaction.getLssitemaster();
+				LSSiteMaster objsite = lSSiteMasterRepository.findBysitecode(sitecode);
+				LSuserMaster objuser= lSuserMasterRepository.findByusernameAndLssitemaster(username, objsite);
 				cfttransaction.setLsuserMaster(objuser.getUsercode());
 //				cfttransaction.setLssitemaster(objuser.getLssitemaster());
 				cfttransaction.setLssitemaster(objuser.getLssitemaster().getSitecode());

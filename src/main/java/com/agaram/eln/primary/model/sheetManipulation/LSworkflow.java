@@ -24,7 +24,7 @@ import com.agaram.eln.primary.model.usermanagement.LoggedUser;
 @Table(name = "LSworkflow")
 public class LSworkflow {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "workflowcode") 
 	private int workflowcode;

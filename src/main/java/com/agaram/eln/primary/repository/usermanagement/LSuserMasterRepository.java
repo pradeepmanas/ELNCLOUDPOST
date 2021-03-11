@@ -14,7 +14,7 @@ import com.agaram.eln.primary.model.usermanagement.LSuserMaster;
 import com.agaram.eln.primary.model.usermanagement.LSusergroup;
 
 public interface LSuserMasterRepository extends JpaRepository<LSuserMaster, Integer> {
-	 public LSuserMaster findByusername(String username);
+	 public LSuserMaster findByusernameAndLssitemaster(String username, LSSiteMaster lssitemaster);
 	 
 	 public LSuserMaster findByusercode(Integer usercode);
 	 
@@ -30,8 +30,16 @@ public interface LSuserMasterRepository extends JpaRepository<LSuserMaster, Inte
 	 public List<LSuserMaster> findByusernameNot(String username);
 	 public LSuserMaster findByUsernameAndPassword(String username, String password);
 	 public List<LSuserMaster> findByUsernameNotAndLssitemaster(String username, LSSiteMaster lssitemaster);
+	 
+	 public Long countByusercodeNot(Integer usercode);
 
 	 public LSuserMaster findByusernameIgnoreCase(String username);
+	 
+	 public LSuserMaster findByUsernameIgnoreCaseAndLoginfrom(String username, String loginform);
+	 
+	 public LSuserMaster findByUsernameIgnoreCaseAndLssitemaster(String username, LSSiteMaster lssitemaster);
+	 
+	 public LSuserMaster findByUsernameIgnoreCaseAndLoginfromAndLssitemaster(String username, String loginform, LSSiteMaster lssitemaster);
 	
 	 @Transactional
 	 @Modifying

@@ -22,7 +22,7 @@ import com.agaram.eln.primary.model.general.Response;
 @Table(name = "LSusermaster")
 public class LSuserMaster {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "usercode")
 	private Integer usercode;
@@ -83,6 +83,14 @@ public class LSuserMaster {
 	@Transient
 	private String sitename;
 	
+	private String loginfrom = "0";
+	
+	@Transient
+	private Integer ismultitenant;
+	
+	@Transient
+	private Integer multitenantusercount;
+	
 	public String getDFormat() {
 		return DFormat;
 	}
@@ -120,7 +128,8 @@ public class LSuserMaster {
 	@Transient
 	LoggedUser objuser;
 	
-	
+	@Transient
+	private String token;
 	
 
 	public LScfttransaction getObjsilentaudit() {
@@ -319,5 +328,38 @@ public class LSuserMaster {
 	public void setLsuserActions(LSuserActions lsuserActions) {
 		this.lsuserActions = lsuserActions;
 	}
+
+	public String getLoginfrom() {
+		return loginfrom;
+	}
+
+	public void setLoginfrom(String loginfrom) {
+		this.loginfrom = loginfrom;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Integer getIsmultitenant() {
+		return ismultitenant;
+	}
+
+	public void setIsmultitenant(Integer ismultitenant) {
+		this.ismultitenant = ismultitenant;
+	}
+
+	public Integer getMultitenantusercount() {
+		return multitenantusercount;
+	}
+
+	public void setMultitenantusercount(Integer multitenantusercount) {
+		this.multitenantusercount = multitenantusercount;
+	}
+	
 	
 }

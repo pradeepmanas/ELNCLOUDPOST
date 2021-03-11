@@ -1,7 +1,13 @@
 package com.agaram.eln.primary.service.cloudFileManip;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Writer;
 import java.util.Date;
+import java.util.Scanner;
 
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
@@ -11,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.agaram.eln.primary.config.TenantContext;
 import com.agaram.eln.primary.model.cfr.LScfttransaction;
 import com.agaram.eln.primary.model.cloudFileManip.CloudOrderAttachment;
 import com.agaram.eln.primary.model.cloudFileManip.CloudProfilePicture;
@@ -20,9 +27,14 @@ import com.agaram.eln.primary.repository.cfr.LScfttransactionRepository;
 import com.agaram.eln.primary.repository.cloudFileManip.CloudOrderAttachmentRepository;
 import com.agaram.eln.primary.repository.cloudFileManip.CloudProfilePictureRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSuserMasterRepository;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFSDBFile;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.OperationContext;
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.BlobContainerPublicAccessType;
+import com.microsoft.azure.storage.blob.BlobRequestOptions;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 
 @Service
 public class CloudFileManipulationservice {
@@ -39,6 +51,8 @@ public class CloudFileManipulationservice {
 	@Autowired
     private LSuserMasterRepository lsuserMasterRepository;
 	
+	final String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=lleln;AccountKey=0ShoGnoRZFQ6ozTyv65CRRaaywEA/4d2LJRWznrwMn1+di5ExZ3BjovCC8nZpnyCnXvTpFmgkIy19atmAM7wnQ==;EndpointSuffix=core.windows.net";
+    
 	public CloudProfilePicture addPhoto(Integer usercode, MultipartFile file,Date currentdate) throws IOException { 
     	
     	LSuserMaster username=lsuserMasterRepository.findByusercode(usercode);
@@ -87,11 +101,52 @@ public class CloudFileManipulationservice {
     }
     
     public String storeLargeattachment(String title, MultipartFile file) throws IOException { 
-        DBObject metaData = new BasicDBObject(); 
-        metaData.put("title", title); 
-        
-       // Object id = gridFsTemplate.store(file.getInputStream(), file.getName(), file.getContentType(), metaData).getId(); 
-        return ""; //id.toString(); 
+       
+    	String bloburi="";
+		CloudStorageAccount storageAccount;
+		CloudBlobClient blobClient = null;
+		CloudBlobContainer container=null;
+
+		try {    
+			// Parse the connection string and create a blob client to interact with Blob storage
+			storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			blobClient = storageAccount.createCloudBlobClient();
+			container = blobClient.getContainerReference(TenantContext.getCurrentTenant());
+
+			// Create the container if it does not exist with public access.
+			System.out.println("Creating container: " + container.getName());
+			container.createIfNotExists(BlobContainerPublicAccessType.CONTAINER, new BlobRequestOptions(), new OperationContext());		    
+
+			File convFile = new File(System.getProperty("java.io.tmpdir")+"/"+title);
+			file.transferTo(convFile);
+
+			//Getting a blob reference
+			CloudBlockBlob blob = container.getBlockBlobReference(convFile.getName());
+
+			//Creating blob and uploading file to it
+			System.out.println("Uploading the sample file ");
+			blob.uploadFromFile(convFile.getAbsolutePath());
+			
+			bloburi = blob.getName();
+
+		} 
+		catch (StorageException ex)
+		{
+			System.out.println(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+		}
+		catch (Exception ex) 
+		{
+			System.out.println(ex.getMessage());
+		}
+		finally 
+		{
+			System.out.println("The program has completed successfully.");
+			System.out.println("Press the 'Enter' key while in the console to delete the sample files, example container, and exit the application.");
+
+		
+		}
+       
+        return bloburi; //id.toString(); 
     }
     
     public CloudOrderAttachment retrieveFile(LsOrderattachments objattachment){
@@ -101,9 +156,32 @@ public class CloudFileManipulationservice {
         return objfile;
 	}
     
-    public GridFSDBFile retrieveLargeFile(String fileid) throws IllegalStateException, IOException{
-    	GridFSDBFile file = null; // gridFsTemplate.findOne(new Query(Criteria.where("_id").is(fileid)));
-    	return file;
+    public InputStream retrieveLargeFile(String fileid) throws IOException{
+    	
+	    CloudStorageAccount storageAccount;
+		CloudBlobClient blobClient = null;
+		CloudBlobContainer container=null;
+		CloudBlockBlob blob = null;
+		try {    
+			// Parse the connection string and create a blob client to interact with Blob storage
+			storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			blobClient = storageAccount.createCloudBlobClient();
+			container = blobClient.getContainerReference(TenantContext.getCurrentTenant());
+			
+			blob = container.getBlockBlobReference(fileid);
+			return blob.openInputStream();
+		}
+		catch (StorageException ex)
+		{
+			System.out.println(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+			throw new IOException(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+		}
+		catch (Exception ex) 
+		{
+			System.out.println(ex.getMessage());
+		}
+		return null;
+	    
     }
     
     public Long deleteattachments(String id) { 
@@ -111,6 +189,130 @@ public class CloudFileManipulationservice {
     }
     
     public void deletelargeattachments(String id) { 
-    	//gridFsTemplate.delete(Query.query(Criteria.where("_id").is(id)));
+    	CloudStorageAccount storageAccount;
+		CloudBlobClient blobClient = null;
+		CloudBlobContainer container=null;
+		CloudBlockBlob blob = null;
+		try {    
+			// Parse the connection string and create a blob client to interact with Blob storage
+			storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			blobClient = storageAccount.createCloudBlobClient();
+			container = blobClient.getContainerReference(TenantContext.getCurrentTenant());
+			
+			blob = container.getBlockBlobReference(id);
+			blob.deleteIfExists();
+		}
+		catch (StorageException ex)
+		{
+			System.out.println(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+		}
+		catch (Exception ex) 
+		{
+			System.out.println(ex.getMessage());
+		}
+    }
+    
+    
+
+    public String storeReportFile(String title, File file) throws IOException { 
+        
+    	String bloburi="";
+		CloudStorageAccount storageAccount;
+		CloudBlobClient blobClient = null;
+		CloudBlobContainer container=null;
+
+		try {    
+			// Parse the connection string and create a blob client to interact with Blob storage
+			storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			blobClient = storageAccount.createCloudBlobClient();
+			container = blobClient.getContainerReference(TenantContext.getCurrentTenant());
+
+			// Create the container if it does not exist with public access.
+			System.out.println("Creating container: " + container.getName());
+			container.createIfNotExists(BlobContainerPublicAccessType.CONTAINER, new BlobRequestOptions(), new OperationContext());		    
+
+//			File convFile = new File(System.getProperty("java.io.tmpdir")+"/"+title);
+//			file.transferTo(convFile);
+
+			
+			//Getting a blob reference
+			CloudBlockBlob blob = container.getBlockBlobReference(file.getName());
+
+			//Creating blob and uploading file to it
+			System.out.println("Uploading the sample file ");
+			blob.uploadFromFile(file.getAbsolutePath());
+			
+			bloburi = blob.getName();
+
+		} 
+		catch (StorageException ex)
+		{
+			System.out.println(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+		}
+		catch (Exception ex) 
+		{
+			System.out.println(ex.getMessage());
+		}
+		finally 
+		{
+			System.out.println("The program has completed successfully.");
+			System.out.println("Press the 'Enter' key while in the console to delete the sample files, example container, and exit the application.");
+
+		
+		}
+       
+        return bloburi; //id.toString(); 
+    }
+    
+    public InputStream retrieveReportFiles(String fileid) throws IOException{
+    	
+	    CloudStorageAccount storageAccount;
+		CloudBlobClient blobClient = null;
+		CloudBlobContainer container=null;
+		CloudBlockBlob blob = null;
+		try {    
+			// Parse the connection string and create a blob client to interact with Blob storage
+			storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			blobClient = storageAccount.createCloudBlobClient();
+			container = blobClient.getContainerReference(TenantContext.getCurrentTenant());
+			
+			blob = container.getBlockBlobReference(fileid);
+			return blob.openInputStream();
+		}
+		catch (StorageException ex)
+		{
+			System.out.println(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+			throw new IOException(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+		}
+		catch (Exception ex) 
+		{
+			System.out.println(ex.getMessage());
+		}
+		return null;
+	    
+    }
+    
+    public void deleteReportFile(String id) { 
+    	CloudStorageAccount storageAccount;
+		CloudBlobClient blobClient = null;
+		CloudBlobContainer container=null;
+		CloudBlockBlob blob = null;
+		try {    
+			// Parse the connection string and create a blob client to interact with Blob storage
+			storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			blobClient = storageAccount.createCloudBlobClient();
+			container = blobClient.getContainerReference(TenantContext.getCurrentTenant());
+			
+			blob = container.getBlockBlobReference(id);
+			blob.deleteIfExists();
+		}
+		catch (StorageException ex)
+		{
+			System.out.println(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+		}
+		catch (Exception ex) 
+		{
+			System.out.println(ex.getMessage());
+		}
     }
 }

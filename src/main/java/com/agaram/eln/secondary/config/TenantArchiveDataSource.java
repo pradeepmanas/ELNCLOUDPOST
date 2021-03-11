@@ -27,8 +27,6 @@ public class TenantArchiveDataSource implements Serializable {
 
     @Autowired
     private TenantDataSource tenantDataSource;
-//    @Autowired
-//    private DataSourceConfigRepository configRepo;
 
     public DataSource getDataSource(String name) {
         if (dataSources.get(name) != null) {
@@ -44,12 +42,11 @@ public class TenantArchiveDataSource implements Serializable {
 
     @PostConstruct
     public Map<String, DataSource> getAll() {
-//        List<DataSourceConfig> configList = new ArrayList<DataSourceConfig>();
-//        		//configRepo.findAll();
+
         Map<String, DataSource> result = new HashMap<>();
         result = tenantDataSource.archivedataSources;
         for (String name : result.keySet()) {
-            Flyway flyway = Flyway.configure().dataSource(result.get(name)).load();
+            Flyway flyway = Flyway.configure().dataSource(result.get(name)).locations("filesystem:./src/main/resources/db/migration_archive").load();
             flyway.repair();
             flyway.migrate();
         }

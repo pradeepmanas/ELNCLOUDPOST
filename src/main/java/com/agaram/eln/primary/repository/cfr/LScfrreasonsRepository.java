@@ -6,4 +6,6 @@ import com.agaram.eln.primary.model.cfr.LScfrreasons;
 
 public interface LScfrreasonsRepository  extends JpaRepository<LScfrreasons, Integer> {
 	public LScfrreasons findByComments(String comments);
+
+	public LScfrreasons findByCommentsIgnoreCase(String comments);
 }

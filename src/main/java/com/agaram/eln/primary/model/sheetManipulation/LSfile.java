@@ -29,7 +29,7 @@ import com.agaram.eln.primary.model.usermanagement.LoggedUser;
 @Table(name = "LSfile")
 public class LSfile {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "filecode")
 	private Integer filecode;

@@ -19,7 +19,7 @@ import com.agaram.eln.primary.model.usermanagement.LoggedUser;
 @Table(name = "LScfrreasons")
 public class LScfrreasons {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "reasoncode") 
 	private Integer reasoncode;

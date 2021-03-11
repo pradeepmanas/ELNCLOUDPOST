@@ -105,6 +105,17 @@ public class ReportsController {
 		}
 	}
 
+	@RequestMapping(value = "/cloudsaveDocxsReport", method = RequestMethod.GET)
+	protected void clouddoPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			ObjReportsService.cloudsaveDocxsReport(request, response);
+			logger.info("/saveDocxsReport -> success");
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	@RequestMapping(value = "/uploadDocxFile")
 	protected Map<String, Object> uploadDocxFile(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 //	protected Map<String, Object> uploadDocxFile(MultipartHttpServletRequest request,@RequestBody Map<String, Object> argObj) throws Exception {
@@ -189,11 +200,7 @@ public class ReportsController {
 	@RequestMapping(value = "/getDownloadReportsInitRequest")
 	protected Map<String, Object> getDownloadReportsInitRequest(@RequestBody Map<String, Object> argMap) throws IOException {
 		Map<String, Object> mapObj = new HashMap<String, Object>();
-//		mapObj.put("newDocx", ObjReportsService.createNewReportDocx());
 		mapObj.putAll(ObjReportsService.getDownloadReportsInitRequest(argMap));
-//		mapObj.put("config", ObjConfigurationService.getConfigurationForDocxInit());
-//		mapObj.put("DocxDirectoryLst", ObjReportsService.getDocxDirectoryLst());
-//		mapObj.put("DocxReportLst", ObjReportsService.getLSdocreportsLst("all"));
 		return mapObj;
 	}
 	

@@ -17,8 +17,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -96,40 +99,33 @@ public class HibernateConfig {
      
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(elnDataSource());
-        em.setPackagesToScan(new String[]{"com.agaram.eln.primary.model.cfr"
-        		, "com.agaram.eln.primary.model.configuration"
-        		, "com.agaram.eln.primary.model.general"
-        		, "com.agaram.eln.primary.model.instrumentDetails"
-        		, "com.agaram.eln.primary.model.inventory"
-        		, "com.agaram.eln.primary.model.report"
-        		, "com.agaram.eln.primary.model.sheetManipulation"
-        		, "com.agaram.eln.primary.model.usermanagement"
-				, "com.agaram.eln.primary.model.protocols"
-				, "com.agaram.eln.primary.model.templates"
-				, "com.agaram.eln.primary.model.multitenant"
-				, "com.agaram.eln.primary.model.jwt"
-				, "com.agaram.eln.primary.model.cloudFileManip"});
+        em.setPackagesToScan(new String[]{"com.agaram.eln.primary.model.*"});
         em.setJpaVendorAdapter(this.jpaVendorAdapter());
         
         
-//       Properties jpaProperties = new Properties();
-//      if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null)
-//      {
-//      	jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
-//      }
-//      else
-//      {
-//      	jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-//      }
-//      
-//      jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
-//      jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));
-//      jpaProperties.put("hibernate.connection.useUnicode", true);
-//      jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
-      
-      //em.setJpaProperties(jpaProperties);
-        
-        em.setJpaPropertyMap(jpaPropertiesMap);
+        if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null && !env.getProperty("spring.jpa.hibernate.ddl-auto").equals("none"))
+        {
+	        Properties jpaProperties = new Properties();
+	        if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null)
+	        {
+	      	  jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
+	        }
+	        else
+	        {
+	      	  jpaProperties.put("hibernate.hbm2ddl.auto", "update");
+	        }
+	      
+	        jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
+	        jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));
+	        jpaProperties.put("hibernate.connection.useUnicode", true);
+	        jpaProperties.put("hibernate.connection.characterEncoding", "UTF-8");
+	      
+	        em.setJpaProperties(jpaProperties);
+        }
+        else
+        {
+        	em.setJpaPropertyMap(jpaPropertiesMap);
+        }
         
         return em;
     }
@@ -140,4 +136,41 @@ public class HibernateConfig {
           final @Qualifier("entityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
       return new JpaTransactionManager(entityManagerFactory.getObject());
   }
+    
+    @Bean
+    public DataSourceInitializer securityDataSourceInitializer() 
+    {
+        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+        dataSourceInitializer.setDataSource(elnDataSource());
+        if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null && !env.getProperty("spring.jpa.hibernate.ddl-auto").equals("none"))
+        {
+	        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
+	        boolean enableinitialize = env.getProperty("app.datasource.eln.initialize", Boolean.class, false);
+	        if(enableinitialize)
+	        {
+		        databasePopulator.addScript(new ClassPathResource("import_usermaster_ls.sql"));
+	        }
+	
+	        if(env.getProperty("spring.jpa.hibernate.ddl-auto") != null)
+	        {
+	        	if(env.getProperty("spring.jpa.hibernate.ddl-auto")=="create"
+	        		&& enableinitialize)
+		        {
+	        		databasePopulator.addScript(new ClassPathResource("import_patchs_ls.sql"));
+		        }
+	        }
+	        else 
+	        {
+	        	databasePopulator.addScript(new ClassPathResource("import_patchs_ls.sql"));
+	        }
+	        
+	        dataSourceInitializer.setDatabasePopulator(databasePopulator);
+	        dataSourceInitializer.setEnabled(true);
+        }
+        else
+        {
+        	dataSourceInitializer.setEnabled(false);
+        }
+        return dataSourceInitializer;
+    }  
 }

@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.0
 -- Dumped by pg_dump version 10.1
 
--- Started on 2021-02-11 12:07:03
+-- Started on 2021-03-04 21:32:03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -25,7 +25,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2138 (class 0 OID 0)
+-- TOC entry 2146 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -67,6 +67,35 @@ CREATE TABLE archivetransactions (
 ALTER TABLE archivetransactions OWNER TO postgres;
 
 --
+-- TOC entry 188 (class 1259 OID 231151)
+-- Name: datasourceconfig; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE datasourceconfig (
+    id bigint NOT NULL,
+    archivename character varying(255),
+    archiveurl character varying(255),
+    driverclassname character varying(255),
+    initialize boolean NOT NULL,
+    isenable boolean NOT NULL,
+    name character varying(255),
+    password character varying(255),
+    tenantaddress character varying(255),
+    tenantcity character varying(255),
+    tenantcontactno character varying(255),
+    tenantcountry character varying(255),
+    tenantid character varying(255),
+    tenantname character varying(255),
+    tenantpincode character varying(255),
+    tenantstate character varying(255),
+    url character varying(255),
+    username character varying(255)
+);
+
+
+ALTER TABLE datasourceconfig OWNER TO postgres;
+
+--
 -- TOC entry 187 (class 1259 OID 135842)
 -- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -98,7 +127,7 @@ CREATE TABLE lscfrarchivehistory (
 ALTER TABLE lscfrarchivehistory OWNER TO postgres;
 
 --
--- TOC entry 2129 (class 0 OID 135826)
+-- TOC entry 2136 (class 0 OID 135826)
 -- Dependencies: 185
 -- Data for Name: archivetransactions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -108,7 +137,17 @@ COPY archivetransactions (serialno, actions, affectedclientid, comments, instrum
 
 
 --
--- TOC entry 2130 (class 0 OID 135834)
+-- TOC entry 2139 (class 0 OID 231151)
+-- Dependencies: 188
+-- Data for Name: datasourceconfig; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY datasourceconfig (id, archivename, archiveurl, driverclassname, initialize, isenable, name, password, tenantaddress, tenantcity, tenantcontactno, tenantcountry, tenantid, tenantname, tenantpincode, tenantstate, url, username) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2137 (class 0 OID 135834)
 -- Dependencies: 186
 -- Data for Name: lscfrarchivehistory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -118,7 +157,7 @@ COPY lscfrarchivehistory (archivecode, archivedate, archiveusercode, archiveuser
 
 
 --
--- TOC entry 2139 (class 0 OID 0)
+-- TOC entry 2147 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -127,7 +166,7 @@ SELECT pg_catalog.setval('hibernate_sequence', 1, false);
 
 
 --
--- TOC entry 2008 (class 2606 OID 135833)
+-- TOC entry 2013 (class 2606 OID 135833)
 -- Name: archivetransactions archivetransactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -136,7 +175,16 @@ ALTER TABLE ONLY archivetransactions
 
 
 --
--- TOC entry 2010 (class 2606 OID 135841)
+-- TOC entry 2017 (class 2606 OID 231159)
+-- Name: datasourceconfig datasourceconfig_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY datasourceconfig
+    ADD CONSTRAINT datasourceconfig_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2015 (class 2606 OID 135841)
 -- Name: lscfrarchivehistory lscfrarchivehistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -145,7 +193,7 @@ ALTER TABLE ONLY lscfrarchivehistory
 
 
 --
--- TOC entry 2011 (class 2606 OID 135844)
+-- TOC entry 2018 (class 2606 OID 135844)
 -- Name: archivetransactions fkgnkxyqb828u7uc4onvkymaa7p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -153,7 +201,7 @@ ALTER TABLE ONLY archivetransactions
     ADD CONSTRAINT fkgnkxyqb828u7uc4onvkymaa7p FOREIGN KEY (lscfrarchivehistory_archivecode) REFERENCES lscfrarchivehistory(archivecode);
 
 
--- Completed on 2021-02-11 12:07:04
+-- Completed on 2021-03-04 21:32:03
 
 --
 -- PostgreSQL database dump complete

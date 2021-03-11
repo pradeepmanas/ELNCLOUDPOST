@@ -20,4 +20,8 @@ public interface LSprojectmasterRepository extends JpaRepository<LSprojectmaster
 	public List<LSprojectmaster> findBystatusAndLssitemaster(Integer status,LSSiteMaster lssitemaster);
 	public LSprojectmaster findByProjectnameAndStatusAndLssitemaster(String projectname, Integer status,LSSiteMaster lssitemaster);
 	public LSprojectmaster findByProjectnameAndStatusAndProjectcodeNotAndLssitemaster(String projectname, Integer status, Integer Projectcode,LSSiteMaster lssitemaster);
+	public LSprojectmaster findByProjectnameIgnoreCaseAndStatusAndLssitemaster(String projectname, Integer status,
+			LSSiteMaster lssitemaster);
+	public LSprojectmaster findByProjectnameIgnoreCaseAndStatusAndProjectcodeNotAndLssitemaster(String projectname, Integer status,
+			Integer projectcode, LSSiteMaster lssitemaster);
 }

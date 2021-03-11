@@ -1,6 +1,7 @@
 package com.agaram.eln.primary.service.instrumentDetails;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -66,6 +67,7 @@ import com.agaram.eln.primary.repository.instrumentDetails.LsMethodFieldsReposit
 import com.agaram.eln.primary.repository.instrumentDetails.LsOrderattachmentsRepository;
 import com.agaram.eln.primary.repository.instrumentDetails.LselninstrumentmasterRepository;
 import com.agaram.eln.primary.repository.instrumentDetails.LsorderworkflowhistoryRepositroy;
+import com.agaram.eln.primary.repository.notification.EmailRepository;
 import com.agaram.eln.primary.repository.sheetManipulation.LSfilemethodRepository;
 import com.agaram.eln.primary.repository.sheetManipulation.LSparsedparametersRespository;
 import com.agaram.eln.primary.repository.sheetManipulation.LSsamplefileRepository;
@@ -179,6 +181,7 @@ public class InstrumentService {
 	
 	@Autowired
 	private CloudFileManipulationservice cloudFileManipulationservice;
+	
 	
 	public Map<String, Object> getInstrumentparameters(LSSiteMaster lssiteMaster)
 	{
@@ -1622,11 +1625,12 @@ public class InstrumentService {
 	public LSlogilablimsorderdetail updateworflowforOrder(LSlogilablimsorderdetail objorder)
 	{
 		LSlogilablimsorderdetail lsOrder =lslogilablimsorderdetailRepository.findByBatchcode(objorder.getBatchcode());
+
+		updatenotificationfororderworkflow(objorder, lsOrder.getLsworkflow());
 		
 		lsorderworkflowhistoryRepositroy.save(objorder.getLsorderworkflowhistory());
 		lslogilablimsorderdetailRepository.save(objorder);
 		
-		updatenotificationfororderworkflow(objorder, lsOrder.getLsworkflow());
 //		silent audit
 		if(objorder.getLsorderworkflowhistory().get(objorder.getLsorderworkflowhistory().size()-1).getObjsilentaudit() != null)
     	{
@@ -1898,14 +1902,7 @@ public class InstrumentService {
 				objattachment.setFileid(objfile.getId().toString());
 			}
 		}
-		else
-		{
-			String id=  cloudFileManipulationservice.storeLargeattachment(filename, file);
-			if(id != null)
-			{
-				objattachment.setFileid(id);
-			}
-		}
+		
 		
 		objattachment.setFilename(filename);
 		objattachment.setFileextension(fileexe);
@@ -1937,6 +1934,17 @@ public class InstrumentService {
 			
 		lsOrderattachmentsRepository.save(objorder.getLsOrderattachments());
 		
+		
+		if(islargefile == 1)
+		{
+			String filenameval = "attach_" +objorder.getBatchcode() +"_" + objorder.getLsOrderattachments().get(objorder.getLsOrderattachments().lastIndexOf(objattachment)).getAttachmentcode()+"_" + filename;
+			String id=  cloudFileManipulationservice.storeLargeattachment(filenameval, file);
+			if(id != null)
+			{
+				objattachment.setFileid(id);
+			}
+			lsOrderattachmentsRepository.save(objorder.getLsOrderattachments());
+		}
 		
 		return objorder;
 	}
@@ -1978,6 +1986,11 @@ public class InstrumentService {
 	public GridFSDBFile retrieveLargeFile(String fileid) throws IllegalStateException, IOException
 	{
 		return fileManipulationservice.retrieveLargeFile(fileid);
+	}
+	
+	public InputStream  retrieveColudLargeFile(String fileid) throws IOException
+	{
+		return cloudFileManipulationservice.retrieveLargeFile(fileid);
 	}
 	
 	public LsOrderattachments deleteattachments(LsOrderattachments objattachments)
@@ -2051,6 +2064,8 @@ public class InstrumentService {
     	}
 		return objattachments;
 	}
+	
+		
 	
 }
 	

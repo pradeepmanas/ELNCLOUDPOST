@@ -28,9 +28,24 @@ public class LSprotocolstep {
 	public Integer status;
 	@Transient
 	public String lsprotocolstepInfo;
-	
+	@Transient
+	private Integer ismultitenant;
 	public String createdbyusername;
+	@Transient
+	private Integer newStep;
 	
+	public Integer getNewStep() {
+		return newStep;
+	}
+	public void setNewStep(Integer newStep) {
+		this.newStep = newStep;
+	}
+	public Integer getIsmultitenant() {
+		return ismultitenant;
+	}
+	public void setIsmultitenant(Integer ismultitenant) {
+		this.ismultitenant = ismultitenant;
+	}
 	public Integer getProtocolstepcode() {
 		return protocolstepcode;
 	}

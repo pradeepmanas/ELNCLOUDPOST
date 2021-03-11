@@ -143,7 +143,7 @@ public class BaseMasterService {
 		
 		objClass.setResponse(new Response());
 //		if(objClass.getTestcode() == null && lStestmasterlocalRepository.findByTestnameAndStatus(objClass.getTestname(), 1) != null)
-		if(objClass.getTestcode() == null && lStestmasterlocalRepository.findByTestnameAndStatusAndLssitemaster(objClass.getTestname(), 1,objClass.getLssitemaster()) != null)
+		if(objClass.getTestcode() == null && lStestmasterlocalRepository.findByTestnameIgnoreCaseAndStatusAndLssitemaster(objClass.getTestname(), 1,objClass.getLssitemaster()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_EXIST");
@@ -165,7 +165,7 @@ public class BaseMasterService {
 			return objClass;
 		}
 //		else if(objClass.getTestcode() != null && lStestmasterlocalRepository.findByTestnameAndStatusAndTestcodeNot(objClass.getTestname(), 1,objClass.getTestcode()) != null)
-		else if(objClass.getTestcode() != null && lStestmasterlocalRepository.findByTestnameAndStatusAndTestcodeNotAndLssitemaster(objClass.getTestname(), 1,objClass.getTestcode(),objClass.getLssitemaster()) != null)
+		else if(objClass.getTestcode() != null && lStestmasterlocalRepository.findByTestnameIgnoreCaseAndStatusAndTestcodeNotAndLssitemaster(objClass.getTestname(), 1,objClass.getTestcode(),objClass.getLssitemaster()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_EXIST");
@@ -250,7 +250,7 @@ public class BaseMasterService {
 		
 		objClass.setResponse(new Response());
 //		if(objClass.getSamplecode() == null && lSsamplemasterRepository.findBySamplenameAndStatus(objClass.getSamplename(), 1) != null)
-		if(objClass.getSamplecode() == null && lSsamplemasterRepository.findBySamplenameAndStatusAndLssitemaster(objClass.getSamplename(), 1,objClass.getLssitemaster()) != null)
+		if(objClass.getSamplecode() == null && lSsamplemasterRepository.findBySamplenameIgnoreCaseAndStatusAndLssitemaster(objClass.getSamplename(), 1,objClass.getLssitemaster()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_EXIST");
@@ -272,7 +272,7 @@ public class BaseMasterService {
 			return objClass;
 		}
 //		else if(objClass.getSamplecode() != null && lSsamplemasterRepository.findBySamplenameAndStatusAndSamplecodeNot(objClass.getSamplename(), 1,objClass.getSamplecode()) != null)
-		else if(objClass.getSamplecode() != null && lSsamplemasterRepository.findBySamplenameAndStatusAndSamplecodeNotAndLssitemaster(objClass.getSamplename(), 1,objClass.getSamplecode(),objClass.getLssitemaster()) != null)
+		else if(objClass.getSamplecode() != null && lSsamplemasterRepository.findBySamplenameIgnoreCaseAndStatusAndSamplecodeNotAndLssitemaster(objClass.getSamplename(), 1,objClass.getSamplecode(),objClass.getLssitemaster()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_EXIST");
@@ -338,7 +338,7 @@ public class BaseMasterService {
 		objClass.setResponse(new Response());
 		
 		
-		if(objClass.getProjectcode() == null && lSprojectmasterRepository.findByProjectnameAndStatusAndLssitemaster(objClass.getProjectname(), 1,objClass.getLssitemaster()) != null)
+		if(objClass.getProjectcode() == null && lSprojectmasterRepository.findByProjectnameIgnoreCaseAndStatusAndLssitemaster(objClass.getProjectname(), 1,objClass.getLssitemaster()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_EXIST");
@@ -383,7 +383,7 @@ public class BaseMasterService {
 		}
 		
 		
-		else if(objClass.getProjectcode() != null && lSprojectmasterRepository.findByProjectnameAndStatusAndProjectcodeNotAndLssitemaster(objClass.getProjectname(), 1,objClass.getProjectcode(),objClass.getLssitemaster()) != null)
+		else if(objClass.getProjectcode() != null && lSprojectmasterRepository.findByProjectnameIgnoreCaseAndStatusAndProjectcodeNotAndLssitemaster(objClass.getProjectname(), 1,objClass.getProjectcode(),objClass.getLssitemaster()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_EXIST");
@@ -446,7 +446,7 @@ public class BaseMasterService {
 		
 		objClass.setResponse(new Response());
 		
-		if(objClass.getInstrumentcode() == null && lselninstrumentmasterRepository.findByInstrumentnameAndStatus(objClass.getInstrumentname(), 1) != null)
+		if(objClass.getInstrumentcode() == null && lselninstrumentmasterRepository.findByInstrumentnameIgnoreCaseAndStatus(objClass.getInstrumentname(), 1) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_INSTRUMENTALREADYEXIST");
@@ -467,7 +467,7 @@ public class BaseMasterService {
 	    	}
 			return objClass;
 		}
-		else if(objClass.getInstrumentcode() != null && lselninstrumentmasterRepository.findByInstrumentnameAndStatusAndInstrumentcodeNot(objClass.getInstrumentname(), 1,objClass.getInstrumentcode()) != null)
+		else if(objClass.getInstrumentcode() != null && lselninstrumentmasterRepository.findByInstrumentnameIgnoreCaseAndStatusAndInstrumentcodeNot(objClass.getInstrumentname(), 1,objClass.getInstrumentcode()) != null)
 		{
 			objClass.getResponse().setStatus(false);
 			objClass.getResponse().setInformation("ID_INSTRUMENTALREADYEXIST");

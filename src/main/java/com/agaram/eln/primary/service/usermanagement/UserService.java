@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.agaram.eln.config.AESEncryption;
@@ -92,7 +93,7 @@ public class UserService {
 	
 	public LSusergroup InsertUpdateUserGroup(LSusergroup objusergroup)
 	{
-		if(lSusergroupRepository.findByusergroupnameAndLssitemaster(objusergroup.getUsergroupname(),objusergroup.getLssitemaster())!= null  && objusergroup.getUsergroupcode() == null)
+		if(lSusergroupRepository.findByusergroupnameIgnoreCaseAndLssitemaster(objusergroup.getUsergroupname(),objusergroup.getLssitemaster())!= null  && objusergroup.getUsergroupcode() == null)
 		{
 			objusergroup.setResponse(new Response());
 			objusergroup.getResponse().setStatus(false);
@@ -312,6 +313,21 @@ public class UserService {
 			return objusermaster;
 		}
 		
+		if(objusermaster.getUsercode() == null && objusermaster.getIsmultitenant() != null && objusermaster.getMultitenantusercount() != null && objusermaster.getIsmultitenant() == 1)
+		{
+			if(lsuserMasterRepository.countByusercodeNot(1) >= objusermaster.getMultitenantusercount())
+			{
+				Response objResponse = new Response();
+				objResponse.setStatus(false);
+				objResponse.setInformation("ID_USERCOUNTEXCEEDS");
+				
+				objusermaster.setResponse(objResponse);
+				
+				return objusermaster;
+			}
+		}
+		
+		
 		lsuserMasterRepository.save(objusermaster);
 
 		if(objusermaster.getObjsilentaudit() != null)
@@ -338,7 +354,7 @@ public class UserService {
 	
 	public LSuserMaster InsertUpdateUserfromSDMS(LSuserMaster objusermaster)
 	{
-		if(objusermaster.getUsercode() == null && lsuserMasterRepository.findByusername(objusermaster.getUsername()) != null) {
+		if(objusermaster.getUsercode() == null && lsuserMasterRepository.findByusernameAndLssitemaster(objusermaster.getUsername(), objusermaster.getLssitemaster()) != null) {
 			
 			objusermaster.setResponse(new Response());
 			objusermaster.getResponse().setStatus(false);
@@ -425,7 +441,7 @@ public class UserService {
 	
 	public LSusersteam InsertUpdateTeam(LSusersteam objteam)
 	{	
-		if(objteam.getTeamcode() == null && lsusersteamRepository.findByTeamnameAndStatusAndLssitemaster(objteam.getTeamname(),1,objteam.getLssitemaster()) != null) {
+		if(objteam.getTeamcode() == null && lsusersteamRepository.findByTeamnameIgnoreCaseAndStatusAndLssitemaster(objteam.getTeamname(),1,objteam.getLssitemaster()) != null) {
 		
 			objteam.setResponse(new Response());
 			objteam.getResponse().setStatus(false);
@@ -773,7 +789,8 @@ public class UserService {
 	public LSuserMaster ValidateSignature(LoggedUser objuser) {
 		LSuserMaster objExitinguser = new LSuserMaster();
 		String username = objuser.getsUsername();
-		objExitinguser = lsuserMasterRepository.findByusername(username);
+		LSSiteMaster objsite = LSSiteMasterRepository.findBysitecode(Integer.parseInt(objuser.getsSiteCode()));
+		objExitinguser = lsuserMasterRepository.findByusernameAndLssitemaster(username, objsite);
 		
 		if(objExitinguser != null)
 		{
@@ -805,8 +822,8 @@ public class UserService {
 			}
 		}
 		else
-		{
-			objExitinguser = lsuserMasterRepository.findByusername("Administrator");
+		{   
+			objExitinguser = lsuserMasterRepository.findByusernameAndLssitemaster("Administrator",objsite);
 			objExitinguser.setObjResponse(new Response());
 			objExitinguser.getObjResponse().setInformation("User not exist");
 			objExitinguser.getObjResponse().setStatus(false);

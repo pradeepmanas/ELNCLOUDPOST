@@ -78,16 +78,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		.and()
 		// dont authenticate this particular request
 		.authorizeRequests().antMatchers("/authenticate").permitAll().
+		antMatchers("/multitenant/otpvarification").permitAll().
+		antMatchers("/multitenant/sendotp").permitAll().
 		antMatchers("/Login/LoadSite").permitAll().
 		antMatchers("/Login/LoadDomain").permitAll().
+		antMatchers("/Login/azureusertokengenrate").permitAll().
 		antMatchers("/Login/CheckUserAndPassword").permitAll().
+		antMatchers("/Login/createuserforazure").permitAll().
 		antMatchers("/Login/UpdatePassword").permitAll().
 		antMatchers("/AuditTrail/AuditConfigurationrecord").permitAll().
 		antMatchers("/User/GetPasswordPolicySitewise").permitAll().
 		antMatchers("/Instrument/GetInstrumentParameters").permitAll().
 		antMatchers("/multitenant/Registertenant").permitAll().
 		antMatchers("/multitenant/Validatetenant").permitAll().
-		antMatchers("/").permitAll().
+		antMatchers("/multitenant/checktenantid").permitAll().
+		antMatchers("/multitenant/tenantlogin").permitAll().
+		antMatchers("/multitenant/Getalltenant").permitAll().
+		antMatchers("/multitenant/Gettenantonid").permitAll().
+		antMatchers("/multitenant/Updatetenant").permitAll().
+		antMatchers("/multitenant/Initiatetenant").permitAll().
+		antMatchers("/multitenant/Updaprofiletetenant").permitAll().
+//		antMatchers("/multitenant/tenantadministratorlogin").permitAll().
+		antMatchers("/multitenant/checkusermail").permitAll().
+		antMatchers("/multitenant/tenantcontactno").permitAll().
+		antMatchers("/multitenant/Completeregistration").permitAll().
+		antMatchers("/reports/cloudsaveDocxsReport").permitAll().
+		antMatchers("/reports/getSheetLSfileWithFileCode").permitAll().
+		antMatchers("/reports/getLSdocreportsLst").permitAll().
+		antMatchers("/reports/Getorderbytype").permitAll().
+		antMatchers("/reports/getFilecontentforSheet").permitAll().
+		antMatchers("/reports/Getorderbytype").permitAll().
+//		antMatchers("/").permitAll().
+		antMatchers("/User/profile/*").permitAll().
 		// all other requests need to be authenticated
 		anyRequest().authenticated().and().
 		// make sure we use stateless session; session won't be used to

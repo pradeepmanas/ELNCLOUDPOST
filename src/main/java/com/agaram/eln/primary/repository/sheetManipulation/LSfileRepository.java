@@ -86,4 +86,6 @@ public interface LSfileRepository extends JpaRepository<LSfile, Integer>{
 	@Modifying
 	@Query("select new com.agaram.eln.primary.model.sheetManipulation.LSfile(filecode,filenameuser) from LSfile where filecode >1 and approved= ?1 and rejected=0 and createby in (?2) ORDER BY filecode DESC")
 	public List<LSfile> getsheetGreaterthanoneandapprovelanduserIn(Integer Approved, List<LSuserMaster> lstusermaster);
+
+	public LSfile findByfilenameuserIgnoreCase(String filenameuser);
 }

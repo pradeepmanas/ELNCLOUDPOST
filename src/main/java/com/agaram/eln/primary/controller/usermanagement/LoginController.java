@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agaram.eln.config.ADS_Connection;
 import com.agaram.eln.primary.model.cfr.LScfttransaction;
 import com.agaram.eln.primary.model.general.Response;
+import com.agaram.eln.primary.model.jwt.JwtRequest;
 import com.agaram.eln.primary.model.usermanagement.LSSiteMaster;
 import com.agaram.eln.primary.model.usermanagement.LSdomainMaster;
 import com.agaram.eln.primary.model.usermanagement.LSuserMaster;
@@ -369,5 +371,22 @@ public class LoginController {
 			}		
 		}
 		return loginService.InsertupdateSite(objClass);
+	}
+	
+	@RequestMapping(value = "/azureusertokengenrate", method = RequestMethod.POST)
+	public ResponseEntity<?> azureusertokengenrate(@RequestBody LSuserMaster objClass) throws Exception {
+		return loginService.azureusertokengenrate(objClass);
+	}
+	
+	@PostMapping("/azureauthenticatelogin")
+	public Map<String, Object> azureauthenticatelogin(@RequestBody LoggedUser objClass)
+	{
+		return loginService.azureauthenticatelogin(objClass);
+	}
+	
+	@PostMapping("/createuserforazure")
+	public LSuserMaster createuserforazure(@RequestBody LSuserMaster objClass)
+	{
+		return loginService.createuserforazure(objClass);
 	}
 }

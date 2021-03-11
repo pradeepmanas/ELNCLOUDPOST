@@ -154,6 +154,16 @@
 		    <artifactId>flyway-core</artifactId>
 		    <version>7.5.2</version>
 		</dependency>
+		 <!-- send email -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>azure-storage</artifactId>
+			<version>8.4.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

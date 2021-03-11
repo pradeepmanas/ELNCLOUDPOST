@@ -36,7 +36,7 @@ public class LsOrderattachments {
 	@Column(columnDefinition = "varchar(10)", name = "fileextension")
 	private String fileextension;
 	
-	@Column(columnDefinition = "varchar(50)", name = "fileid")
+	@Column(columnDefinition = "varchar(250)", name = "fileid")
 	private String fileid;
 	
 	@Column(columnDefinition = "numeric(17,0)",name = "batchcode") 

@@ -7,13 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="LSprotocolmaster")
-public class LSprotocolmaster {
+public class LSprotocolmaster implements Comparable<LSprotocolmaster>{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Integer protocolmastercode;
@@ -32,6 +34,33 @@ public class LSprotocolmaster {
 	public String createdbyusername;
 	@Column(name="lssitemaster_sitecode")
 	private Integer lssitemaster;
+	
+	@ManyToOne
+	private LSprotocolworkflow lSprotocolworkflow;
+	
+	private Integer approved;
+	
+	private Integer rejected;
+	
+	public Integer getRejected() {
+		return rejected;
+	}
+	public void setRejected(Integer rejected) {
+		this.rejected = rejected;
+	}
+	
+	public Integer getApproved() {
+		return approved;
+	}
+	public void setApproved(Integer approved) {
+		this.approved = approved;
+	}
+	public LSprotocolworkflow getlSprotocolworkflow() {
+		return lSprotocolworkflow;
+	}
+	public void setlSprotocolworkflow(LSprotocolworkflow lSprotocolworkflow) {
+		this.lSprotocolworkflow = lSprotocolworkflow;
+	}
 	
 	public Integer getLssitemaster() {
 		return lssitemaster;
@@ -69,7 +98,16 @@ public class LSprotocolmaster {
 	public void setCreatedate(Date createdate) {
 		this.createdate = createdate;
 	}
-//	public LSSiteMaster getLssitemaster() {
+	
+	@Transient
+	private Integer ismultitenant;
+	public Integer getIsmultitenant() {
+		return ismultitenant;
+	}
+	public void setIsmultitenant(Integer ismultitenant) {
+		this.ismultitenant = ismultitenant;
+	}
+	//	public LSSiteMaster getLssitemaster() {
 //		return lssitemaster;
 //	}
 //	public void setLssitemaster(LSSiteMaster lssitemaster) {
@@ -94,5 +132,16 @@ public class LSprotocolmaster {
 		this.createdbyusername = createdbyusername;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "LSprotocolmaster [protocolmastercode=" + protocolmastercode + ", protocolmastername="
+				+ protocolmastername + ", protocolstatus=" + protocolstatus + ", status=" + status + ", createdby="
+				+ createdby + ", createdate=" + createdate + ", sharewithteam=" + sharewithteam + ", createdbyusername="
+				+ createdbyusername + ", lssitemaster=" + lssitemaster + ", lSprotocolworkflow=" + lSprotocolworkflow
+				+ ", approved=" + approved + ", rejected=" + rejected + ", ismultitenant=" + ismultitenant + "]";
+	}
+	@Override
+	public int compareTo(LSprotocolmaster o) {
+		return this.getProtocolmastercode().compareTo(o.getProtocolmastercode());
+	}
 }

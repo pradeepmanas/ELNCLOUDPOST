@@ -21,7 +21,7 @@ import com.agaram.eln.primary.model.general.Response;
 @Table(name = "LSusergroup")
 public class LSusergroup {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "usergroupcode")
 	private Integer usergroupcode;

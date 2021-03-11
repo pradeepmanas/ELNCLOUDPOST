@@ -10,6 +10,7 @@ public class LSprotocolstepInfo {
 	 private long id;
 	 @JsonProperty
 	 String content;
+	 
 	public long getId() {
 		return id;
 	}
@@ -21,7 +22,5 @@ public class LSprotocolstepInfo {
 	}
 	public void setContent(String content) {
 		this.content = content;
-	}
-	 
-	 
+	}	 
 }

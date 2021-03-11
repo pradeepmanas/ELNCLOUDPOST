@@ -134,7 +134,7 @@ public class FileService {
 	{
 		Boolean Isnew = false;
 		String Content = objfile.getFilecontent();
-		if(objfile.getFilecode() == null && lSfileRepository.findByfilenameuser(objfile.getFilenameuser()) != null) {
+		if(objfile.getFilecode() == null && lSfileRepository.findByfilenameuserIgnoreCase(objfile.getFilenameuser()) != null) {
 			
 			objfile.setResponse(new Response());
 			objfile.getResponse().setStatus(false);
@@ -465,7 +465,9 @@ public class FileService {
 		
 		if(lsfiles != null && lsfiles.size() == 1)
 		{
-			if(objtest.getIsmultitenant() == 1)
+//			if(objtest.getIsmultitenant() != null )
+//			{
+			if(objtest.getIsmultitenant() == 1 )
 			{
 				CloudSheetCreation file = cloudSheetCreationRepository.findById((long)lsfiles.get(0).getFilecode());
 				if(file != null)
@@ -473,6 +475,7 @@ public class FileService {
 					lsfiles.get(0).setFilecontent(file.getContent());
 				}
 			}
+//			}
 			else
 			{
 				SheetCreation file = mongoTemplate.findById(lsfiles.get(0).getFilecode(), SheetCreation.class);
@@ -1138,6 +1141,10 @@ public class FileService {
 				}
 			}
 		}
+if(objfile.getObjsilentaudit()!=null) {
+	objfile.getObjsilentaudit().setTableName("LSfile");
+	lscfttransactionRepository.save(objfile.getObjsilentaudit());
+}
 		return objreturnfile;
 	}
 }

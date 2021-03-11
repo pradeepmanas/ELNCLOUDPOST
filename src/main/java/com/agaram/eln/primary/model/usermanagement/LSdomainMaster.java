@@ -23,7 +23,7 @@ import com.agaram.eln.primary.model.general.Response;
 public class LSdomainMaster {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "domaincode") 
 	private Integer domaincode;

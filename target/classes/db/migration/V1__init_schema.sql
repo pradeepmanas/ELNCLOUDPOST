@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.0
 -- Dumped by pg_dump version 10.1
 
--- Started on 2021-02-11 12:06:29
+-- Started on 2021-03-10 18:58:52
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -25,7 +25,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2988 (class 0 OID 0)
+-- TOC entry 3094 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -35,8 +35,29 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
 --
--- TOC entry 185 (class 1259 OID 225434)
+-- TOC entry 187 (class 1259 OID 292297)
+-- Name: email; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE email (
+    id integer NOT NULL,
+    mailcc character varying(255),
+    mailcontent character varying(255),
+    mailfrom character varying(255),
+    mailto character varying(255),
+    subject character varying(255)
+);
+
+
+ALTER TABLE email OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 292293)
 -- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -50,12 +71,8 @@ CREATE SEQUENCE hibernate_sequence
 
 ALTER TABLE hibernate_sequence OWNER TO postgres;
 
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
 --
--- TOC entry 187 (class 1259 OID 225438)
+-- TOC entry 188 (class 1259 OID 292305)
 -- Name: l11instrumentmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -80,7 +97,7 @@ CREATE TABLE l11instrumentmaster (
 ALTER TABLE l11instrumentmaster OWNER TO postgres;
 
 --
--- TOC entry 188 (class 1259 OID 225446)
+-- TOC entry 189 (class 1259 OID 292313)
 -- Name: llresultdetails; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -104,7 +121,7 @@ CREATE TABLE llresultdetails (
 ALTER TABLE llresultdetails OWNER TO postgres;
 
 --
--- TOC entry 189 (class 1259 OID 225454)
+-- TOC entry 190 (class 1259 OID 292321)
 -- Name: llresultdetails_resultfieldvalues; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -118,7 +135,7 @@ CREATE TABLE llresultdetails_resultfieldvalues (
 ALTER TABLE llresultdetails_resultfieldvalues OWNER TO postgres;
 
 --
--- TOC entry 190 (class 1259 OID 225457)
+-- TOC entry 191 (class 1259 OID 292324)
 -- Name: logilablimsorder; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -141,7 +158,7 @@ CREATE TABLE logilablimsorder (
 ALTER TABLE logilablimsorder OWNER TO postgres;
 
 --
--- TOC entry 191 (class 1259 OID 225465)
+-- TOC entry 192 (class 1259 OID 292332)
 -- Name: lsactiveuser; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -157,7 +174,7 @@ CREATE TABLE lsactiveuser (
 ALTER TABLE lsactiveuser OWNER TO postgres;
 
 --
--- TOC entry 192 (class 1259 OID 225470)
+-- TOC entry 193 (class 1259 OID 292337)
 -- Name: lsactivity; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -172,7 +189,7 @@ CREATE TABLE lsactivity (
 ALTER TABLE lsactivity OWNER TO postgres;
 
 --
--- TOC entry 193 (class 1259 OID 225475)
+-- TOC entry 194 (class 1259 OID 292342)
 -- Name: lsaudittrailconfigmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -189,7 +206,7 @@ CREATE TABLE lsaudittrailconfigmaster (
 ALTER TABLE lsaudittrailconfigmaster OWNER TO postgres;
 
 --
--- TOC entry 194 (class 1259 OID 225483)
+-- TOC entry 195 (class 1259 OID 292350)
 -- Name: lsaudittrailconfiguration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -207,7 +224,7 @@ CREATE TABLE lsaudittrailconfiguration (
 ALTER TABLE lsaudittrailconfiguration OWNER TO postgres;
 
 --
--- TOC entry 195 (class 1259 OID 225491)
+-- TOC entry 196 (class 1259 OID 292358)
 -- Name: lsbatchdetails; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -223,7 +240,7 @@ CREATE TABLE lsbatchdetails (
 ALTER TABLE lsbatchdetails OWNER TO postgres;
 
 --
--- TOC entry 196 (class 1259 OID 225496)
+-- TOC entry 198 (class 1259 OID 292365)
 -- Name: lscfrreasons; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -237,7 +254,31 @@ CREATE TABLE lscfrreasons (
 ALTER TABLE lscfrreasons OWNER TO postgres;
 
 --
--- TOC entry 197 (class 1259 OID 225501)
+-- TOC entry 197 (class 1259 OID 292363)
+-- Name: lscfrreasons_reasoncode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lscfrreasons_reasoncode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lscfrreasons_reasoncode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3095 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: lscfrreasons_reasoncode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lscfrreasons_reasoncode_seq OWNED BY lscfrreasons.reasoncode;
+
+
+--
+-- TOC entry 199 (class 1259 OID 292371)
 -- Name: lscfrsettings; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -255,7 +296,7 @@ CREATE TABLE lscfrsettings (
 ALTER TABLE lscfrsettings OWNER TO postgres;
 
 --
--- TOC entry 198 (class 1259 OID 225506)
+-- TOC entry 200 (class 1259 OID 292376)
 -- Name: lscfttransaction; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -282,7 +323,7 @@ CREATE TABLE lscfttransaction (
 ALTER TABLE lscfttransaction OWNER TO postgres;
 
 --
--- TOC entry 199 (class 1259 OID 225514)
+-- TOC entry 201 (class 1259 OID 292384)
 -- Name: lsconfiguration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -302,7 +343,7 @@ CREATE TABLE lsconfiguration (
 ALTER TABLE lsconfiguration OWNER TO postgres;
 
 --
--- TOC entry 200 (class 1259 OID 225522)
+-- TOC entry 202 (class 1259 OID 292392)
 -- Name: lscontrol; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -324,7 +365,7 @@ CREATE TABLE lscontrol (
 ALTER TABLE lscontrol OWNER TO postgres;
 
 --
--- TOC entry 201 (class 1259 OID 225530)
+-- TOC entry 203 (class 1259 OID 292400)
 -- Name: lsdocdirectory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -343,7 +384,7 @@ CREATE TABLE lsdocdirectory (
 ALTER TABLE lsdocdirectory OWNER TO postgres;
 
 --
--- TOC entry 202 (class 1259 OID 225535)
+-- TOC entry 204 (class 1259 OID 292405)
 -- Name: lsdocmanager; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -362,7 +403,7 @@ CREATE TABLE lsdocmanager (
 ALTER TABLE lsdocmanager OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 225540)
+-- TOC entry 205 (class 1259 OID 292410)
 -- Name: lsdocreports; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -389,7 +430,7 @@ CREATE TABLE lsdocreports (
 ALTER TABLE lsdocreports OWNER TO postgres;
 
 --
--- TOC entry 204 (class 1259 OID 225548)
+-- TOC entry 206 (class 1259 OID 292418)
 -- Name: lsdocreportsversionhistory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -406,7 +447,7 @@ CREATE TABLE lsdocreportsversionhistory (
 ALTER TABLE lsdocreportsversionhistory OWNER TO postgres;
 
 --
--- TOC entry 205 (class 1259 OID 225553)
+-- TOC entry 208 (class 1259 OID 292425)
 -- Name: lsdomainmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -426,7 +467,31 @@ CREATE TABLE lsdomainmaster (
 ALTER TABLE lsdomainmaster OWNER TO postgres;
 
 --
--- TOC entry 206 (class 1259 OID 225561)
+-- TOC entry 207 (class 1259 OID 292423)
+-- Name: lsdomainmaster_domaincode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsdomainmaster_domaincode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsdomainmaster_domaincode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3096 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: lsdomainmaster_domaincode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsdomainmaster_domaincode_seq OWNED BY lsdomainmaster.domaincode;
+
+
+--
+-- TOC entry 209 (class 1259 OID 292434)
 -- Name: lselninstfieldmapping; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -440,7 +505,7 @@ CREATE TABLE lselninstfieldmapping (
 ALTER TABLE lselninstfieldmapping OWNER TO postgres;
 
 --
--- TOC entry 207 (class 1259 OID 225566)
+-- TOC entry 210 (class 1259 OID 292439)
 -- Name: lselninstrumentfields; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -471,7 +536,7 @@ CREATE TABLE lselninstrumentfields (
 ALTER TABLE lselninstrumentfields OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 225574)
+-- TOC entry 211 (class 1259 OID 292447)
 -- Name: lselninstrumentmapping; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -485,7 +550,7 @@ CREATE TABLE lselninstrumentmapping (
 ALTER TABLE lselninstrumentmapping OWNER TO postgres;
 
 --
--- TOC entry 209 (class 1259 OID 225579)
+-- TOC entry 212 (class 1259 OID 292452)
 -- Name: lselninstrumentmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -501,7 +566,7 @@ CREATE TABLE lselninstrumentmaster (
 ALTER TABLE lselninstrumentmaster OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 225584)
+-- TOC entry 213 (class 1259 OID 292457)
 -- Name: lsequipmentmap; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -516,7 +581,7 @@ CREATE TABLE lsequipmentmap (
 ALTER TABLE lsequipmentmap OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 225589)
+-- TOC entry 214 (class 1259 OID 292462)
 -- Name: lsfeature; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -533,7 +598,7 @@ CREATE TABLE lsfeature (
 ALTER TABLE lsfeature OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 225594)
+-- TOC entry 215 (class 1259 OID 292467)
 -- Name: lsfields; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -559,7 +624,7 @@ CREATE TABLE lsfields (
 ALTER TABLE lsfields OWNER TO postgres;
 
 --
--- TOC entry 213 (class 1259 OID 225602)
+-- TOC entry 217 (class 1259 OID 292477)
 -- Name: lsfile; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -585,7 +650,31 @@ CREATE TABLE lsfile (
 ALTER TABLE lsfile OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1259 OID 225610)
+-- TOC entry 216 (class 1259 OID 292475)
+-- Name: lsfile_filecode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsfile_filecode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsfile_filecode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3097 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: lsfile_filecode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsfile_filecode_seq OWNED BY lsfile.filecode;
+
+
+--
+-- TOC entry 218 (class 1259 OID 292486)
 -- Name: lsfilemethod; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -600,7 +689,7 @@ CREATE TABLE lsfilemethod (
 ALTER TABLE lsfilemethod OWNER TO postgres;
 
 --
--- TOC entry 215 (class 1259 OID 225615)
+-- TOC entry 219 (class 1259 OID 292491)
 -- Name: lsfileparameter; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -621,7 +710,7 @@ CREATE TABLE lsfileparameter (
 ALTER TABLE lsfileparameter OWNER TO postgres;
 
 --
--- TOC entry 216 (class 1259 OID 225623)
+-- TOC entry 220 (class 1259 OID 292499)
 -- Name: lsfileparametermapping; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -640,7 +729,7 @@ CREATE TABLE lsfileparametermapping (
 ALTER TABLE lsfileparametermapping OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 225628)
+-- TOC entry 221 (class 1259 OID 292504)
 -- Name: lsfiletest; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -655,7 +744,7 @@ CREATE TABLE lsfiletest (
 ALTER TABLE lsfiletest OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 225633)
+-- TOC entry 222 (class 1259 OID 292509)
 -- Name: lsfileversion; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -683,7 +772,7 @@ CREATE TABLE lsfileversion (
 ALTER TABLE lsfileversion OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 225641)
+-- TOC entry 223 (class 1259 OID 292517)
 -- Name: lsinstrument; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -728,7 +817,7 @@ CREATE TABLE lsinstrument (
 ALTER TABLE lsinstrument OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 225649)
+-- TOC entry 224 (class 1259 OID 292525)
 -- Name: lsinstrumentcategory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -752,7 +841,7 @@ CREATE TABLE lsinstrumentcategory (
 ALTER TABLE lsinstrumentcategory OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 225657)
+-- TOC entry 225 (class 1259 OID 292533)
 -- Name: lsinstrumentsection; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -770,7 +859,7 @@ CREATE TABLE lsinstrumentsection (
 ALTER TABLE lsinstrumentsection OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 225662)
+-- TOC entry 226 (class 1259 OID 292538)
 -- Name: lsinstrumenttype; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -786,7 +875,7 @@ CREATE TABLE lsinstrumenttype (
 ALTER TABLE lsinstrumenttype OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 225670)
+-- TOC entry 227 (class 1259 OID 292546)
 -- Name: lsintrumentresultmap; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -800,7 +889,7 @@ CREATE TABLE lsintrumentresultmap (
 ALTER TABLE lsintrumentresultmap OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 225675)
+-- TOC entry 228 (class 1259 OID 292551)
 -- Name: lslogilablimsorderdetail; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -831,7 +920,28 @@ CREATE TABLE lslogilablimsorderdetail (
 ALTER TABLE lslogilablimsorderdetail OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1259 OID 225683)
+-- TOC entry 229 (class 1259 OID 292559)
+-- Name: lslogilabprotocoldetail; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE lslogilabprotocoldetail (
+    protocolcode numeric(17,0) NOT NULL,
+    completedtimestamp timestamp without time zone,
+    createdtimestamp timestamp without time zone,
+    protoclname character varying(250),
+    protocoltype integer,
+    testcode integer,
+    lsprojectmaster_projectcode integer,
+    lsprotocolmaster_protocolmastercode integer,
+    lssamplemaster_samplecode integer,
+    lsusermaster_usercode integer
+);
+
+
+ALTER TABLE lslogilabprotocoldetail OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 292564)
 -- Name: lsmanufacturer; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -849,7 +959,7 @@ CREATE TABLE lsmanufacturer (
 ALTER TABLE lsmanufacturer OWNER TO postgres;
 
 --
--- TOC entry 226 (class 1259 OID 225688)
+-- TOC entry 231 (class 1259 OID 292569)
 -- Name: lsmappedtags; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -865,7 +975,7 @@ CREATE TABLE lsmappedtags (
 ALTER TABLE lsmappedtags OWNER TO postgres;
 
 --
--- TOC entry 227 (class 1259 OID 225693)
+-- TOC entry 232 (class 1259 OID 292574)
 -- Name: lsmappedtemplate; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -878,7 +988,7 @@ CREATE TABLE lsmappedtemplate (
 ALTER TABLE lsmappedtemplate OWNER TO postgres;
 
 --
--- TOC entry 228 (class 1259 OID 225698)
+-- TOC entry 233 (class 1259 OID 292579)
 -- Name: lsmaterial; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -917,7 +1027,7 @@ CREATE TABLE lsmaterial (
 ALTER TABLE lsmaterial OWNER TO postgres;
 
 --
--- TOC entry 229 (class 1259 OID 225706)
+-- TOC entry 234 (class 1259 OID 292587)
 -- Name: lsmaterialcategory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -942,7 +1052,7 @@ CREATE TABLE lsmaterialcategory (
 ALTER TABLE lsmaterialcategory OWNER TO postgres;
 
 --
--- TOC entry 230 (class 1259 OID 225711)
+-- TOC entry 235 (class 1259 OID 292592)
 -- Name: lsmaterialgrade; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -960,7 +1070,7 @@ CREATE TABLE lsmaterialgrade (
 ALTER TABLE lsmaterialgrade OWNER TO postgres;
 
 --
--- TOC entry 231 (class 1259 OID 225719)
+-- TOC entry 236 (class 1259 OID 292600)
 -- Name: lsmaterialinventory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1016,7 +1126,7 @@ CREATE TABLE lsmaterialinventory (
 ALTER TABLE lsmaterialinventory OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1259 OID 225727)
+-- TOC entry 237 (class 1259 OID 292608)
 -- Name: lsmaterialinventorytransaction; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1046,7 +1156,7 @@ CREATE TABLE lsmaterialinventorytransaction (
 ALTER TABLE lsmaterialinventorytransaction OWNER TO postgres;
 
 --
--- TOC entry 233 (class 1259 OID 225735)
+-- TOC entry 238 (class 1259 OID 292616)
 -- Name: lsmaterialmap; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1061,7 +1171,7 @@ CREATE TABLE lsmaterialmap (
 ALTER TABLE lsmaterialmap OWNER TO postgres;
 
 --
--- TOC entry 234 (class 1259 OID 225740)
+-- TOC entry 239 (class 1259 OID 292621)
 -- Name: lsmaterialsection; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1077,7 +1187,7 @@ CREATE TABLE lsmaterialsection (
 ALTER TABLE lsmaterialsection OWNER TO postgres;
 
 --
--- TOC entry 235 (class 1259 OID 225745)
+-- TOC entry 240 (class 1259 OID 292626)
 -- Name: lsmaterialtype; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1096,7 +1206,7 @@ CREATE TABLE lsmaterialtype (
 ALTER TABLE lsmaterialtype OWNER TO postgres;
 
 --
--- TOC entry 236 (class 1259 OID 225750)
+-- TOC entry 241 (class 1259 OID 292631)
 -- Name: lsmultidocument; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1114,7 +1224,7 @@ CREATE TABLE lsmultidocument (
 ALTER TABLE lsmultidocument OWNER TO postgres;
 
 --
--- TOC entry 237 (class 1259 OID 225755)
+-- TOC entry 242 (class 1259 OID 292636)
 -- Name: lsmultisteps; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1129,7 +1239,7 @@ CREATE TABLE lsmultisteps (
 ALTER TABLE lsmultisteps OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1259 OID 225763)
+-- TOC entry 243 (class 1259 OID 292644)
 -- Name: lsnotification; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1148,7 +1258,7 @@ CREATE TABLE lsnotification (
 ALTER TABLE lsnotification OWNER TO postgres;
 
 --
--- TOC entry 239 (class 1259 OID 225771)
+-- TOC entry 244 (class 1259 OID 292652)
 -- Name: lsorderattachmentfiles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1161,7 +1271,7 @@ CREATE TABLE lsorderattachmentfiles (
 ALTER TABLE lsorderattachmentfiles OWNER TO postgres;
 
 --
--- TOC entry 240 (class 1259 OID 225779)
+-- TOC entry 245 (class 1259 OID 292660)
 -- Name: lsorderattachments; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1170,7 +1280,7 @@ CREATE TABLE lsorderattachments (
     batchcode numeric(17,0),
     createdate timestamp without time zone,
     fileextension character varying(10),
-    fileid character varying(50),
+    fileid character varying(250),
     filename character varying(250),
     islargefile integer,
     modifieddate timestamp without time zone,
@@ -1182,7 +1292,7 @@ CREATE TABLE lsorderattachments (
 ALTER TABLE lsorderattachments OWNER TO postgres;
 
 --
--- TOC entry 241 (class 1259 OID 225784)
+-- TOC entry 246 (class 1259 OID 292668)
 -- Name: lsordercreationfiles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1197,7 +1307,7 @@ CREATE TABLE lsordercreationfiles (
 ALTER TABLE lsordercreationfiles OWNER TO postgres;
 
 --
--- TOC entry 242 (class 1259 OID 225792)
+-- TOC entry 247 (class 1259 OID 292676)
 -- Name: lsorderversionfiles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1210,7 +1320,7 @@ CREATE TABLE lsorderversionfiles (
 ALTER TABLE lsorderversionfiles OWNER TO postgres;
 
 --
--- TOC entry 243 (class 1259 OID 225800)
+-- TOC entry 248 (class 1259 OID 292684)
 -- Name: lsorderworkflowhistory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1229,7 +1339,7 @@ CREATE TABLE lsorderworkflowhistory (
 ALTER TABLE lsorderworkflowhistory OWNER TO postgres;
 
 --
--- TOC entry 244 (class 1259 OID 225808)
+-- TOC entry 249 (class 1259 OID 292692)
 -- Name: lsorderworkflowtransaction; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1245,7 +1355,7 @@ CREATE TABLE lsorderworkflowtransaction (
 ALTER TABLE lsorderworkflowtransaction OWNER TO postgres;
 
 --
--- TOC entry 245 (class 1259 OID 225813)
+-- TOC entry 250 (class 1259 OID 292697)
 -- Name: lsparsedparameters; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1268,7 +1378,7 @@ CREATE TABLE lsparsedparameters (
 ALTER TABLE lsparsedparameters OWNER TO postgres;
 
 --
--- TOC entry 246 (class 1259 OID 225821)
+-- TOC entry 251 (class 1259 OID 292705)
 -- Name: lspasswordhistory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1286,7 +1396,7 @@ CREATE TABLE lspasswordhistory (
 ALTER TABLE lspasswordhistory OWNER TO postgres;
 
 --
--- TOC entry 247 (class 1259 OID 225829)
+-- TOC entry 252 (class 1259 OID 292713)
 -- Name: lspasswordhistorydetails; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1301,7 +1411,7 @@ CREATE TABLE lspasswordhistorydetails (
 ALTER TABLE lspasswordhistorydetails OWNER TO postgres;
 
 --
--- TOC entry 248 (class 1259 OID 225834)
+-- TOC entry 253 (class 1259 OID 292718)
 -- Name: lspasswordpolicy; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1326,7 +1436,7 @@ CREATE TABLE lspasswordpolicy (
 ALTER TABLE lspasswordpolicy OWNER TO postgres;
 
 --
--- TOC entry 249 (class 1259 OID 225839)
+-- TOC entry 254 (class 1259 OID 292723)
 -- Name: lspreferences; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1340,7 +1450,7 @@ CREATE TABLE lspreferences (
 ALTER TABLE lspreferences OWNER TO postgres;
 
 --
--- TOC entry 250 (class 1259 OID 225844)
+-- TOC entry 255 (class 1259 OID 292728)
 -- Name: lsprofilepicture; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1354,7 +1464,7 @@ CREATE TABLE lsprofilepicture (
 ALTER TABLE lsprofilepicture OWNER TO postgres;
 
 --
--- TOC entry 251 (class 1259 OID 225852)
+-- TOC entry 256 (class 1259 OID 292736)
 -- Name: lsprojectmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1371,27 +1481,30 @@ CREATE TABLE lsprojectmaster (
 ALTER TABLE lsprojectmaster OWNER TO postgres;
 
 --
--- TOC entry 252 (class 1259 OID 225857)
+-- TOC entry 257 (class 1259 OID 292741)
 -- Name: lsprotocolmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE lsprotocolmaster (
     protocolmastercode integer NOT NULL,
+    approved integer,
     createdate timestamp without time zone,
     createdby integer,
     createdbyusername character varying(120),
     lssitemaster_sitecode integer,
     protocolmastername character varying(120),
     protocolstatus integer,
+    rejected integer,
     sharewithteam integer,
-    status integer
+    status integer,
+    lsprotocolworkflow_workflowcode integer
 );
 
 
 ALTER TABLE lsprotocolmaster OWNER TO postgres;
 
 --
--- TOC entry 253 (class 1259 OID 225862)
+-- TOC entry 258 (class 1259 OID 292746)
 -- Name: lsprotocolstep; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1410,7 +1523,133 @@ CREATE TABLE lsprotocolstep (
 ALTER TABLE lsprotocolstep OWNER TO postgres;
 
 --
--- TOC entry 254 (class 1259 OID 225870)
+-- TOC entry 259 (class 1259 OID 292754)
+-- Name: lsprotocolstepinfocloud; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE lsprotocolstepinfocloud (
+    id integer NOT NULL,
+    lsprotocolstepinfo jsonb
+);
+
+
+ALTER TABLE lsprotocolstepinfocloud OWNER TO postgres;
+
+--
+-- TOC entry 260 (class 1259 OID 292762)
+-- Name: lsprotocolworkflow; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE lsprotocolworkflow (
+    workflowcode integer NOT NULL,
+    workflowname character varying(120),
+    lssitemaster_sitecode integer
+);
+
+
+ALTER TABLE lsprotocolworkflow OWNER TO postgres;
+
+--
+-- TOC entry 261 (class 1259 OID 292767)
+-- Name: lsprotocolworkflowgroupmap; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE lsprotocolworkflowgroupmap (
+    workflowmapid integer NOT NULL,
+    workflowcode integer,
+    lsusergroup_usergroupcode integer
+);
+
+
+ALTER TABLE lsprotocolworkflowgroupmap OWNER TO postgres;
+
+--
+-- TOC entry 263 (class 1259 OID 292774)
+-- Name: lsrepositories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE lsrepositories (
+    repositorycode integer NOT NULL,
+    addedby character varying(255),
+    addedon timestamp without time zone,
+    repositoryfields jsonb,
+    repositoryname character varying(255),
+    sitecode integer,
+    usercode integer
+);
+
+
+ALTER TABLE lsrepositories OWNER TO postgres;
+
+--
+-- TOC entry 262 (class 1259 OID 292772)
+-- Name: lsrepositories_repositorycode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsrepositories_repositorycode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsrepositories_repositorycode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3098 (class 0 OID 0)
+-- Dependencies: 262
+-- Name: lsrepositories_repositorycode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsrepositories_repositorycode_seq OWNED BY lsrepositories.repositorycode;
+
+
+--
+-- TOC entry 265 (class 1259 OID 292785)
+-- Name: lsrepositoriesdata; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE lsrepositoriesdata (
+    repositorydatacode integer NOT NULL,
+    addedby character varying(255),
+    addedon timestamp without time zone,
+    repositorycode integer,
+    repositorydatafields jsonb,
+    repositoryitemname character varying(255),
+    sitecode integer,
+    usercode integer
+);
+
+
+ALTER TABLE lsrepositoriesdata OWNER TO postgres;
+
+--
+-- TOC entry 264 (class 1259 OID 292783)
+-- Name: lsrepositoriesdata_repositorydatacode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsrepositoriesdata_repositorydatacode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsrepositoriesdata_repositorydatacode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3099 (class 0 OID 0)
+-- Dependencies: 264
+-- Name: lsrepositoriesdata_repositorydatacode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsrepositoriesdata_repositorydatacode_seq OWNED BY lsrepositoriesdata.repositorydatacode;
+
+
+--
+-- TOC entry 266 (class 1259 OID 292794)
 -- Name: lsreviewdetails; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1431,7 +1670,7 @@ CREATE TABLE lsreviewdetails (
 ALTER TABLE lsreviewdetails OWNER TO postgres;
 
 --
--- TOC entry 255 (class 1259 OID 225875)
+-- TOC entry 267 (class 1259 OID 292799)
 -- Name: lssamplefile; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1454,7 +1693,7 @@ CREATE TABLE lssamplefile (
 ALTER TABLE lssamplefile OWNER TO postgres;
 
 --
--- TOC entry 256 (class 1259 OID 225883)
+-- TOC entry 268 (class 1259 OID 292807)
 -- Name: lssamplefileversion; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1479,7 +1718,7 @@ CREATE TABLE lssamplefileversion (
 ALTER TABLE lssamplefileversion OWNER TO postgres;
 
 --
--- TOC entry 257 (class 1259 OID 225891)
+-- TOC entry 269 (class 1259 OID 292815)
 -- Name: lssamplemaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1495,7 +1734,7 @@ CREATE TABLE lssamplemaster (
 ALTER TABLE lssamplemaster OWNER TO postgres;
 
 --
--- TOC entry 258 (class 1259 OID 225896)
+-- TOC entry 270 (class 1259 OID 292820)
 -- Name: lssampleresult; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1519,7 +1758,7 @@ CREATE TABLE lssampleresult (
 ALTER TABLE lssampleresult OWNER TO postgres;
 
 --
--- TOC entry 259 (class 1259 OID 225901)
+-- TOC entry 271 (class 1259 OID 292825)
 -- Name: lssection; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1539,7 +1778,7 @@ CREATE TABLE lssection (
 ALTER TABLE lssection OWNER TO postgres;
 
 --
--- TOC entry 260 (class 1259 OID 225906)
+-- TOC entry 272 (class 1259 OID 292830)
 -- Name: lssequencenogenerator; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1556,7 +1795,7 @@ CREATE TABLE lssequencenogenerator (
 ALTER TABLE lssequencenogenerator OWNER TO postgres;
 
 --
--- TOC entry 261 (class 1259 OID 225911)
+-- TOC entry 273 (class 1259 OID 292835)
 -- Name: lssettings; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1571,7 +1810,7 @@ CREATE TABLE lssettings (
 ALTER TABLE lssettings OWNER TO postgres;
 
 --
--- TOC entry 262 (class 1259 OID 225919)
+-- TOC entry 274 (class 1259 OID 292843)
 -- Name: lssheetcreationfiles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1584,7 +1823,7 @@ CREATE TABLE lssheetcreationfiles (
 ALTER TABLE lssheetcreationfiles OWNER TO postgres;
 
 --
--- TOC entry 263 (class 1259 OID 225927)
+-- TOC entry 275 (class 1259 OID 292851)
 -- Name: lssheetupdates; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1600,7 +1839,7 @@ CREATE TABLE lssheetupdates (
 ALTER TABLE lssheetupdates OWNER TO postgres;
 
 --
--- TOC entry 264 (class 1259 OID 225935)
+-- TOC entry 276 (class 1259 OID 292859)
 -- Name: lssheetversionfiles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1613,7 +1852,7 @@ CREATE TABLE lssheetversionfiles (
 ALTER TABLE lssheetversionfiles OWNER TO postgres;
 
 --
--- TOC entry 265 (class 1259 OID 225943)
+-- TOC entry 278 (class 1259 OID 292869)
 -- Name: lssheetworkflow; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1627,7 +1866,31 @@ CREATE TABLE lssheetworkflow (
 ALTER TABLE lssheetworkflow OWNER TO postgres;
 
 --
--- TOC entry 266 (class 1259 OID 225948)
+-- TOC entry 277 (class 1259 OID 292867)
+-- Name: lssheetworkflow_workflowcode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lssheetworkflow_workflowcode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lssheetworkflow_workflowcode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3100 (class 0 OID 0)
+-- Dependencies: 277
+-- Name: lssheetworkflow_workflowcode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lssheetworkflow_workflowcode_seq OWNED BY lssheetworkflow.workflowcode;
+
+
+--
+-- TOC entry 279 (class 1259 OID 292875)
 -- Name: lssheetworkflowgroupmap; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1641,7 +1904,7 @@ CREATE TABLE lssheetworkflowgroupmap (
 ALTER TABLE lssheetworkflowgroupmap OWNER TO postgres;
 
 --
--- TOC entry 267 (class 1259 OID 225953)
+-- TOC entry 280 (class 1259 OID 292880)
 -- Name: lssheetworkflowhistory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1660,7 +1923,7 @@ CREATE TABLE lssheetworkflowhistory (
 ALTER TABLE lssheetworkflowhistory OWNER TO postgres;
 
 --
--- TOC entry 268 (class 1259 OID 225961)
+-- TOC entry 282 (class 1259 OID 292890)
 -- Name: lssitemaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1679,7 +1942,31 @@ CREATE TABLE lssitemaster (
 ALTER TABLE lssitemaster OWNER TO postgres;
 
 --
--- TOC entry 269 (class 1259 OID 225969)
+-- TOC entry 281 (class 1259 OID 292888)
+-- Name: lssitemaster_sitecode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lssitemaster_sitecode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lssitemaster_sitecode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3101 (class 0 OID 0)
+-- Dependencies: 281
+-- Name: lssitemaster_sitecode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lssitemaster_sitecode_seq OWNED BY lssitemaster.sitecode;
+
+
+--
+-- TOC entry 283 (class 1259 OID 292899)
 -- Name: lstestmapping; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1697,7 +1984,7 @@ CREATE TABLE lstestmapping (
 ALTER TABLE lstestmapping OWNER TO postgres;
 
 --
--- TOC entry 270 (class 1259 OID 225974)
+-- TOC entry 284 (class 1259 OID 292904)
 -- Name: lstestmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1721,7 +2008,7 @@ CREATE TABLE lstestmaster (
 ALTER TABLE lstestmaster OWNER TO postgres;
 
 --
--- TOC entry 271 (class 1259 OID 225982)
+-- TOC entry 285 (class 1259 OID 292912)
 -- Name: lstestmasterlocal; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1737,7 +2024,7 @@ CREATE TABLE lstestmasterlocal (
 ALTER TABLE lstestmasterlocal OWNER TO postgres;
 
 --
--- TOC entry 272 (class 1259 OID 225987)
+-- TOC entry 286 (class 1259 OID 292917)
 -- Name: lstestparameter; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1759,7 +2046,7 @@ CREATE TABLE lstestparameter (
 ALTER TABLE lstestparameter OWNER TO postgres;
 
 --
--- TOC entry 273 (class 1259 OID 225995)
+-- TOC entry 287 (class 1259 OID 292925)
 -- Name: lstransactionstatus; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1774,7 +2061,7 @@ CREATE TABLE lstransactionstatus (
 ALTER TABLE lstransactionstatus OWNER TO postgres;
 
 --
--- TOC entry 274 (class 1259 OID 226000)
+-- TOC entry 288 (class 1259 OID 292930)
 -- Name: lsunit; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1792,7 +2079,7 @@ CREATE TABLE lsunit (
 ALTER TABLE lsunit OWNER TO postgres;
 
 --
--- TOC entry 275 (class 1259 OID 226008)
+-- TOC entry 289 (class 1259 OID 292938)
 -- Name: lsunmappedtags; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1808,7 +2095,7 @@ CREATE TABLE lsunmappedtags (
 ALTER TABLE lsunmappedtags OWNER TO postgres;
 
 --
--- TOC entry 277 (class 1259 OID 226015)
+-- TOC entry 291 (class 1259 OID 292945)
 -- Name: lsunmappedtemplate; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1821,7 +2108,7 @@ CREATE TABLE lsunmappedtemplate (
 ALTER TABLE lsunmappedtemplate OWNER TO postgres;
 
 --
--- TOC entry 276 (class 1259 OID 226013)
+-- TOC entry 290 (class 1259 OID 292943)
 -- Name: lsunmappedtemplate_templatecode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1836,8 +2123,8 @@ CREATE SEQUENCE lsunmappedtemplate_templatecode_seq
 ALTER TABLE lsunmappedtemplate_templatecode_seq OWNER TO postgres;
 
 --
--- TOC entry 2989 (class 0 OID 0)
--- Dependencies: 276
+-- TOC entry 3102 (class 0 OID 0)
+-- Dependencies: 290
 -- Name: lsunmappedtemplate_templatecode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1845,7 +2132,7 @@ ALTER SEQUENCE lsunmappedtemplate_templatecode_seq OWNED BY lsunmappedtemplate.t
 
 
 --
--- TOC entry 279 (class 1259 OID 226023)
+-- TOC entry 293 (class 1259 OID 292953)
 -- Name: lsuseractions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1865,7 +2152,7 @@ CREATE TABLE lsuseractions (
 ALTER TABLE lsuseractions OWNER TO postgres;
 
 --
--- TOC entry 278 (class 1259 OID 226021)
+-- TOC entry 292 (class 1259 OID 292951)
 -- Name: lsuseractions_useractioncode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1880,8 +2167,8 @@ CREATE SEQUENCE lsuseractions_useractioncode_seq
 ALTER TABLE lsuseractions_useractioncode_seq OWNER TO postgres;
 
 --
--- TOC entry 2990 (class 0 OID 0)
--- Dependencies: 278
+-- TOC entry 3103 (class 0 OID 0)
+-- Dependencies: 292
 -- Name: lsuseractions_useractioncode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1889,7 +2176,7 @@ ALTER SEQUENCE lsuseractions_useractioncode_seq OWNED BY lsuseractions.useractio
 
 
 --
--- TOC entry 280 (class 1259 OID 226029)
+-- TOC entry 295 (class 1259 OID 292961)
 -- Name: lsusergroup; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1911,7 +2198,31 @@ CREATE TABLE lsusergroup (
 ALTER TABLE lsusergroup OWNER TO postgres;
 
 --
--- TOC entry 281 (class 1259 OID 226037)
+-- TOC entry 294 (class 1259 OID 292959)
+-- Name: lsusergroup_usergroupcode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsusergroup_usergroupcode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsusergroup_usergroupcode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3104 (class 0 OID 0)
+-- Dependencies: 294
+-- Name: lsusergroup_usergroupcode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsusergroup_usergroupcode_seq OWNED BY lsusergroup.usergroupcode;
+
+
+--
+-- TOC entry 297 (class 1259 OID 292972)
 -- Name: lsusergrouprights; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1935,7 +2246,31 @@ CREATE TABLE lsusergrouprights (
 ALTER TABLE lsusergrouprights OWNER TO postgres;
 
 --
--- TOC entry 282 (class 1259 OID 226042)
+-- TOC entry 296 (class 1259 OID 292970)
+-- Name: lsusergrouprights_orderno_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsusergrouprights_orderno_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsusergrouprights_orderno_seq OWNER TO postgres;
+
+--
+-- TOC entry 3105 (class 0 OID 0)
+-- Dependencies: 296
+-- Name: lsusergrouprights_orderno_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsusergrouprights_orderno_seq OWNED BY lsusergrouprights.orderno;
+
+
+--
+-- TOC entry 298 (class 1259 OID 292978)
 -- Name: lsusergrouprightsmaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1955,7 +2290,7 @@ CREATE TABLE lsusergrouprightsmaster (
 ALTER TABLE lsusergrouprightsmaster OWNER TO postgres;
 
 --
--- TOC entry 283 (class 1259 OID 226047)
+-- TOC entry 300 (class 1259 OID 292985)
 -- Name: lsusermaster; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1967,6 +2302,7 @@ CREATE TABLE lsusermaster (
     labsheet integer,
     lastloggedon timestamp without time zone,
     lockcount integer,
+    loginfrom character varying(255),
     modifieduser integer,
     modifiedby character varying(255),
     modifieddate timestamp without time zone,
@@ -1987,7 +2323,31 @@ CREATE TABLE lsusermaster (
 ALTER TABLE lsusermaster OWNER TO postgres;
 
 --
--- TOC entry 284 (class 1259 OID 226055)
+-- TOC entry 299 (class 1259 OID 292983)
+-- Name: lsusermaster_usercode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsusermaster_usercode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsusermaster_usercode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3106 (class 0 OID 0)
+-- Dependencies: 299
+-- Name: lsusermaster_usercode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsusermaster_usercode_seq OWNED BY lsusermaster.usercode;
+
+
+--
+-- TOC entry 301 (class 1259 OID 292994)
 -- Name: lsusersteam; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2006,7 +2366,7 @@ CREATE TABLE lsusersteam (
 ALTER TABLE lsusersteam OWNER TO postgres;
 
 --
--- TOC entry 285 (class 1259 OID 226060)
+-- TOC entry 302 (class 1259 OID 292999)
 -- Name: lsuserteammapping; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2020,7 +2380,7 @@ CREATE TABLE lsuserteammapping (
 ALTER TABLE lsuserteammapping OWNER TO postgres;
 
 --
--- TOC entry 286 (class 1259 OID 226065)
+-- TOC entry 304 (class 1259 OID 293006)
 -- Name: lsworkflow; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2034,7 +2394,31 @@ CREATE TABLE lsworkflow (
 ALTER TABLE lsworkflow OWNER TO postgres;
 
 --
--- TOC entry 287 (class 1259 OID 226070)
+-- TOC entry 303 (class 1259 OID 293004)
+-- Name: lsworkflow_workflowcode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE lsworkflow_workflowcode_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE lsworkflow_workflowcode_seq OWNER TO postgres;
+
+--
+-- TOC entry 3107 (class 0 OID 0)
+-- Dependencies: 303
+-- Name: lsworkflow_workflowcode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE lsworkflow_workflowcode_seq OWNED BY lsworkflow.workflowcode;
+
+
+--
+-- TOC entry 305 (class 1259 OID 293012)
 -- Name: lsworkflowgroupmapping; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2048,7 +2432,7 @@ CREATE TABLE lsworkflowgroupmapping (
 ALTER TABLE lsworkflowgroupmapping OWNER TO postgres;
 
 --
--- TOC entry 186 (class 1259 OID 225436)
+-- TOC entry 186 (class 1259 OID 292295)
 -- Name: orderdetail; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -2063,7 +2447,7 @@ CREATE SEQUENCE orderdetail
 ALTER TABLE orderdetail OWNER TO postgres;
 
 --
--- TOC entry 288 (class 1259 OID 226075)
+-- TOC entry 306 (class 1259 OID 293017)
 -- Name: resultfieldvalues; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2078,7 +2462,7 @@ CREATE TABLE resultfieldvalues (
 ALTER TABLE resultfieldvalues OWNER TO postgres;
 
 --
--- TOC entry 289 (class 1259 OID 226083)
+-- TOC entry 307 (class 1259 OID 293025)
 -- Name: t06instruments; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2114,7 +2498,7 @@ CREATE TABLE t06instruments (
 ALTER TABLE t06instruments OWNER TO postgres;
 
 --
--- TOC entry 290 (class 1259 OID 226088)
+-- TOC entry 308 (class 1259 OID 293030)
 -- Name: t23fields; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2143,7 +2527,63 @@ CREATE TABLE t23fields (
 ALTER TABLE t23fields OWNER TO postgres;
 
 --
--- TOC entry 2458 (class 2604 OID 226018)
+-- TOC entry 2513 (class 2604 OID 292368)
+-- Name: lscfrreasons reasoncode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lscfrreasons ALTER COLUMN reasoncode SET DEFAULT nextval('lscfrreasons_reasoncode_seq'::regclass);
+
+
+--
+-- TOC entry 2514 (class 2604 OID 292428)
+-- Name: lsdomainmaster domaincode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsdomainmaster ALTER COLUMN domaincode SET DEFAULT nextval('lsdomainmaster_domaincode_seq'::regclass);
+
+
+--
+-- TOC entry 2515 (class 2604 OID 292480)
+-- Name: lsfile filecode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsfile ALTER COLUMN filecode SET DEFAULT nextval('lsfile_filecode_seq'::regclass);
+
+
+--
+-- TOC entry 2516 (class 2604 OID 292777)
+-- Name: lsrepositories repositorycode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsrepositories ALTER COLUMN repositorycode SET DEFAULT nextval('lsrepositories_repositorycode_seq'::regclass);
+
+
+--
+-- TOC entry 2517 (class 2604 OID 292788)
+-- Name: lsrepositoriesdata repositorydatacode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsrepositoriesdata ALTER COLUMN repositorydatacode SET DEFAULT nextval('lsrepositoriesdata_repositorydatacode_seq'::regclass);
+
+
+--
+-- TOC entry 2518 (class 2604 OID 292872)
+-- Name: lssheetworkflow workflowcode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lssheetworkflow ALTER COLUMN workflowcode SET DEFAULT nextval('lssheetworkflow_workflowcode_seq'::regclass);
+
+
+--
+-- TOC entry 2519 (class 2604 OID 292893)
+-- Name: lssitemaster sitecode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lssitemaster ALTER COLUMN sitecode SET DEFAULT nextval('lssitemaster_sitecode_seq'::regclass);
+
+
+--
+-- TOC entry 2520 (class 2604 OID 292948)
 -- Name: lsunmappedtemplate templatecode; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2151,7 +2591,7 @@ ALTER TABLE ONLY lsunmappedtemplate ALTER COLUMN templatecode SET DEFAULT nextva
 
 
 --
--- TOC entry 2459 (class 2604 OID 226026)
+-- TOC entry 2521 (class 2604 OID 292956)
 -- Name: lsuseractions useractioncode; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2159,8 +2599,50 @@ ALTER TABLE ONLY lsuseractions ALTER COLUMN useractioncode SET DEFAULT nextval('
 
 
 --
--- TOC entry 2878 (class 0 OID 225438)
+-- TOC entry 2522 (class 2604 OID 292964)
+-- Name: lsusergroup usergroupcode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsusergroup ALTER COLUMN usergroupcode SET DEFAULT nextval('lsusergroup_usergroupcode_seq'::regclass);
+
+
+--
+-- TOC entry 2523 (class 2604 OID 292975)
+-- Name: lsusergrouprights orderno; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsusergrouprights ALTER COLUMN orderno SET DEFAULT nextval('lsusergrouprights_orderno_seq'::regclass);
+
+
+--
+-- TOC entry 2524 (class 2604 OID 292988)
+-- Name: lsusermaster usercode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsusermaster ALTER COLUMN usercode SET DEFAULT nextval('lsusermaster_usercode_seq'::regclass);
+
+
+--
+-- TOC entry 2525 (class 2604 OID 293009)
+-- Name: lsworkflow workflowcode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsworkflow ALTER COLUMN workflowcode SET DEFAULT nextval('lsworkflow_workflowcode_seq'::regclass);
+
+
+--
+-- TOC entry 2966 (class 0 OID 292297)
 -- Dependencies: 187
+-- Data for Name: email; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY email (id, mailcc, mailcontent, mailfrom, mailto, subject) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2967 (class 0 OID 292305)
+-- Dependencies: 188
 -- Data for Name: l11instrumentmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2169,8 +2651,8 @@ COPY l11instrumentmaster (l11instrumentid, l11createdby, l11createdon, l11instru
 
 
 --
--- TOC entry 2879 (class 0 OID 225446)
--- Dependencies: 188
+-- TOC entry 2968 (class 0 OID 292313)
+-- Dependencies: 189
 -- Data for Name: llresultdetails; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2179,8 +2661,8 @@ COPY llresultdetails (resultid, aiifreport, batchid, fileref, limsinstrumentname
 
 
 --
--- TOC entry 2880 (class 0 OID 225454)
--- Dependencies: 189
+-- TOC entry 2969 (class 0 OID 292321)
+-- Dependencies: 190
 -- Data for Name: llresultdetails_resultfieldvalues; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2189,8 +2671,8 @@ COPY llresultdetails_resultfieldvalues (lsresultdetails_resultid, lsresultvalues
 
 
 --
--- TOC entry 2881 (class 0 OID 225457)
--- Dependencies: 190
+-- TOC entry 2970 (class 0 OID 292324)
+-- Dependencies: 191
 -- Data for Name: logilablimsorder; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2199,8 +2681,8 @@ COPY logilablimsorder (orderid, batchid, completedtimestamp, createdtimestamp, i
 
 
 --
--- TOC entry 2882 (class 0 OID 225465)
--- Dependencies: 191
+-- TOC entry 2971 (class 0 OID 292332)
+-- Dependencies: 192
 -- Data for Name: lsactiveuser; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2209,8 +2691,8 @@ COPY lsactiveuser (activeusercode, clientname, "timestamp", lssitemaster_sitecod
 
 
 --
--- TOC entry 2883 (class 0 OID 225470)
--- Dependencies: 192
+-- TOC entry 2972 (class 0 OID 292337)
+-- Dependencies: 193
 -- Data for Name: lsactivity; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2219,8 +2701,8 @@ COPY lsactivity (activitycode, activity, activitydate, activityby_usercode) FROM
 
 
 --
--- TOC entry 2884 (class 0 OID 225475)
--- Dependencies: 193
+-- TOC entry 2973 (class 0 OID 292342)
+-- Dependencies: 194
 -- Data for Name: lsaudittrailconfigmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2287,8 +2769,8 @@ COPY lsaudittrailconfigmaster (serialno, manualaudittrail, modulename, ordersequ
 
 
 --
--- TOC entry 2885 (class 0 OID 225483)
--- Dependencies: 194
+-- TOC entry 2974 (class 0 OID 292350)
+-- Dependencies: 195
 -- Data for Name: lsaudittrailconfiguration; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2297,8 +2779,8 @@ COPY lsaudittrailconfiguration (auditcofigcode, manualaudittrail, modulename, sc
 
 
 --
--- TOC entry 2886 (class 0 OID 225491)
--- Dependencies: 195
+-- TOC entry 2975 (class 0 OID 292358)
+-- Dependencies: 196
 -- Data for Name: lsbatchdetails; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2307,8 +2789,8 @@ COPY lsbatchdetails (batchdetailcode, batchcode, limsorderid, orderid, sampleid)
 
 
 --
--- TOC entry 2887 (class 0 OID 225496)
--- Dependencies: 196
+-- TOC entry 2977 (class 0 OID 292365)
+-- Dependencies: 198
 -- Data for Name: lscfrreasons; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2319,8 +2801,8 @@ COPY lscfrreasons (reasoncode, comments, lssitemaster_sitecode) FROM stdin;
 
 
 --
--- TOC entry 2888 (class 0 OID 225501)
--- Dependencies: 197
+-- TOC entry 2978 (class 0 OID 292371)
+-- Dependencies: 199
 -- Data for Name: lscfrsettings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2329,8 +2811,8 @@ COPY lscfrsettings (cfrsettingcode, l49sitecode, archivenodays, audittrail, cfra
 
 
 --
--- TOC entry 2889 (class 0 OID 225506)
--- Dependencies: 198
+-- TOC entry 2979 (class 0 OID 292376)
+-- Dependencies: 200
 -- Data for Name: lscfttransaction; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2339,8 +2821,8 @@ COPY lscfttransaction (serialno, actions, affectedclientid, comments, instrument
 
 
 --
--- TOC entry 2890 (class 0 OID 225514)
--- Dependencies: 199
+-- TOC entry 2980 (class 0 OID 292384)
+-- Dependencies: 201
 -- Data for Name: lsconfiguration; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2349,8 +2831,8 @@ COPY lsconfiguration (serialno, configactive, configgrouptype, configname, confi
 
 
 --
--- TOC entry 2891 (class 0 OID 225522)
--- Dependencies: 200
+-- TOC entry 2981 (class 0 OID 292392)
+-- Dependencies: 202
 -- Data for Name: lscontrol; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2359,8 +2841,8 @@ COPY lscontrol (controlcode, controlid, dbversion, licence, llpro, llprodatasour
 
 
 --
--- TOC entry 2892 (class 0 OID 225530)
--- Dependencies: 201
+-- TOC entry 2982 (class 0 OID 292400)
+-- Dependencies: 203
 -- Data for Name: lsdocdirectory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2374,8 +2856,8 @@ COPY lsdocdirectory (docdirectorycode, createdate, createdby, directoryname, dir
 
 
 --
--- TOC entry 2893 (class 0 OID 225535)
--- Dependencies: 202
+-- TOC entry 2983 (class 0 OID 292405)
+-- Dependencies: 204
 -- Data for Name: lsdocmanager; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2384,8 +2866,8 @@ COPY lsdocmanager (docmanagercode, status, createdate, createdby, extention, fil
 
 
 --
--- TOC entry 2894 (class 0 OID 225540)
--- Dependencies: 203
+-- TOC entry 2984 (class 0 OID 292410)
+-- Dependencies: 205
 -- Data for Name: lsdocreports; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2394,8 +2876,8 @@ COPY lsdocreports (docreportscode, createdby, createdate, docdirectorycode, exte
 
 
 --
--- TOC entry 2895 (class 0 OID 225548)
--- Dependencies: 204
+-- TOC entry 2985 (class 0 OID 292418)
+-- Dependencies: 206
 -- Data for Name: lsdocreportsversionhistory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2404,8 +2886,8 @@ COPY lsdocreportsversionhistory (docreportsversionhistorycode, docreportscode, f
 
 
 --
--- TOC entry 2896 (class 0 OID 225553)
--- Dependencies: 205
+-- TOC entry 2987 (class 0 OID 292425)
+-- Dependencies: 208
 -- Data for Name: lsdomainmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2415,8 +2897,8 @@ COPY lsdomainmaster (domaincode, categories, createdby, createdon, domainname, d
 
 
 --
--- TOC entry 2897 (class 0 OID 225561)
--- Dependencies: 206
+-- TOC entry 2988 (class 0 OID 292434)
+-- Dependencies: 209
 -- Data for Name: lselninstfieldmapping; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2425,8 +2907,8 @@ COPY lselninstfieldmapping (instfieldmapcode, fieldcode, lsmethodfields_t23_strf
 
 
 --
--- TOC entry 2898 (class 0 OID 225566)
--- Dependencies: 207
+-- TOC entry 2989 (class 0 OID 292439)
+-- Dependencies: 210
 -- Data for Name: lselninstrumentfields; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2435,8 +2917,8 @@ COPY lselninstrumentfields (fieldcode, byteallign, bytecoltype, bytedeleteable, 
 
 
 --
--- TOC entry 2899 (class 0 OID 225574)
--- Dependencies: 208
+-- TOC entry 2990 (class 0 OID 292447)
+-- Dependencies: 211
 -- Data for Name: lselninstrumentmapping; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2445,8 +2927,8 @@ COPY lselninstrumentmapping (instrumentmapcode, instrumentcode, lsinstruments_t0
 
 
 --
--- TOC entry 2900 (class 0 OID 225579)
--- Dependencies: 209
+-- TOC entry 2991 (class 0 OID 292452)
+-- Dependencies: 212
 -- Data for Name: lselninstrumentmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2455,8 +2937,8 @@ COPY lselninstrumentmaster (instrumentcode, instrumentname, status, lssitemaster
 
 
 --
--- TOC entry 2901 (class 0 OID 225584)
--- Dependencies: 210
+-- TOC entry 2992 (class 0 OID 292457)
+-- Dependencies: 213
 -- Data for Name: lsequipmentmap; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2465,8 +2947,8 @@ COPY lsequipmentmap (equipmentcode, instrumentcode, testcode, lsinstrument_instr
 
 
 --
--- TOC entry 2902 (class 0 OID 225589)
--- Dependencies: 211
+-- TOC entry 2993 (class 0 OID 292462)
+-- Dependencies: 214
 -- Data for Name: lsfeature; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2475,8 +2957,8 @@ COPY lsfeature (modulecode, modulename, moduleid, norder, senum, status) FROM st
 
 
 --
--- TOC entry 2903 (class 0 OID 225594)
--- Dependencies: 212
+-- TOC entry 2994 (class 0 OID 292467)
+-- Dependencies: 215
 -- Data for Name: lsfields; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2531,19 +3013,19 @@ COPY lsfields (fieldcode, createby, createdate, level04code, level04name, fieldo
 
 
 --
--- TOC entry 2904 (class 0 OID 225602)
--- Dependencies: 213
+-- TOC entry 2996 (class 0 OID 292477)
+-- Dependencies: 217
 -- Data for Name: lsfile; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY lsfile (filecode, approved, createdate, extension, filecontent, filenameuser, filenameuuid, isactive, modifieddate, rejected, versionno, createby_usercode, lssheetworkflow_workflowcode, lssitemaster_sitecode, modifiedby_usercode) FROM stdin;
-1	1	2021-02-11 12:05:29.04272	.txt	\N	\N	\N	1	2021-02-11 12:05:29.04272	0	0	1	1	1	1
+1	1	2021-03-10 18:57:16.49879	.txt	\N	\N	\N	1	2021-03-10 18:57:16.49879	0	0	1	1	1	1
 \.
 
 
 --
--- TOC entry 2905 (class 0 OID 225610)
--- Dependencies: 214
+-- TOC entry 2997 (class 0 OID 292486)
+-- Dependencies: 218
 -- Data for Name: lsfilemethod; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2552,8 +3034,8 @@ COPY lsfilemethod (filemethodcode, filecode, instrumentid, methodid) FROM stdin;
 
 
 --
--- TOC entry 2906 (class 0 OID 225615)
--- Dependencies: 215
+-- TOC entry 2998 (class 0 OID 292491)
+-- Dependencies: 219
 -- Data for Name: lsfileparameter; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2562,8 +3044,8 @@ COPY lsfileparameter (fileparametercode, filecode, isactive, limsparameterid, li
 
 
 --
--- TOC entry 2907 (class 0 OID 225623)
--- Dependencies: 216
+-- TOC entry 2999 (class 0 OID 292499)
+-- Dependencies: 220
 -- Data for Name: lsfileparametermapping; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2572,8 +3054,8 @@ COPY lsfileparametermapping (fileparametermappingcode, createby, createdate, fil
 
 
 --
--- TOC entry 2908 (class 0 OID 225628)
--- Dependencies: 217
+-- TOC entry 3000 (class 0 OID 292504)
+-- Dependencies: 221
 -- Data for Name: lsfiletest; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2582,8 +3064,8 @@ COPY lsfiletest (filetestcode, filecode, testcode, testtype) FROM stdin;
 
 
 --
--- TOC entry 2909 (class 0 OID 225633)
--- Dependencies: 218
+-- TOC entry 3001 (class 0 OID 292509)
+-- Dependencies: 222
 -- Data for Name: lsfileversion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2592,8 +3074,8 @@ COPY lsfileversion (fileversioncode, approved, createdate, extension, filecode, 
 
 
 --
--- TOC entry 2910 (class 0 OID 225641)
--- Dependencies: 219
+-- TOC entry 3002 (class 0 OID 292517)
+-- Dependencies: 223
 -- Data for Name: lsinstrument; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2602,8 +3084,8 @@ COPY lsinstrument (instrumentcode, calibrationduedate, calibrationstatus, defaul
 
 
 --
--- TOC entry 2911 (class 0 OID 225649)
--- Dependencies: 220
+-- TOC entry 3003 (class 0 OID 292525)
+-- Dependencies: 224
 -- Data for Name: lsinstrumentcategory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2612,8 +3094,8 @@ COPY lsinstrumentcategory (instrumentcatcode, calibrationreq, categorybasedflow,
 
 
 --
--- TOC entry 2912 (class 0 OID 225657)
--- Dependencies: 221
+-- TOC entry 3004 (class 0 OID 292533)
+-- Dependencies: 225
 -- Data for Name: lsinstrumentsection; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2622,8 +3104,8 @@ COPY lsinstrumentsection (instrumentsectioncode, defaultstatus, instrumentcode, 
 
 
 --
--- TOC entry 2913 (class 0 OID 225662)
--- Dependencies: 222
+-- TOC entry 3005 (class 0 OID 292538)
+-- Dependencies: 226
 -- Data for Name: lsinstrumenttype; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2632,8 +3114,8 @@ COPY lsinstrumenttype (instrumenttypecode, description, instrumenttypename, mast
 
 
 --
--- TOC entry 2914 (class 0 OID 225670)
--- Dependencies: 223
+-- TOC entry 3006 (class 0 OID 292546)
+-- Dependencies: 227
 -- Data for Name: lsintrumentresultmap; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2642,8 +3124,8 @@ COPY lsintrumentresultmap (instrumentcode, instrumentid, testcode) FROM stdin;
 
 
 --
--- TOC entry 2915 (class 0 OID 225675)
--- Dependencies: 224
+-- TOC entry 3007 (class 0 OID 292551)
+-- Dependencies: 228
 -- Data for Name: lslogilablimsorderdetail; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2652,8 +3134,18 @@ COPY lslogilablimsorderdetail (batchcode, approved, approvelstatus, batchid, com
 
 
 --
--- TOC entry 2916 (class 0 OID 225683)
--- Dependencies: 225
+-- TOC entry 3008 (class 0 OID 292559)
+-- Dependencies: 229
+-- Data for Name: lslogilabprotocoldetail; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY lslogilabprotocoldetail (protocolcode, completedtimestamp, createdtimestamp, protoclname, protocoltype, testcode, lsprojectmaster_projectcode, lsprotocolmaster_protocolmastercode, lssamplemaster_samplecode, lsusermaster_usercode) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3009 (class 0 OID 292564)
+-- Dependencies: 230
 -- Data for Name: lsmanufacturer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2662,8 +3154,8 @@ COPY lsmanufacturer (manufcode, masterauditcode, sitecode, status, transactionst
 
 
 --
--- TOC entry 2917 (class 0 OID 225688)
--- Dependencies: 226
+-- TOC entry 3010 (class 0 OID 292569)
+-- Dependencies: 231
 -- Data for Name: lsmappedtags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2672,8 +3164,8 @@ COPY lsmappedtags (tagcode, nonhierarchystatus, tagid, tagname, templatecode) FR
 
 
 --
--- TOC entry 2918 (class 0 OID 225693)
--- Dependencies: 227
+-- TOC entry 3011 (class 0 OID 292574)
+-- Dependencies: 232
 -- Data for Name: lsmappedtemplate; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2682,8 +3174,8 @@ COPY lsmappedtemplate (templatecode, templatename) FROM stdin;
 
 
 --
--- TOC entry 2919 (class 0 OID 225698)
--- Dependencies: 228
+-- TOC entry 3012 (class 0 OID 292579)
+-- Dependencies: 233
 -- Data for Name: lsmaterial; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2692,8 +3184,8 @@ COPY lsmaterial (materialcode, expirypolicy, expirypolicyperiodcode, masteraudit
 
 
 --
--- TOC entry 2920 (class 0 OID 225706)
--- Dependencies: 229
+-- TOC entry 3013 (class 0 OID 292587)
+-- Dependencies: 234
 -- Data for Name: lsmaterialcategory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2702,8 +3194,8 @@ COPY lsmaterialcategory (materialcatcode, barcode, categorybasedflow, componentr
 
 
 --
--- TOC entry 2921 (class 0 OID 225711)
--- Dependencies: 230
+-- TOC entry 3014 (class 0 OID 292592)
+-- Dependencies: 235
 -- Data for Name: lsmaterialgrade; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2712,8 +3204,8 @@ COPY lsmaterialgrade (materialgradecode, defaultstatus, masterauditcode, sitecod
 
 
 --
--- TOC entry 2922 (class 0 OID 225719)
--- Dependencies: 231
+-- TOC entry 3015 (class 0 OID 292600)
+-- Dependencies: 236
 -- Data for Name: lsmaterialinventory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2722,8 +3214,8 @@ COPY lsmaterialinventory (materialinventorycode, expirydate, expirypolicydate, m
 
 
 --
--- TOC entry 2923 (class 0 OID 225727)
--- Dependencies: 232
+-- TOC entry 3016 (class 0 OID 292608)
+-- Dependencies: 237
 -- Data for Name: lsmaterialinventorytransaction; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2732,8 +3224,8 @@ COPY lsmaterialinventorytransaction (materialinventtranscode, opendate, openexpi
 
 
 --
--- TOC entry 2924 (class 0 OID 225735)
--- Dependencies: 233
+-- TOC entry 3017 (class 0 OID 292616)
+-- Dependencies: 238
 -- Data for Name: lsmaterialmap; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2742,8 +3234,8 @@ COPY lsmaterialmap (lsmaterialcode, materialcode, testcode, lsmaterial_materialc
 
 
 --
--- TOC entry 2925 (class 0 OID 225740)
--- Dependencies: 234
+-- TOC entry 3018 (class 0 OID 292621)
+-- Dependencies: 239
 -- Data for Name: lsmaterialsection; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2752,8 +3244,8 @@ COPY lsmaterialsection (materialsectioncode, materialcode, reorderlevel, section
 
 
 --
--- TOC entry 2926 (class 0 OID 225745)
--- Dependencies: 235
+-- TOC entry 3019 (class 0 OID 292626)
+-- Dependencies: 240
 -- Data for Name: lsmaterialtype; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2762,8 +3254,8 @@ COPY lsmaterialtype (materialtypecode, defaultstatus, masterauditcode, sitecode,
 
 
 --
--- TOC entry 2927 (class 0 OID 225750)
--- Dependencies: 236
+-- TOC entry 3020 (class 0 OID 292631)
+-- Dependencies: 241
 -- Data for Name: lsmultidocument; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2772,8 +3264,8 @@ COPY lsmultidocument (filecode, stepcount, createddate, filename, filetypecode, 
 
 
 --
--- TOC entry 2928 (class 0 OID 225755)
--- Dependencies: 237
+-- TOC entry 3021 (class 0 OID 292636)
+-- Dependencies: 242
 -- Data for Name: lsmultisteps; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2782,8 +3274,8 @@ COPY lsmultisteps (stepcode, multistepcode, stepdescription, stepname) FROM stdi
 
 
 --
--- TOC entry 2929 (class 0 OID 225763)
--- Dependencies: 238
+-- TOC entry 3022 (class 0 OID 292644)
+-- Dependencies: 243
 -- Data for Name: lsnotification; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2792,8 +3284,8 @@ COPY lsnotification (notificationcode, isnewnotification, notification, createdt
 
 
 --
--- TOC entry 2930 (class 0 OID 225771)
--- Dependencies: 239
+-- TOC entry 3023 (class 0 OID 292652)
+-- Dependencies: 244
 -- Data for Name: lsorderattachmentfiles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2802,8 +3294,8 @@ COPY lsorderattachmentfiles (id, file) FROM stdin;
 
 
 --
--- TOC entry 2931 (class 0 OID 225779)
--- Dependencies: 240
+-- TOC entry 3024 (class 0 OID 292660)
+-- Dependencies: 245
 -- Data for Name: lsorderattachments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2812,8 +3304,8 @@ COPY lsorderattachments (attachmentcode, batchcode, createdate, fileextension, f
 
 
 --
--- TOC entry 2932 (class 0 OID 225784)
--- Dependencies: 241
+-- TOC entry 3025 (class 0 OID 292668)
+-- Dependencies: 246
 -- Data for Name: lsordercreationfiles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2822,8 +3314,8 @@ COPY lsordercreationfiles (id, content, contentparameter, contentvalues) FROM st
 
 
 --
--- TOC entry 2933 (class 0 OID 225792)
--- Dependencies: 242
+-- TOC entry 3026 (class 0 OID 292676)
+-- Dependencies: 247
 -- Data for Name: lsorderversionfiles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2832,8 +3324,8 @@ COPY lsorderversionfiles (id, content) FROM stdin;
 
 
 --
--- TOC entry 2934 (class 0 OID 225800)
--- Dependencies: 243
+-- TOC entry 3027 (class 0 OID 292684)
+-- Dependencies: 248
 -- Data for Name: lsorderworkflowhistory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2842,8 +3334,8 @@ COPY lsorderworkflowhistory (historycode, action, approvelstatus, batchcode, com
 
 
 --
--- TOC entry 2935 (class 0 OID 225808)
--- Dependencies: 244
+-- TOC entry 3028 (class 0 OID 292692)
+-- Dependencies: 249
 -- Data for Name: lsorderworkflowtransaction; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2852,8 +3344,8 @@ COPY lsorderworkflowtransaction (workflowtransactioncode, approvelstatus, orderi
 
 
 --
--- TOC entry 2936 (class 0 OID 225813)
--- Dependencies: 245
+-- TOC entry 3029 (class 0 OID 292697)
+-- Dependencies: 250
 -- Data for Name: lsparsedparameters; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2862,8 +3354,8 @@ COPY lsparsedparameters (parsedparametercode, analysedate, batchcode, batchid, c
 
 
 --
--- TOC entry 2937 (class 0 OID 225821)
--- Dependencies: 246
+-- TOC entry 3030 (class 0 OID 292705)
+-- Dependencies: 251
 -- Data for Name: lspasswordhistory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2872,8 +3364,8 @@ COPY lspasswordhistory (userid, fifthpassword, firstpassword, fourthpassword, se
 
 
 --
--- TOC entry 2938 (class 0 OID 225829)
--- Dependencies: 247
+-- TOC entry 3031 (class 0 OID 292713)
+-- Dependencies: 252
 -- Data for Name: lspasswordhistorydetails; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2882,8 +3374,8 @@ COPY lspasswordhistorydetails (passwordcode, password, passwordcreatedate, lsuse
 
 
 --
--- TOC entry 2939 (class 0 OID 225834)
--- Dependencies: 248
+-- TOC entry 3032 (class 0 OID 292718)
+-- Dependencies: 253
 -- Data for Name: lspasswordpolicy; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2893,8 +3385,8 @@ COPY lspasswordpolicy (policycode, complexpasswrd, dbbased, lockpolicy, maxpassw
 
 
 --
--- TOC entry 2940 (class 0 OID 225839)
--- Dependencies: 249
+-- TOC entry 3033 (class 0 OID 292723)
+-- Dependencies: 254
 -- Data for Name: lspreferences; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2903,8 +3395,8 @@ COPY lspreferences (serialno, tasksettings, valuesettings) FROM stdin;
 
 
 --
--- TOC entry 2941 (class 0 OID 225844)
--- Dependencies: 250
+-- TOC entry 3034 (class 0 OID 292728)
+-- Dependencies: 255
 -- Data for Name: lsprofilepicture; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2913,8 +3405,8 @@ COPY lsprofilepicture (id, image, name) FROM stdin;
 
 
 --
--- TOC entry 2942 (class 0 OID 225852)
--- Dependencies: 251
+-- TOC entry 3035 (class 0 OID 292736)
+-- Dependencies: 256
 -- Data for Name: lsprojectmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2923,18 +3415,18 @@ COPY lsprojectmaster (projectcode, projectname, status, lssitemaster_sitecode, l
 
 
 --
--- TOC entry 2943 (class 0 OID 225857)
--- Dependencies: 252
+-- TOC entry 3036 (class 0 OID 292741)
+-- Dependencies: 257
 -- Data for Name: lsprotocolmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY lsprotocolmaster (protocolmastercode, createdate, createdby, createdbyusername, lssitemaster_sitecode, protocolmastername, protocolstatus, sharewithteam, status) FROM stdin;
+COPY lsprotocolmaster (protocolmastercode, approved, createdate, createdby, createdbyusername, lssitemaster_sitecode, protocolmastername, protocolstatus, rejected, sharewithteam, status, lsprotocolworkflow_workflowcode) FROM stdin;
 \.
 
 
 --
--- TOC entry 2944 (class 0 OID 225862)
--- Dependencies: 253
+-- TOC entry 3037 (class 0 OID 292746)
+-- Dependencies: 258
 -- Data for Name: lsprotocolstep; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2943,8 +3435,58 @@ COPY lsprotocolstep (protocolstepcode, createdby, createdbyusername, createddate
 
 
 --
--- TOC entry 2945 (class 0 OID 225870)
--- Dependencies: 254
+-- TOC entry 3038 (class 0 OID 292754)
+-- Dependencies: 259
+-- Data for Name: lsprotocolstepinfocloud; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY lsprotocolstepinfocloud (id, lsprotocolstepinfo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3039 (class 0 OID 292762)
+-- Dependencies: 260
+-- Data for Name: lsprotocolworkflow; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY lsprotocolworkflow (workflowcode, workflowname, lssitemaster_sitecode) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3040 (class 0 OID 292767)
+-- Dependencies: 261
+-- Data for Name: lsprotocolworkflowgroupmap; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY lsprotocolworkflowgroupmap (workflowmapid, workflowcode, lsusergroup_usergroupcode) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3042 (class 0 OID 292774)
+-- Dependencies: 263
+-- Data for Name: lsrepositories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY lsrepositories (repositorycode, addedby, addedon, repositoryfields, repositoryname, sitecode, usercode) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3044 (class 0 OID 292785)
+-- Dependencies: 265
+-- Data for Name: lsrepositoriesdata; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY lsrepositoriesdata (repositorydatacode, addedby, addedon, repositorycode, repositorydatafields, repositoryitemname, sitecode, usercode) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3045 (class 0 OID 292794)
+-- Dependencies: 266
 -- Data for Name: lsreviewdetails; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2953,8 +3495,8 @@ COPY lsreviewdetails (serialno, reviewcomments, reviewdate, reviewedby, reviewed
 
 
 --
--- TOC entry 2946 (class 0 OID 225875)
--- Dependencies: 255
+-- TOC entry 3046 (class 0 OID 292799)
+-- Dependencies: 267
 -- Data for Name: lssamplefile; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2963,8 +3505,8 @@ COPY lssamplefile (filesamplecode, batchcode, createby, createdate, filecontent,
 
 
 --
--- TOC entry 2947 (class 0 OID 225883)
--- Dependencies: 256
+-- TOC entry 3047 (class 0 OID 292807)
+-- Dependencies: 268
 -- Data for Name: lssamplefileversion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2973,8 +3515,8 @@ COPY lssamplefileversion (filesamplecodeversion, batchcode, createby, createdate
 
 
 --
--- TOC entry 2948 (class 0 OID 225891)
--- Dependencies: 257
+-- TOC entry 3048 (class 0 OID 292815)
+-- Dependencies: 269
 -- Data for Name: lssamplemaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2983,8 +3525,8 @@ COPY lssamplemaster (samplecode, samplename, status, lssitemaster_sitecode, modi
 
 
 --
--- TOC entry 2949 (class 0 OID 225896)
--- Dependencies: 258
+-- TOC entry 3049 (class 0 OID 292820)
+-- Dependencies: 270
 -- Data for Name: lssampleresult; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2993,8 +3535,8 @@ COPY lssampleresult (sampleresultcode, batchcode, createby, createdate, filepara
 
 
 --
--- TOC entry 2950 (class 0 OID 225901)
--- Dependencies: 259
+-- TOC entry 3050 (class 0 OID 292825)
+-- Dependencies: 271
 -- Data for Name: lssection; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3003,8 +3545,8 @@ COPY lssection (sectioncode, defaultstatus, masterauditcode, sectiontypecode, si
 
 
 --
--- TOC entry 2951 (class 0 OID 225906)
--- Dependencies: 260
+-- TOC entry 3051 (class 0 OID 292830)
+-- Dependencies: 272
 -- Data for Name: lssequencenogenerator; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3013,8 +3555,8 @@ COPY lssequencenogenerator (settingcode, nformattype, nseqnolength, prefix, sequ
 
 
 --
--- TOC entry 2952 (class 0 OID 225911)
--- Dependencies: 261
+-- TOC entry 3052 (class 0 OID 292835)
+-- Dependencies: 273
 -- Data for Name: lssettings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3023,8 +3565,8 @@ COPY lssettings (settingid, settingname, settingstring, status) FROM stdin;
 
 
 --
--- TOC entry 2953 (class 0 OID 225919)
--- Dependencies: 262
+-- TOC entry 3053 (class 0 OID 292843)
+-- Dependencies: 274
 -- Data for Name: lssheetcreationfiles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3033,8 +3575,8 @@ COPY lssheetcreationfiles (id, content) FROM stdin;
 
 
 --
--- TOC entry 2954 (class 0 OID 225927)
--- Dependencies: 263
+-- TOC entry 3054 (class 0 OID 292851)
+-- Dependencies: 275
 -- Data for Name: lssheetupdates; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3043,8 +3585,8 @@ COPY lssheetupdates (sheetcode, filecode, sheetcomment, sheetmodifieddate, modif
 
 
 --
--- TOC entry 2955 (class 0 OID 225935)
--- Dependencies: 264
+-- TOC entry 3055 (class 0 OID 292859)
+-- Dependencies: 276
 -- Data for Name: lssheetversionfiles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3053,8 +3595,8 @@ COPY lssheetversionfiles (id, content) FROM stdin;
 
 
 --
--- TOC entry 2956 (class 0 OID 225943)
--- Dependencies: 265
+-- TOC entry 3057 (class 0 OID 292869)
+-- Dependencies: 278
 -- Data for Name: lssheetworkflow; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3064,8 +3606,8 @@ COPY lssheetworkflow (workflowcode, workflowname, lssitemaster_sitecode) FROM st
 
 
 --
--- TOC entry 2957 (class 0 OID 225948)
--- Dependencies: 266
+-- TOC entry 3058 (class 0 OID 292875)
+-- Dependencies: 279
 -- Data for Name: lssheetworkflowgroupmap; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3074,8 +3616,8 @@ COPY lssheetworkflowgroupmap (workflowmapid, workflowcode, lsusergroup_usergroup
 
 
 --
--- TOC entry 2958 (class 0 OID 225953)
--- Dependencies: 267
+-- TOC entry 3059 (class 0 OID 292880)
+-- Dependencies: 280
 -- Data for Name: lssheetworkflowhistory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3084,8 +3626,8 @@ COPY lssheetworkflowhistory (historycode, action, approvelstatus, comment, creat
 
 
 --
--- TOC entry 2959 (class 0 OID 225961)
--- Dependencies: 268
+-- TOC entry 3061 (class 0 OID 292890)
+-- Dependencies: 282
 -- Data for Name: lssitemaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3095,8 +3637,8 @@ COPY lssitemaster (sitecode, contactperson, email, faxno, istatus, phoneno, site
 
 
 --
--- TOC entry 2960 (class 0 OID 225969)
--- Dependencies: 269
+-- TOC entry 3062 (class 0 OID 292899)
+-- Dependencies: 283
 -- Data for Name: lstestmapping; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3105,8 +3647,8 @@ COPY lstestmapping (testid, createby, createdate, isactive, siteid, testcodemapp
 
 
 --
--- TOC entry 2961 (class 0 OID 225974)
--- Dependencies: 270
+-- TOC entry 3063 (class 0 OID 292904)
+-- Dependencies: 284
 -- Data for Name: lstestmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3115,8 +3657,8 @@ COPY lstestmaster (testcode, modifieddate, accredited, checklistversioncode, nco
 
 
 --
--- TOC entry 2962 (class 0 OID 225982)
--- Dependencies: 271
+-- TOC entry 3064 (class 0 OID 292912)
+-- Dependencies: 285
 -- Data for Name: lstestmasterlocal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3125,8 +3667,8 @@ COPY lstestmasterlocal (testcode, status, testname, lssitemaster_sitecode, modif
 
 
 --
--- TOC entry 2963 (class 0 OID 225987)
--- Dependencies: 272
+-- TOC entry 3065 (class 0 OID 292917)
+-- Dependencies: 286
 -- Data for Name: lstestparameter; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3135,8 +3677,8 @@ COPY lstestparameter (testparametercode, isadhocparameter, isvisible, masteraudi
 
 
 --
--- TOC entry 2964 (class 0 OID 225995)
--- Dependencies: 273
+-- TOC entry 3066 (class 0 OID 292925)
+-- Dependencies: 287
 -- Data for Name: lstransactionstatus; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3145,8 +3687,8 @@ COPY lstransactionstatus (transcode, status, transdisplaystatus, transstatus) FR
 
 
 --
--- TOC entry 2965 (class 0 OID 226000)
--- Dependencies: 274
+-- TOC entry 3067 (class 0 OID 292930)
+-- Dependencies: 288
 -- Data for Name: lsunit; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3155,8 +3697,8 @@ COPY lsunit (unitcode, defaultstatus, masterauditcode, sitecode, status, descrip
 
 
 --
--- TOC entry 2966 (class 0 OID 226008)
--- Dependencies: 275
+-- TOC entry 3068 (class 0 OID 292938)
+-- Dependencies: 289
 -- Data for Name: lsunmappedtags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3165,8 +3707,8 @@ COPY lsunmappedtags (tagcode, nonhierarchystatus, tagid, tagname, templatecode) 
 
 
 --
--- TOC entry 2968 (class 0 OID 226015)
--- Dependencies: 277
+-- TOC entry 3070 (class 0 OID 292945)
+-- Dependencies: 291
 -- Data for Name: lsunmappedtemplate; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3175,8 +3717,8 @@ COPY lsunmappedtemplate (templatecode, templatename) FROM stdin;
 
 
 --
--- TOC entry 2970 (class 0 OID 226023)
--- Dependencies: 279
+-- TOC entry 3072 (class 0 OID 292953)
+-- Dependencies: 293
 -- Data for Name: lsuseractions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3185,19 +3727,19 @@ COPY lsuseractions (useractioncode, assignedordershowall, assignedordershowcompl
 
 
 --
--- TOC entry 2971 (class 0 OID 226029)
--- Dependencies: 280
+-- TOC entry 3074 (class 0 OID 292961)
+-- Dependencies: 295
 -- Data for Name: lsusergroup; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY lsusergroup (usergroupcode, createdby, createdon, lssitemaster_sitecode, modifieduser, modifiedusername, modifiedby, modifiedon, usergroupname, usergroupstatus, createby_usercode) FROM stdin;
-1	administrator                                     	2021-02-11 12:05:29.027604	1	\N	\N	administrator                                     	2021-02-11 12:05:29.027604	Administrator	A                                                 	\N
+1	administrator                                     	2021-03-10 18:57:16.484788	1	\N	\N	administrator                                     	2021-03-10 18:57:16.484788	Administrator	A                                                 	\N
 \.
 
 
 --
--- TOC entry 2972 (class 0 OID 226037)
--- Dependencies: 281
+-- TOC entry 3076 (class 0 OID 292972)
+-- Dependencies: 297
 -- Data for Name: lsusergrouprights; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3242,15 +3784,15 @@ COPY lsusergrouprights (orderno, createdby, createdon, displaytopic, modifiedby,
 38	administrator       	2020-02-21 00:00:00	Create Archive	\N	\N	AuditTrail History	1         	NA        	NA        	NA        	1	1
 39	administrator       	2020-02-21 00:00:00	Open Archive	\N	\N	AuditTrail History	1         	NA        	NA        	NA        	1	1
 40	administrator       	2020-02-21 00:00:00	Export	\N	\N	AuditTrail History	1         	NA        	NA        	NA        	1	1
-42	administrator       	2020-02-21 00:00:00	Reports	\N	\N	Reports	1         	1         	NA        	NA        	1	1
-43	administrator       	2020-02-21 00:00:00	Generate Reports	\N	\N	Reports	1         	1         	NA        	NA        	1	1
-44	administrator       	2020-02-21 00:00:00	Template Designing	\N	\N	Reports	1         	1         	NA        	NA        	1	1
+41	administrator       	2020-02-21 00:00:00	Reports	\N	\N	Reports	1         	1         	NA        	NA        	1	1
+42	administrator       	2020-02-21 00:00:00	Generate Reports	\N	\N	Reports	1         	1         	NA        	NA        	1	1
+43	administrator       	2020-02-21 00:00:00	Template Designing	\N	\N	Reports	1         	1         	NA        	NA        	1	1
 \.
 
 
 --
--- TOC entry 2973 (class 0 OID 226042)
--- Dependencies: 282
+-- TOC entry 3077 (class 0 OID 292978)
+-- Dependencies: 298
 -- Data for Name: lsusergrouprightsmaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3302,19 +3844,19 @@ COPY lsusergrouprightsmaster (orderno, displaytopic, modulename, sallow, screate
 
 
 --
--- TOC entry 2974 (class 0 OID 226047)
--- Dependencies: 283
+-- TOC entry 3079 (class 0 OID 292985)
+-- Dependencies: 300
 -- Data for Name: lsusermaster; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY lsusermaster (usercode, createdby, createddate, emailid, labsheet, lastloggedon, lockcount, modifieduser, modifiedby, modifieddate, password, passwordexpirydate, profileimage, profileimagename, userfullname, username, userstatus, verificationcode, lssitemaster_sitecode, lsuseractions_useractioncode, lsusergroup_usergroupcode) FROM stdin;
-1	\N	2020-01-21 00:00:00	\N	0	2020-03-18 00:00:00	0	\N	\N	\N	gyX57EHs08KuakyVhFVvGQ==	\N	\N	\N	Administrator	Administrator	A	\N	1	\N	1
+COPY lsusermaster (usercode, createdby, createddate, emailid, labsheet, lastloggedon, lockcount, loginfrom, modifieduser, modifiedby, modifieddate, password, passwordexpirydate, profileimage, profileimagename, userfullname, username, userstatus, verificationcode, lssitemaster_sitecode, lsuseractions_useractioncode, lsusergroup_usergroupcode) FROM stdin;
+1	\N	2020-01-21 00:00:00	\N	0	2020-03-18 00:00:00	0	0	\N	\N	\N	\N	\N	\N	\N	Administrator	Administrator	A	\N	1	\N	1
 \.
 
 
 --
--- TOC entry 2975 (class 0 OID 226055)
--- Dependencies: 284
+-- TOC entry 3080 (class 0 OID 292994)
+-- Dependencies: 301
 -- Data for Name: lsusersteam; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3323,8 +3865,8 @@ COPY lsusersteam (teamcode, createdate, modifieddate, status, teamname, createby
 
 
 --
--- TOC entry 2976 (class 0 OID 226060)
--- Dependencies: 285
+-- TOC entry 3081 (class 0 OID 292999)
+-- Dependencies: 302
 -- Data for Name: lsuserteammapping; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3333,8 +3875,8 @@ COPY lsuserteammapping (userteammapcode, teamcode, lsusermaster_usercode) FROM s
 
 
 --
--- TOC entry 2977 (class 0 OID 226065)
--- Dependencies: 286
+-- TOC entry 3083 (class 0 OID 293006)
+-- Dependencies: 304
 -- Data for Name: lsworkflow; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3344,8 +3886,8 @@ COPY lsworkflow (workflowcode, workflowname, lssitemaster_sitecode) FROM stdin;
 
 
 --
--- TOC entry 2978 (class 0 OID 226070)
--- Dependencies: 287
+-- TOC entry 3084 (class 0 OID 293012)
+-- Dependencies: 305
 -- Data for Name: lsworkflowgroupmapping; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3354,8 +3896,8 @@ COPY lsworkflowgroupmapping (workflowmapid, workflowcode, lsusergroup_usergroupc
 
 
 --
--- TOC entry 2979 (class 0 OID 226075)
--- Dependencies: 288
+-- TOC entry 3085 (class 0 OID 293017)
+-- Dependencies: 306
 -- Data for Name: resultfieldvalues; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3364,8 +3906,8 @@ COPY resultfieldvalues (resultdetid, resseqno, fieldname, fieldvalue) FROM stdin
 
 
 --
--- TOC entry 2980 (class 0 OID 226083)
--- Dependencies: 289
+-- TOC entry 3086 (class 0 OID 293025)
+-- Dependencies: 307
 -- Data for Name: t06instruments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3374,8 +3916,8 @@ COPY t06instruments (t06_strinstid, t06_bytecaliber, t06_byte_clientbound, t06_b
 
 
 --
--- TOC entry 2981 (class 0 OID 226088)
--- Dependencies: 290
+-- TOC entry 3087 (class 0 OID 293030)
+-- Dependencies: 308
 -- Data for Name: t23fields; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -3384,7 +3926,7 @@ COPY t23fields (t23_strfieldkey, t23_bytealign, t23_bytecoltype, t23_bytedeletab
 
 
 --
--- TOC entry 2991 (class 0 OID 0)
+-- TOC entry 3108 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -3393,8 +3935,71 @@ SELECT pg_catalog.setval('hibernate_sequence', 1, false);
 
 
 --
--- TOC entry 2992 (class 0 OID 0)
--- Dependencies: 276
+-- TOC entry 3109 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: lscfrreasons_reasoncode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lscfrreasons_reasoncode_seq', 2, true);
+
+
+--
+-- TOC entry 3110 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: lsdomainmaster_domaincode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsdomainmaster_domaincode_seq', 1, true);
+
+
+--
+-- TOC entry 3111 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: lsfile_filecode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsfile_filecode_seq', 1, true);
+
+
+--
+-- TOC entry 3112 (class 0 OID 0)
+-- Dependencies: 262
+-- Name: lsrepositories_repositorycode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsrepositories_repositorycode_seq', 1, false);
+
+
+--
+-- TOC entry 3113 (class 0 OID 0)
+-- Dependencies: 264
+-- Name: lsrepositoriesdata_repositorydatacode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsrepositoriesdata_repositorydatacode_seq', 1, false);
+
+
+--
+-- TOC entry 3114 (class 0 OID 0)
+-- Dependencies: 277
+-- Name: lssheetworkflow_workflowcode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lssheetworkflow_workflowcode_seq', 1, true);
+
+
+--
+-- TOC entry 3115 (class 0 OID 0)
+-- Dependencies: 281
+-- Name: lssitemaster_sitecode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lssitemaster_sitecode_seq', 1, true);
+
+
+--
+-- TOC entry 3116 (class 0 OID 0)
+-- Dependencies: 290
 -- Name: lsunmappedtemplate_templatecode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3402,8 +4007,8 @@ SELECT pg_catalog.setval('lsunmappedtemplate_templatecode_seq', 1, false);
 
 
 --
--- TOC entry 2993 (class 0 OID 0)
--- Dependencies: 278
+-- TOC entry 3117 (class 0 OID 0)
+-- Dependencies: 292
 -- Name: lsuseractions_useractioncode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3411,7 +4016,43 @@ SELECT pg_catalog.setval('lsuseractions_useractioncode_seq', 1, false);
 
 
 --
--- TOC entry 2994 (class 0 OID 0)
+-- TOC entry 3118 (class 0 OID 0)
+-- Dependencies: 294
+-- Name: lsusergroup_usergroupcode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsusergroup_usergroupcode_seq', 1, true);
+
+
+--
+-- TOC entry 3119 (class 0 OID 0)
+-- Dependencies: 296
+-- Name: lsusergrouprights_orderno_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsusergrouprights_orderno_seq', 43, true);
+
+
+--
+-- TOC entry 3120 (class 0 OID 0)
+-- Dependencies: 299
+-- Name: lsusermaster_usercode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsusermaster_usercode_seq', 1, true);
+
+
+--
+-- TOC entry 3121 (class 0 OID 0)
+-- Dependencies: 303
+-- Name: lsworkflow_workflowcode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('lsworkflow_workflowcode_seq', 1, true);
+
+
+--
+-- TOC entry 3122 (class 0 OID 0)
 -- Dependencies: 186
 -- Name: orderdetail; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -3420,7 +4061,16 @@ SELECT pg_catalog.setval('orderdetail', 1000000, false);
 
 
 --
--- TOC entry 2461 (class 2606 OID 225445)
+-- TOC entry 2527 (class 2606 OID 292304)
+-- Name: email email_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY email
+    ADD CONSTRAINT email_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2529 (class 2606 OID 292312)
 -- Name: l11instrumentmaster l11instrumentmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3429,7 +4079,7 @@ ALTER TABLE ONLY l11instrumentmaster
 
 
 --
--- TOC entry 2463 (class 2606 OID 225453)
+-- TOC entry 2531 (class 2606 OID 292320)
 -- Name: llresultdetails llresultdetails_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3438,7 +4088,7 @@ ALTER TABLE ONLY llresultdetails
 
 
 --
--- TOC entry 2467 (class 2606 OID 225464)
+-- TOC entry 2535 (class 2606 OID 292331)
 -- Name: logilablimsorder logilablimsorder_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3447,7 +4097,7 @@ ALTER TABLE ONLY logilablimsorder
 
 
 --
--- TOC entry 2469 (class 2606 OID 225469)
+-- TOC entry 2537 (class 2606 OID 292336)
 -- Name: lsactiveuser lsactiveuser_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3456,7 +4106,7 @@ ALTER TABLE ONLY lsactiveuser
 
 
 --
--- TOC entry 2471 (class 2606 OID 225474)
+-- TOC entry 2539 (class 2606 OID 292341)
 -- Name: lsactivity lsactivity_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3465,7 +4115,7 @@ ALTER TABLE ONLY lsactivity
 
 
 --
--- TOC entry 2473 (class 2606 OID 225482)
+-- TOC entry 2541 (class 2606 OID 292349)
 -- Name: lsaudittrailconfigmaster lsaudittrailconfigmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3474,7 +4124,7 @@ ALTER TABLE ONLY lsaudittrailconfigmaster
 
 
 --
--- TOC entry 2475 (class 2606 OID 225490)
+-- TOC entry 2543 (class 2606 OID 292357)
 -- Name: lsaudittrailconfiguration lsaudittrailconfiguration_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3483,7 +4133,7 @@ ALTER TABLE ONLY lsaudittrailconfiguration
 
 
 --
--- TOC entry 2477 (class 2606 OID 225495)
+-- TOC entry 2545 (class 2606 OID 292362)
 -- Name: lsbatchdetails lsbatchdetails_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3492,7 +4142,7 @@ ALTER TABLE ONLY lsbatchdetails
 
 
 --
--- TOC entry 2479 (class 2606 OID 225500)
+-- TOC entry 2547 (class 2606 OID 292370)
 -- Name: lscfrreasons lscfrreasons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3501,7 +4151,7 @@ ALTER TABLE ONLY lscfrreasons
 
 
 --
--- TOC entry 2481 (class 2606 OID 225505)
+-- TOC entry 2549 (class 2606 OID 292375)
 -- Name: lscfrsettings lscfrsettings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3510,7 +4160,7 @@ ALTER TABLE ONLY lscfrsettings
 
 
 --
--- TOC entry 2483 (class 2606 OID 225513)
+-- TOC entry 2551 (class 2606 OID 292383)
 -- Name: lscfttransaction lscfttransaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3519,7 +4169,7 @@ ALTER TABLE ONLY lscfttransaction
 
 
 --
--- TOC entry 2485 (class 2606 OID 225521)
+-- TOC entry 2553 (class 2606 OID 292391)
 -- Name: lsconfiguration lsconfiguration_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3528,7 +4178,7 @@ ALTER TABLE ONLY lsconfiguration
 
 
 --
--- TOC entry 2487 (class 2606 OID 225529)
+-- TOC entry 2555 (class 2606 OID 292399)
 -- Name: lscontrol lscontrol_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3537,7 +4187,7 @@ ALTER TABLE ONLY lscontrol
 
 
 --
--- TOC entry 2489 (class 2606 OID 225534)
+-- TOC entry 2557 (class 2606 OID 292404)
 -- Name: lsdocdirectory lsdocdirectory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3546,7 +4196,7 @@ ALTER TABLE ONLY lsdocdirectory
 
 
 --
--- TOC entry 2491 (class 2606 OID 225539)
+-- TOC entry 2559 (class 2606 OID 292409)
 -- Name: lsdocmanager lsdocmanager_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3555,7 +4205,7 @@ ALTER TABLE ONLY lsdocmanager
 
 
 --
--- TOC entry 2493 (class 2606 OID 225547)
+-- TOC entry 2561 (class 2606 OID 292417)
 -- Name: lsdocreports lsdocreports_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3564,7 +4214,7 @@ ALTER TABLE ONLY lsdocreports
 
 
 --
--- TOC entry 2495 (class 2606 OID 225552)
+-- TOC entry 2563 (class 2606 OID 292422)
 -- Name: lsdocreportsversionhistory lsdocreportsversionhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3573,7 +4223,7 @@ ALTER TABLE ONLY lsdocreportsversionhistory
 
 
 --
--- TOC entry 2497 (class 2606 OID 225560)
+-- TOC entry 2565 (class 2606 OID 292433)
 -- Name: lsdomainmaster lsdomainmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3582,7 +4232,7 @@ ALTER TABLE ONLY lsdomainmaster
 
 
 --
--- TOC entry 2499 (class 2606 OID 225565)
+-- TOC entry 2567 (class 2606 OID 292438)
 -- Name: lselninstfieldmapping lselninstfieldmapping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3591,7 +4241,7 @@ ALTER TABLE ONLY lselninstfieldmapping
 
 
 --
--- TOC entry 2501 (class 2606 OID 225573)
+-- TOC entry 2569 (class 2606 OID 292446)
 -- Name: lselninstrumentfields lselninstrumentfields_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3600,7 +4250,7 @@ ALTER TABLE ONLY lselninstrumentfields
 
 
 --
--- TOC entry 2503 (class 2606 OID 225578)
+-- TOC entry 2571 (class 2606 OID 292451)
 -- Name: lselninstrumentmapping lselninstrumentmapping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3609,7 +4259,7 @@ ALTER TABLE ONLY lselninstrumentmapping
 
 
 --
--- TOC entry 2505 (class 2606 OID 225583)
+-- TOC entry 2573 (class 2606 OID 292456)
 -- Name: lselninstrumentmaster lselninstrumentmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3618,7 +4268,7 @@ ALTER TABLE ONLY lselninstrumentmaster
 
 
 --
--- TOC entry 2507 (class 2606 OID 225588)
+-- TOC entry 2575 (class 2606 OID 292461)
 -- Name: lsequipmentmap lsequipmentmap_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3627,7 +4277,7 @@ ALTER TABLE ONLY lsequipmentmap
 
 
 --
--- TOC entry 2509 (class 2606 OID 225593)
+-- TOC entry 2577 (class 2606 OID 292466)
 -- Name: lsfeature lsfeature_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3636,7 +4286,7 @@ ALTER TABLE ONLY lsfeature
 
 
 --
--- TOC entry 2511 (class 2606 OID 225601)
+-- TOC entry 2579 (class 2606 OID 292474)
 -- Name: lsfields lsfields_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3645,7 +4295,7 @@ ALTER TABLE ONLY lsfields
 
 
 --
--- TOC entry 2513 (class 2606 OID 225609)
+-- TOC entry 2581 (class 2606 OID 292485)
 -- Name: lsfile lsfile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3654,7 +4304,7 @@ ALTER TABLE ONLY lsfile
 
 
 --
--- TOC entry 2515 (class 2606 OID 225614)
+-- TOC entry 2583 (class 2606 OID 292490)
 -- Name: lsfilemethod lsfilemethod_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3663,7 +4313,7 @@ ALTER TABLE ONLY lsfilemethod
 
 
 --
--- TOC entry 2517 (class 2606 OID 225622)
+-- TOC entry 2585 (class 2606 OID 292498)
 -- Name: lsfileparameter lsfileparameter_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3672,7 +4322,7 @@ ALTER TABLE ONLY lsfileparameter
 
 
 --
--- TOC entry 2519 (class 2606 OID 225627)
+-- TOC entry 2587 (class 2606 OID 292503)
 -- Name: lsfileparametermapping lsfileparametermapping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3681,7 +4331,7 @@ ALTER TABLE ONLY lsfileparametermapping
 
 
 --
--- TOC entry 2521 (class 2606 OID 225632)
+-- TOC entry 2589 (class 2606 OID 292508)
 -- Name: lsfiletest lsfiletest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3690,7 +4340,7 @@ ALTER TABLE ONLY lsfiletest
 
 
 --
--- TOC entry 2523 (class 2606 OID 225640)
+-- TOC entry 2591 (class 2606 OID 292516)
 -- Name: lsfileversion lsfileversion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3699,7 +4349,7 @@ ALTER TABLE ONLY lsfileversion
 
 
 --
--- TOC entry 2525 (class 2606 OID 225648)
+-- TOC entry 2593 (class 2606 OID 292524)
 -- Name: lsinstrument lsinstrument_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3708,7 +4358,7 @@ ALTER TABLE ONLY lsinstrument
 
 
 --
--- TOC entry 2527 (class 2606 OID 225656)
+-- TOC entry 2595 (class 2606 OID 292532)
 -- Name: lsinstrumentcategory lsinstrumentcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3717,7 +4367,7 @@ ALTER TABLE ONLY lsinstrumentcategory
 
 
 --
--- TOC entry 2529 (class 2606 OID 225661)
+-- TOC entry 2597 (class 2606 OID 292537)
 -- Name: lsinstrumentsection lsinstrumentsection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3726,7 +4376,7 @@ ALTER TABLE ONLY lsinstrumentsection
 
 
 --
--- TOC entry 2531 (class 2606 OID 225669)
+-- TOC entry 2599 (class 2606 OID 292545)
 -- Name: lsinstrumenttype lsinstrumenttype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3735,7 +4385,7 @@ ALTER TABLE ONLY lsinstrumenttype
 
 
 --
--- TOC entry 2533 (class 2606 OID 225674)
+-- TOC entry 2601 (class 2606 OID 292550)
 -- Name: lsintrumentresultmap lsintrumentresultmap_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3744,7 +4394,7 @@ ALTER TABLE ONLY lsintrumentresultmap
 
 
 --
--- TOC entry 2535 (class 2606 OID 225682)
+-- TOC entry 2603 (class 2606 OID 292558)
 -- Name: lslogilablimsorderdetail lslogilablimsorderdetail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3753,7 +4403,16 @@ ALTER TABLE ONLY lslogilablimsorderdetail
 
 
 --
--- TOC entry 2537 (class 2606 OID 225687)
+-- TOC entry 2605 (class 2606 OID 292563)
+-- Name: lslogilabprotocoldetail lslogilabprotocoldetail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lslogilabprotocoldetail
+    ADD CONSTRAINT lslogilabprotocoldetail_pkey PRIMARY KEY (protocolcode);
+
+
+--
+-- TOC entry 2607 (class 2606 OID 292568)
 -- Name: lsmanufacturer lsmanufacturer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3762,7 +4421,7 @@ ALTER TABLE ONLY lsmanufacturer
 
 
 --
--- TOC entry 2539 (class 2606 OID 225692)
+-- TOC entry 2609 (class 2606 OID 292573)
 -- Name: lsmappedtags lsmappedtags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3771,7 +4430,7 @@ ALTER TABLE ONLY lsmappedtags
 
 
 --
--- TOC entry 2541 (class 2606 OID 225697)
+-- TOC entry 2611 (class 2606 OID 292578)
 -- Name: lsmappedtemplate lsmappedtemplate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3780,7 +4439,7 @@ ALTER TABLE ONLY lsmappedtemplate
 
 
 --
--- TOC entry 2543 (class 2606 OID 225705)
+-- TOC entry 2613 (class 2606 OID 292586)
 -- Name: lsmaterial lsmaterial_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3789,7 +4448,7 @@ ALTER TABLE ONLY lsmaterial
 
 
 --
--- TOC entry 2545 (class 2606 OID 225710)
+-- TOC entry 2615 (class 2606 OID 292591)
 -- Name: lsmaterialcategory lsmaterialcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3798,7 +4457,7 @@ ALTER TABLE ONLY lsmaterialcategory
 
 
 --
--- TOC entry 2547 (class 2606 OID 225718)
+-- TOC entry 2617 (class 2606 OID 292599)
 -- Name: lsmaterialgrade lsmaterialgrade_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3807,7 +4466,7 @@ ALTER TABLE ONLY lsmaterialgrade
 
 
 --
--- TOC entry 2549 (class 2606 OID 225726)
+-- TOC entry 2619 (class 2606 OID 292607)
 -- Name: lsmaterialinventory lsmaterialinventory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3816,7 +4475,7 @@ ALTER TABLE ONLY lsmaterialinventory
 
 
 --
--- TOC entry 2551 (class 2606 OID 225734)
+-- TOC entry 2621 (class 2606 OID 292615)
 -- Name: lsmaterialinventorytransaction lsmaterialinventorytransaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3825,7 +4484,7 @@ ALTER TABLE ONLY lsmaterialinventorytransaction
 
 
 --
--- TOC entry 2553 (class 2606 OID 225739)
+-- TOC entry 2623 (class 2606 OID 292620)
 -- Name: lsmaterialmap lsmaterialmap_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3834,7 +4493,7 @@ ALTER TABLE ONLY lsmaterialmap
 
 
 --
--- TOC entry 2555 (class 2606 OID 225744)
+-- TOC entry 2625 (class 2606 OID 292625)
 -- Name: lsmaterialsection lsmaterialsection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3843,7 +4502,7 @@ ALTER TABLE ONLY lsmaterialsection
 
 
 --
--- TOC entry 2557 (class 2606 OID 225749)
+-- TOC entry 2627 (class 2606 OID 292630)
 -- Name: lsmaterialtype lsmaterialtype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3852,7 +4511,7 @@ ALTER TABLE ONLY lsmaterialtype
 
 
 --
--- TOC entry 2559 (class 2606 OID 225754)
+-- TOC entry 2629 (class 2606 OID 292635)
 -- Name: lsmultidocument lsmultidocument_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3861,7 +4520,7 @@ ALTER TABLE ONLY lsmultidocument
 
 
 --
--- TOC entry 2561 (class 2606 OID 225762)
+-- TOC entry 2631 (class 2606 OID 292643)
 -- Name: lsmultisteps lsmultisteps_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3870,7 +4529,7 @@ ALTER TABLE ONLY lsmultisteps
 
 
 --
--- TOC entry 2563 (class 2606 OID 225770)
+-- TOC entry 2633 (class 2606 OID 292651)
 -- Name: lsnotification lsnotification_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3879,7 +4538,7 @@ ALTER TABLE ONLY lsnotification
 
 
 --
--- TOC entry 2565 (class 2606 OID 225778)
+-- TOC entry 2635 (class 2606 OID 292659)
 -- Name: lsorderattachmentfiles lsorderattachmentfiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3888,7 +4547,7 @@ ALTER TABLE ONLY lsorderattachmentfiles
 
 
 --
--- TOC entry 2567 (class 2606 OID 225783)
+-- TOC entry 2637 (class 2606 OID 292667)
 -- Name: lsorderattachments lsorderattachments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3897,7 +4556,7 @@ ALTER TABLE ONLY lsorderattachments
 
 
 --
--- TOC entry 2569 (class 2606 OID 225791)
+-- TOC entry 2639 (class 2606 OID 292675)
 -- Name: lsordercreationfiles lsordercreationfiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3906,7 +4565,7 @@ ALTER TABLE ONLY lsordercreationfiles
 
 
 --
--- TOC entry 2571 (class 2606 OID 225799)
+-- TOC entry 2641 (class 2606 OID 292683)
 -- Name: lsorderversionfiles lsorderversionfiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3915,7 +4574,7 @@ ALTER TABLE ONLY lsorderversionfiles
 
 
 --
--- TOC entry 2573 (class 2606 OID 225807)
+-- TOC entry 2643 (class 2606 OID 292691)
 -- Name: lsorderworkflowhistory lsorderworkflowhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3924,7 +4583,7 @@ ALTER TABLE ONLY lsorderworkflowhistory
 
 
 --
--- TOC entry 2575 (class 2606 OID 225812)
+-- TOC entry 2645 (class 2606 OID 292696)
 -- Name: lsorderworkflowtransaction lsorderworkflowtransaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3933,7 +4592,7 @@ ALTER TABLE ONLY lsorderworkflowtransaction
 
 
 --
--- TOC entry 2577 (class 2606 OID 225820)
+-- TOC entry 2647 (class 2606 OID 292704)
 -- Name: lsparsedparameters lsparsedparameters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3942,7 +4601,7 @@ ALTER TABLE ONLY lsparsedparameters
 
 
 --
--- TOC entry 2579 (class 2606 OID 225828)
+-- TOC entry 2649 (class 2606 OID 292712)
 -- Name: lspasswordhistory lspasswordhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3951,7 +4610,7 @@ ALTER TABLE ONLY lspasswordhistory
 
 
 --
--- TOC entry 2581 (class 2606 OID 225833)
+-- TOC entry 2651 (class 2606 OID 292717)
 -- Name: lspasswordhistorydetails lspasswordhistorydetails_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3960,7 +4619,7 @@ ALTER TABLE ONLY lspasswordhistorydetails
 
 
 --
--- TOC entry 2583 (class 2606 OID 225838)
+-- TOC entry 2653 (class 2606 OID 292722)
 -- Name: lspasswordpolicy lspasswordpolicy_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3969,7 +4628,7 @@ ALTER TABLE ONLY lspasswordpolicy
 
 
 --
--- TOC entry 2585 (class 2606 OID 225843)
+-- TOC entry 2655 (class 2606 OID 292727)
 -- Name: lspreferences lspreferences_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3978,7 +4637,7 @@ ALTER TABLE ONLY lspreferences
 
 
 --
--- TOC entry 2587 (class 2606 OID 225851)
+-- TOC entry 2657 (class 2606 OID 292735)
 -- Name: lsprofilepicture lsprofilepicture_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3987,7 +4646,7 @@ ALTER TABLE ONLY lsprofilepicture
 
 
 --
--- TOC entry 2589 (class 2606 OID 225856)
+-- TOC entry 2659 (class 2606 OID 292740)
 -- Name: lsprojectmaster lsprojectmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3996,7 +4655,7 @@ ALTER TABLE ONLY lsprojectmaster
 
 
 --
--- TOC entry 2591 (class 2606 OID 225861)
+-- TOC entry 2661 (class 2606 OID 292745)
 -- Name: lsprotocolmaster lsprotocolmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4005,7 +4664,7 @@ ALTER TABLE ONLY lsprotocolmaster
 
 
 --
--- TOC entry 2593 (class 2606 OID 225869)
+-- TOC entry 2663 (class 2606 OID 292753)
 -- Name: lsprotocolstep lsprotocolstep_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4014,7 +4673,52 @@ ALTER TABLE ONLY lsprotocolstep
 
 
 --
--- TOC entry 2595 (class 2606 OID 225874)
+-- TOC entry 2665 (class 2606 OID 292761)
+-- Name: lsprotocolstepinfocloud lsprotocolstepinfocloud_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsprotocolstepinfocloud
+    ADD CONSTRAINT lsprotocolstepinfocloud_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2667 (class 2606 OID 292766)
+-- Name: lsprotocolworkflow lsprotocolworkflow_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsprotocolworkflow
+    ADD CONSTRAINT lsprotocolworkflow_pkey PRIMARY KEY (workflowcode);
+
+
+--
+-- TOC entry 2669 (class 2606 OID 292771)
+-- Name: lsprotocolworkflowgroupmap lsprotocolworkflowgroupmap_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsprotocolworkflowgroupmap
+    ADD CONSTRAINT lsprotocolworkflowgroupmap_pkey PRIMARY KEY (workflowmapid);
+
+
+--
+-- TOC entry 2671 (class 2606 OID 292782)
+-- Name: lsrepositories lsrepositories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsrepositories
+    ADD CONSTRAINT lsrepositories_pkey PRIMARY KEY (repositorycode);
+
+
+--
+-- TOC entry 2673 (class 2606 OID 292793)
+-- Name: lsrepositoriesdata lsrepositoriesdata_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsrepositoriesdata
+    ADD CONSTRAINT lsrepositoriesdata_pkey PRIMARY KEY (repositorydatacode);
+
+
+--
+-- TOC entry 2675 (class 2606 OID 292798)
 -- Name: lsreviewdetails lsreviewdetails_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4023,7 +4727,7 @@ ALTER TABLE ONLY lsreviewdetails
 
 
 --
--- TOC entry 2597 (class 2606 OID 225882)
+-- TOC entry 2677 (class 2606 OID 292806)
 -- Name: lssamplefile lssamplefile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4032,7 +4736,7 @@ ALTER TABLE ONLY lssamplefile
 
 
 --
--- TOC entry 2599 (class 2606 OID 225890)
+-- TOC entry 2679 (class 2606 OID 292814)
 -- Name: lssamplefileversion lssamplefileversion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4041,7 +4745,7 @@ ALTER TABLE ONLY lssamplefileversion
 
 
 --
--- TOC entry 2601 (class 2606 OID 225895)
+-- TOC entry 2681 (class 2606 OID 292819)
 -- Name: lssamplemaster lssamplemaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4050,7 +4754,7 @@ ALTER TABLE ONLY lssamplemaster
 
 
 --
--- TOC entry 2603 (class 2606 OID 225900)
+-- TOC entry 2683 (class 2606 OID 292824)
 -- Name: lssampleresult lssampleresult_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4059,7 +4763,7 @@ ALTER TABLE ONLY lssampleresult
 
 
 --
--- TOC entry 2605 (class 2606 OID 225905)
+-- TOC entry 2685 (class 2606 OID 292829)
 -- Name: lssection lssection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4068,7 +4772,7 @@ ALTER TABLE ONLY lssection
 
 
 --
--- TOC entry 2607 (class 2606 OID 225910)
+-- TOC entry 2687 (class 2606 OID 292834)
 -- Name: lssequencenogenerator lssequencenogenerator_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4077,7 +4781,7 @@ ALTER TABLE ONLY lssequencenogenerator
 
 
 --
--- TOC entry 2609 (class 2606 OID 225918)
+-- TOC entry 2689 (class 2606 OID 292842)
 -- Name: lssettings lssettings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4086,7 +4790,7 @@ ALTER TABLE ONLY lssettings
 
 
 --
--- TOC entry 2611 (class 2606 OID 225926)
+-- TOC entry 2691 (class 2606 OID 292850)
 -- Name: lssheetcreationfiles lssheetcreationfiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4095,7 +4799,7 @@ ALTER TABLE ONLY lssheetcreationfiles
 
 
 --
--- TOC entry 2613 (class 2606 OID 225934)
+-- TOC entry 2693 (class 2606 OID 292858)
 -- Name: lssheetupdates lssheetupdates_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4104,7 +4808,7 @@ ALTER TABLE ONLY lssheetupdates
 
 
 --
--- TOC entry 2615 (class 2606 OID 225942)
+-- TOC entry 2695 (class 2606 OID 292866)
 -- Name: lssheetversionfiles lssheetversionfiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4113,7 +4817,7 @@ ALTER TABLE ONLY lssheetversionfiles
 
 
 --
--- TOC entry 2617 (class 2606 OID 225947)
+-- TOC entry 2697 (class 2606 OID 292874)
 -- Name: lssheetworkflow lssheetworkflow_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4122,7 +4826,7 @@ ALTER TABLE ONLY lssheetworkflow
 
 
 --
--- TOC entry 2619 (class 2606 OID 225952)
+-- TOC entry 2699 (class 2606 OID 292879)
 -- Name: lssheetworkflowgroupmap lssheetworkflowgroupmap_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4131,7 +4835,7 @@ ALTER TABLE ONLY lssheetworkflowgroupmap
 
 
 --
--- TOC entry 2621 (class 2606 OID 225960)
+-- TOC entry 2701 (class 2606 OID 292887)
 -- Name: lssheetworkflowhistory lssheetworkflowhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4140,7 +4844,7 @@ ALTER TABLE ONLY lssheetworkflowhistory
 
 
 --
--- TOC entry 2623 (class 2606 OID 225968)
+-- TOC entry 2703 (class 2606 OID 292898)
 -- Name: lssitemaster lssitemaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4149,7 +4853,7 @@ ALTER TABLE ONLY lssitemaster
 
 
 --
--- TOC entry 2625 (class 2606 OID 225973)
+-- TOC entry 2705 (class 2606 OID 292903)
 -- Name: lstestmapping lstestmapping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4158,7 +4862,7 @@ ALTER TABLE ONLY lstestmapping
 
 
 --
--- TOC entry 2627 (class 2606 OID 225981)
+-- TOC entry 2707 (class 2606 OID 292911)
 -- Name: lstestmaster lstestmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4167,7 +4871,7 @@ ALTER TABLE ONLY lstestmaster
 
 
 --
--- TOC entry 2629 (class 2606 OID 225986)
+-- TOC entry 2709 (class 2606 OID 292916)
 -- Name: lstestmasterlocal lstestmasterlocal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4176,7 +4880,7 @@ ALTER TABLE ONLY lstestmasterlocal
 
 
 --
--- TOC entry 2631 (class 2606 OID 225994)
+-- TOC entry 2711 (class 2606 OID 292924)
 -- Name: lstestparameter lstestparameter_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4185,7 +4889,7 @@ ALTER TABLE ONLY lstestparameter
 
 
 --
--- TOC entry 2633 (class 2606 OID 225999)
+-- TOC entry 2713 (class 2606 OID 292929)
 -- Name: lstransactionstatus lstransactionstatus_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4194,7 +4898,7 @@ ALTER TABLE ONLY lstransactionstatus
 
 
 --
--- TOC entry 2635 (class 2606 OID 226007)
+-- TOC entry 2715 (class 2606 OID 292937)
 -- Name: lsunit lsunit_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4203,7 +4907,7 @@ ALTER TABLE ONLY lsunit
 
 
 --
--- TOC entry 2637 (class 2606 OID 226012)
+-- TOC entry 2717 (class 2606 OID 292942)
 -- Name: lsunmappedtags lsunmappedtags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4212,7 +4916,7 @@ ALTER TABLE ONLY lsunmappedtags
 
 
 --
--- TOC entry 2639 (class 2606 OID 226020)
+-- TOC entry 2719 (class 2606 OID 292950)
 -- Name: lsunmappedtemplate lsunmappedtemplate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4221,7 +4925,7 @@ ALTER TABLE ONLY lsunmappedtemplate
 
 
 --
--- TOC entry 2641 (class 2606 OID 226028)
+-- TOC entry 2721 (class 2606 OID 292958)
 -- Name: lsuseractions lsuseractions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4230,7 +4934,7 @@ ALTER TABLE ONLY lsuseractions
 
 
 --
--- TOC entry 2643 (class 2606 OID 226036)
+-- TOC entry 2723 (class 2606 OID 292969)
 -- Name: lsusergroup lsusergroup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4239,7 +4943,7 @@ ALTER TABLE ONLY lsusergroup
 
 
 --
--- TOC entry 2645 (class 2606 OID 226041)
+-- TOC entry 2725 (class 2606 OID 292977)
 -- Name: lsusergrouprights lsusergrouprights_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4248,7 +4952,7 @@ ALTER TABLE ONLY lsusergrouprights
 
 
 --
--- TOC entry 2647 (class 2606 OID 226046)
+-- TOC entry 2727 (class 2606 OID 292982)
 -- Name: lsusergrouprightsmaster lsusergrouprightsmaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4257,7 +4961,7 @@ ALTER TABLE ONLY lsusergrouprightsmaster
 
 
 --
--- TOC entry 2649 (class 2606 OID 226054)
+-- TOC entry 2729 (class 2606 OID 292993)
 -- Name: lsusermaster lsusermaster_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4266,7 +4970,7 @@ ALTER TABLE ONLY lsusermaster
 
 
 --
--- TOC entry 2651 (class 2606 OID 226059)
+-- TOC entry 2731 (class 2606 OID 292998)
 -- Name: lsusersteam lsusersteam_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4275,7 +4979,7 @@ ALTER TABLE ONLY lsusersteam
 
 
 --
--- TOC entry 2653 (class 2606 OID 226064)
+-- TOC entry 2733 (class 2606 OID 293003)
 -- Name: lsuserteammapping lsuserteammapping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4284,7 +4988,7 @@ ALTER TABLE ONLY lsuserteammapping
 
 
 --
--- TOC entry 2655 (class 2606 OID 226069)
+-- TOC entry 2735 (class 2606 OID 293011)
 -- Name: lsworkflow lsworkflow_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4293,7 +4997,7 @@ ALTER TABLE ONLY lsworkflow
 
 
 --
--- TOC entry 2657 (class 2606 OID 226074)
+-- TOC entry 2737 (class 2606 OID 293016)
 -- Name: lsworkflowgroupmapping lsworkflowgroupmapping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4302,7 +5006,7 @@ ALTER TABLE ONLY lsworkflowgroupmapping
 
 
 --
--- TOC entry 2659 (class 2606 OID 226082)
+-- TOC entry 2739 (class 2606 OID 293024)
 -- Name: resultfieldvalues resultfieldvalues_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4311,7 +5015,7 @@ ALTER TABLE ONLY resultfieldvalues
 
 
 --
--- TOC entry 2661 (class 2606 OID 226087)
+-- TOC entry 2741 (class 2606 OID 293029)
 -- Name: t06instruments t06instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4320,7 +5024,7 @@ ALTER TABLE ONLY t06instruments
 
 
 --
--- TOC entry 2663 (class 2606 OID 226092)
+-- TOC entry 2743 (class 2606 OID 293034)
 -- Name: t23fields t23fields_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4329,7 +5033,7 @@ ALTER TABLE ONLY t23fields
 
 
 --
--- TOC entry 2465 (class 2606 OID 226094)
+-- TOC entry 2533 (class 2606 OID 293036)
 -- Name: llresultdetails_resultfieldvalues uk_rdw0q80x9qbok7kep5i1dhegm; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4338,7 +5042,7 @@ ALTER TABLE ONLY llresultdetails_resultfieldvalues
 
 
 --
--- TOC entry 2758 (class 2606 OID 226565)
+-- TOC entry 2846 (class 2606 OID 293547)
 -- Name: lsworkflowgroupmapping fk163s1nh3pu2utbr9q8tgfh4gr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4347,7 +5051,7 @@ ALTER TABLE ONLY lsworkflowgroupmapping
 
 
 --
--- TOC entry 2712 (class 2606 OID 226335)
+-- TOC entry 2796 (class 2606 OID 293297)
 -- Name: lsorderworkflowhistory fk18tvvee4s1bblcx5muteq6t7i; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4356,7 +5060,7 @@ ALTER TABLE ONLY lsorderworkflowhistory
 
 
 --
--- TOC entry 2709 (class 2606 OID 226320)
+-- TOC entry 2793 (class 2606 OID 293282)
 -- Name: lsorderattachments fk19w7n13uus538gnb93fwj8y7p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4365,7 +5069,25 @@ ALTER TABLE ONLY lsorderattachments
 
 
 --
--- TOC entry 2674 (class 2606 OID 226145)
+-- TOC entry 2786 (class 2606 OID 293247)
+-- Name: lslogilabprotocoldetail fk1bheljufq3go0a7gahlju6hpd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lslogilabprotocoldetail
+    ADD CONSTRAINT fk1bheljufq3go0a7gahlju6hpd FOREIGN KEY (lsusermaster_usercode) REFERENCES lsusermaster(usercode);
+
+
+--
+-- TOC entry 2806 (class 2606 OID 293347)
+-- Name: lsprotocolworkflow fk1elvg2qcjqo98wd434d45guy8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsprotocolworkflow
+    ADD CONSTRAINT fk1elvg2qcjqo98wd434d45guy8 FOREIGN KEY (lssitemaster_sitecode) REFERENCES lssitemaster(sitecode);
+
+
+--
+-- TOC entry 2754 (class 2606 OID 293087)
 -- Name: lsdomainmaster fk1wc6tmtfd978ss6blubjuwq67; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4374,7 +5096,7 @@ ALTER TABLE ONLY lsdomainmaster
 
 
 --
--- TOC entry 2694 (class 2606 OID 226245)
+-- TOC entry 2774 (class 2606 OID 293187)
 -- Name: lsfileversion fk1yk72j8r2286axm14ikcm37yq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4383,7 +5105,7 @@ ALTER TABLE ONLY lsfileversion
 
 
 --
--- TOC entry 2665 (class 2606 OID 226100)
+-- TOC entry 2745 (class 2606 OID 293042)
 -- Name: llresultdetails_resultfieldvalues fk2c3e37wq754sykcjkkjuet3og; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4392,7 +5114,7 @@ ALTER TABLE ONLY llresultdetails_resultfieldvalues
 
 
 --
--- TOC entry 2670 (class 2606 OID 226125)
+-- TOC entry 2750 (class 2606 OID 293067)
 -- Name: lsaudittrailconfiguration fk2hd9ldpnj0nxtt9yucg61f2ca; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4401,7 +5123,7 @@ ALTER TABLE ONLY lsaudittrailconfiguration
 
 
 --
--- TOC entry 2742 (class 2606 OID 226485)
+-- TOC entry 2830 (class 2606 OID 293467)
 -- Name: lstestmasterlocal fk2rcpoeejioiswoorrdarkuec2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4410,7 +5132,7 @@ ALTER TABLE ONLY lstestmasterlocal
 
 
 --
--- TOC entry 2669 (class 2606 OID 226120)
+-- TOC entry 2749 (class 2606 OID 293062)
 -- Name: lsaudittrailconfiguration fk30mdgiq4vposbv4c9nlgmxgn8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4419,7 +5141,7 @@ ALTER TABLE ONLY lsaudittrailconfiguration
 
 
 --
--- TOC entry 2692 (class 2606 OID 226235)
+-- TOC entry 2772 (class 2606 OID 293177)
 -- Name: lsfileversion fk3h8hrld2ih0xwsbgkgfmkvic6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4428,7 +5150,7 @@ ALTER TABLE ONLY lsfileversion
 
 
 --
--- TOC entry 2735 (class 2606 OID 226450)
+-- TOC entry 2823 (class 2606 OID 293432)
 -- Name: lssheetworkflow fk3orqy240t3edo5cj5iuxcvkai; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4437,7 +5159,7 @@ ALTER TABLE ONLY lssheetworkflow
 
 
 --
--- TOC entry 2719 (class 2606 OID 226370)
+-- TOC entry 2803 (class 2606 OID 293332)
 -- Name: lsprojectmaster fk4faa3eo1ltutdxfipnhhj3hfh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4446,7 +5168,7 @@ ALTER TABLE ONLY lsprojectmaster
 
 
 --
--- TOC entry 2682 (class 2606 OID 226185)
+-- TOC entry 2762 (class 2606 OID 293127)
 -- Name: lsequipmentmap fk4prfv2pbj9p1paummc68g7p7t; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4455,7 +5177,7 @@ ALTER TABLE ONLY lsequipmentmap
 
 
 --
--- TOC entry 2696 (class 2606 OID 226255)
+-- TOC entry 2776 (class 2606 OID 293197)
 -- Name: lslogilablimsorderdetail fk4vltk0oi6r82aki1vna0vkd9u; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4464,7 +5186,7 @@ ALTER TABLE ONLY lslogilablimsorderdetail
 
 
 --
--- TOC entry 2677 (class 2606 OID 226160)
+-- TOC entry 2757 (class 2606 OID 293102)
 -- Name: lselninstrumentfields fk4vqjd39626aidj1ib1ly04csk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4473,7 +5195,7 @@ ALTER TABLE ONLY lselninstrumentfields
 
 
 --
--- TOC entry 2720 (class 2606 OID 226375)
+-- TOC entry 2804 (class 2606 OID 293337)
 -- Name: lsprojectmaster fk4xqu1pox5hij3mbw29v0n990n; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4482,7 +5204,7 @@ ALTER TABLE ONLY lsprojectmaster
 
 
 --
--- TOC entry 2746 (class 2606 OID 226505)
+-- TOC entry 2834 (class 2606 OID 293487)
 -- Name: lsusergrouprights fk4yqgrsisatfci8nd2h5or2ybh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4491,7 +5213,7 @@ ALTER TABLE ONLY lsusergrouprights
 
 
 --
--- TOC entry 2745 (class 2606 OID 226500)
+-- TOC entry 2833 (class 2606 OID 293482)
 -- Name: lsusergroup fk515mq8wis2wag7b79q7lcokbn; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4500,7 +5222,7 @@ ALTER TABLE ONLY lsusergroup
 
 
 --
--- TOC entry 2750 (class 2606 OID 226525)
+-- TOC entry 2838 (class 2606 OID 293507)
 -- Name: lsusermaster fk5p6srnqdps6ueuf5ot19enkxo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4509,7 +5231,7 @@ ALTER TABLE ONLY lsusermaster
 
 
 --
--- TOC entry 2729 (class 2606 OID 226420)
+-- TOC entry 2817 (class 2606 OID 293402)
 -- Name: lssamplefileversion fk5s0hwe5os89w8fho21q0vmwil; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4518,7 +5240,7 @@ ALTER TABLE ONLY lssamplefileversion
 
 
 --
--- TOC entry 2686 (class 2606 OID 226205)
+-- TOC entry 2766 (class 2606 OID 293147)
 -- Name: lsfile fk5vbab3w8dqiundweiax3fw4vl; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4527,7 +5249,7 @@ ALTER TABLE ONLY lsfile
 
 
 --
--- TOC entry 2698 (class 2606 OID 226265)
+-- TOC entry 2778 (class 2606 OID 293207)
 -- Name: lslogilablimsorderdetail fk62rg8im08r615alah6oda1aj2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4536,7 +5258,7 @@ ALTER TABLE ONLY lslogilablimsorderdetail
 
 
 --
--- TOC entry 2734 (class 2606 OID 226445)
+-- TOC entry 2822 (class 2606 OID 293427)
 -- Name: lssheetupdates fk64qmk8tcajwo36ntsvllvipcj; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4545,7 +5267,16 @@ ALTER TABLE ONLY lssheetupdates
 
 
 --
--- TOC entry 2738 (class 2606 OID 226465)
+-- TOC entry 2784 (class 2606 OID 293237)
+-- Name: lslogilabprotocoldetail fk6ilslv0uddcyc4cde0xvh8vrc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lslogilabprotocoldetail
+    ADD CONSTRAINT fk6ilslv0uddcyc4cde0xvh8vrc FOREIGN KEY (lsprotocolmaster_protocolmastercode) REFERENCES lsprotocolmaster(protocolmastercode);
+
+
+--
+-- TOC entry 2826 (class 2606 OID 293447)
 -- Name: lssheetworkflowhistory fk6m5ctgs00y28xamam4hh0vvoh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4554,7 +5285,7 @@ ALTER TABLE ONLY lssheetworkflowhistory
 
 
 --
--- TOC entry 2699 (class 2606 OID 226270)
+-- TOC entry 2779 (class 2606 OID 293212)
 -- Name: lslogilablimsorderdetail fk6p8uc39h61qm26aucs0qfqd30; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4563,7 +5294,7 @@ ALTER TABLE ONLY lslogilablimsorderdetail
 
 
 --
--- TOC entry 2730 (class 2606 OID 226425)
+-- TOC entry 2818 (class 2606 OID 293407)
 -- Name: lssamplemaster fk6rce4865ot4ebtd9abdhu9t2a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4572,7 +5303,7 @@ ALTER TABLE ONLY lssamplemaster
 
 
 --
--- TOC entry 2713 (class 2606 OID 226340)
+-- TOC entry 2797 (class 2606 OID 293302)
 -- Name: lsorderworkflowhistory fk6satcotyjt3ssh0eycrt31p9k; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4581,7 +5312,7 @@ ALTER TABLE ONLY lsorderworkflowhistory
 
 
 --
--- TOC entry 2667 (class 2606 OID 226110)
+-- TOC entry 2747 (class 2606 OID 293052)
 -- Name: lsactiveuser fk74hwovrqh4m11n1s3vpgsrwvc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4590,7 +5321,7 @@ ALTER TABLE ONLY lsactiveuser
 
 
 --
--- TOC entry 2683 (class 2606 OID 226190)
+-- TOC entry 2763 (class 2606 OID 293132)
 -- Name: lsequipmentmap fk7hrm872cl3lmxylvt2mugr6hd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4599,7 +5330,7 @@ ALTER TABLE ONLY lsequipmentmap
 
 
 --
--- TOC entry 2732 (class 2606 OID 226435)
+-- TOC entry 2820 (class 2606 OID 293417)
 -- Name: lssampleresult fk7r3x4c1qkgl6b0hpi4hke8m3p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4608,7 +5339,7 @@ ALTER TABLE ONLY lssampleresult
 
 
 --
--- TOC entry 2697 (class 2606 OID 226260)
+-- TOC entry 2777 (class 2606 OID 293202)
 -- Name: lslogilablimsorderdetail fk855k6xqajtsjwdcdixaqx79if; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4617,7 +5348,7 @@ ALTER TABLE ONLY lslogilablimsorderdetail
 
 
 --
--- TOC entry 2673 (class 2606 OID 226140)
+-- TOC entry 2753 (class 2606 OID 293082)
 -- Name: lscfrsettings fk8c7ahvsiy9cx63vm2rgopr2is; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4626,7 +5357,7 @@ ALTER TABLE ONLY lscfrsettings
 
 
 --
--- TOC entry 2687 (class 2606 OID 226210)
+-- TOC entry 2767 (class 2606 OID 293152)
 -- Name: lsfile fk8t1yybxqqdrldt59uskrs0thm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4635,7 +5366,7 @@ ALTER TABLE ONLY lsfile
 
 
 --
--- TOC entry 2685 (class 2606 OID 226200)
+-- TOC entry 2765 (class 2606 OID 293142)
 -- Name: lsfile fk96987slqv8ubvpk53k4kp70do; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4644,7 +5375,7 @@ ALTER TABLE ONLY lsfile
 
 
 --
--- TOC entry 2731 (class 2606 OID 226430)
+-- TOC entry 2819 (class 2606 OID 293412)
 -- Name: lssamplemaster fk96bdvg0hwhqxwqitafwrmd5c3; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4653,7 +5384,16 @@ ALTER TABLE ONLY lssamplemaster
 
 
 --
--- TOC entry 2708 (class 2606 OID 226315)
+-- TOC entry 2785 (class 2606 OID 293242)
+-- Name: lslogilabprotocoldetail fk9beyq9qo479d8rov5v2poi75x; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lslogilabprotocoldetail
+    ADD CONSTRAINT fk9beyq9qo479d8rov5v2poi75x FOREIGN KEY (lssamplemaster_samplecode) REFERENCES lssamplemaster(samplecode);
+
+
+--
+-- TOC entry 2792 (class 2606 OID 293277)
 -- Name: lsorderattachments fk9m36tjv4e767440yabcsup621; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4662,7 +5402,7 @@ ALTER TABLE ONLY lsorderattachments
 
 
 --
--- TOC entry 2733 (class 2606 OID 226440)
+-- TOC entry 2821 (class 2606 OID 293422)
 -- Name: lssampleresult fka4v62cgn14haofe9bpxjpc441; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4671,7 +5411,7 @@ ALTER TABLE ONLY lssampleresult
 
 
 --
--- TOC entry 2664 (class 2606 OID 226095)
+-- TOC entry 2744 (class 2606 OID 293037)
 -- Name: llresultdetails_resultfieldvalues fkbb35qq80vx2asjtkt68jpju3a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4680,7 +5420,7 @@ ALTER TABLE ONLY llresultdetails_resultfieldvalues
 
 
 --
--- TOC entry 2702 (class 2606 OID 226285)
+-- TOC entry 2782 (class 2606 OID 293227)
 -- Name: lslogilablimsorderdetail fkc5qq7421s680pl4nai183322a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4689,7 +5429,7 @@ ALTER TABLE ONLY lslogilablimsorderdetail
 
 
 --
--- TOC entry 2726 (class 2606 OID 226405)
+-- TOC entry 2814 (class 2606 OID 293387)
 -- Name: lssamplefile fkcbowolsdq6qvdaj3dqjwgaji3; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4698,7 +5438,7 @@ ALTER TABLE ONLY lssamplefile
 
 
 --
--- TOC entry 2671 (class 2606 OID 226130)
+-- TOC entry 2751 (class 2606 OID 293072)
 -- Name: lsbatchdetails fkcdgsg3mwms67ca549spd4v619; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4707,7 +5447,7 @@ ALTER TABLE ONLY lsbatchdetails
 
 
 --
--- TOC entry 2703 (class 2606 OID 226290)
+-- TOC entry 2787 (class 2606 OID 293252)
 -- Name: lsmappedtags fkcmawu6cg31lvo17rink8uejx8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4716,7 +5456,7 @@ ALTER TABLE ONLY lsmappedtags
 
 
 --
--- TOC entry 2740 (class 2606 OID 226475)
+-- TOC entry 2828 (class 2606 OID 293457)
 -- Name: lssheetworkflowhistory fkcn03n3mikriwvk22pvddn88x9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4725,7 +5465,7 @@ ALTER TABLE ONLY lssheetworkflowhistory
 
 
 --
--- TOC entry 2757 (class 2606 OID 226560)
+-- TOC entry 2845 (class 2606 OID 293542)
 -- Name: lsworkflowgroupmapping fkcocpnt82y9jmf3w9yg8ess49p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4734,7 +5474,7 @@ ALTER TABLE ONLY lsworkflowgroupmapping
 
 
 --
--- TOC entry 2681 (class 2606 OID 226180)
+-- TOC entry 2761 (class 2606 OID 293122)
 -- Name: lselninstrumentmaster fkd0a2uv5k6t4ujvhvr25q6t5i9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4743,7 +5483,7 @@ ALTER TABLE ONLY lselninstrumentmaster
 
 
 --
--- TOC entry 2716 (class 2606 OID 226355)
+-- TOC entry 2800 (class 2606 OID 293317)
 -- Name: lspasswordpolicy fkd2n5fjp116ebymw062su4kqb9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4752,7 +5492,7 @@ ALTER TABLE ONLY lspasswordpolicy
 
 
 --
--- TOC entry 2675 (class 2606 OID 226150)
+-- TOC entry 2755 (class 2606 OID 293092)
 -- Name: lselninstfieldmapping fkeipclv6tq8fb8ib3pardxt2k5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4761,7 +5501,7 @@ ALTER TABLE ONLY lselninstfieldmapping
 
 
 --
--- TOC entry 2707 (class 2606 OID 226310)
+-- TOC entry 2791 (class 2606 OID 293272)
 -- Name: lsnotification fkeuymed6pd9ti7wlgw6lnnfg4t; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4770,7 +5510,7 @@ ALTER TABLE ONLY lsnotification
 
 
 --
--- TOC entry 2743 (class 2606 OID 226490)
+-- TOC entry 2831 (class 2606 OID 293472)
 -- Name: lstestparameter fkf2p1k5jsx75tfv66mtog97wsm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4779,7 +5519,7 @@ ALTER TABLE ONLY lstestparameter
 
 
 --
--- TOC entry 2706 (class 2606 OID 226305)
+-- TOC entry 2790 (class 2606 OID 293267)
 -- Name: lsnotification fkf3729l7bjv8invf14dfxeittn; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4788,7 +5528,7 @@ ALTER TABLE ONLY lsnotification
 
 
 --
--- TOC entry 2748 (class 2606 OID 226515)
+-- TOC entry 2836 (class 2606 OID 293497)
 -- Name: lsusermaster fkf7xt9ndydo5rfuj1joldfrps7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4797,7 +5537,7 @@ ALTER TABLE ONLY lsusermaster
 
 
 --
--- TOC entry 2721 (class 2606 OID 226380)
+-- TOC entry 2809 (class 2606 OID 293362)
 -- Name: lsreviewdetails fkf8tly798dhqpr7ahxdcariefm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4806,7 +5546,7 @@ ALTER TABLE ONLY lsreviewdetails
 
 
 --
--- TOC entry 2695 (class 2606 OID 226250)
+-- TOC entry 2775 (class 2606 OID 293192)
 -- Name: lsfileversion fkfmiskrtmhpfxubafnt0ao74qg; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4815,7 +5555,16 @@ ALTER TABLE ONLY lsfileversion
 
 
 --
--- TOC entry 2727 (class 2606 OID 226410)
+-- TOC entry 2807 (class 2606 OID 293352)
+-- Name: lsprotocolworkflowgroupmap fkfmrdlq5v21e25j2sewf3fggch; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsprotocolworkflowgroupmap
+    ADD CONSTRAINT fkfmrdlq5v21e25j2sewf3fggch FOREIGN KEY (lsusergroup_usergroupcode) REFERENCES lsusergroup(usergroupcode);
+
+
+--
+-- TOC entry 2815 (class 2606 OID 293392)
 -- Name: lssamplefileversion fkfyw6frlo57djrt7vf5ca00ptm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4824,7 +5573,7 @@ ALTER TABLE ONLY lssamplefileversion
 
 
 --
--- TOC entry 2679 (class 2606 OID 226170)
+-- TOC entry 2759 (class 2606 OID 293112)
 -- Name: lselninstrumentmapping fkgs4ex5fvjoyi0aabo1wxs6jd4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4833,7 +5582,7 @@ ALTER TABLE ONLY lselninstrumentmapping
 
 
 --
--- TOC entry 2710 (class 2606 OID 226325)
+-- TOC entry 2794 (class 2606 OID 293287)
 -- Name: lsorderattachments fkgvc5xh9u7fs3sb2d6w8acxvt8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4842,7 +5591,7 @@ ALTER TABLE ONLY lsorderattachments
 
 
 --
--- TOC entry 2715 (class 2606 OID 226350)
+-- TOC entry 2799 (class 2606 OID 293312)
 -- Name: lspasswordhistorydetails fkgyf8obj737ka7kvnd3d0jcub2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4851,7 +5600,7 @@ ALTER TABLE ONLY lspasswordhistorydetails
 
 
 --
--- TOC entry 2704 (class 2606 OID 226295)
+-- TOC entry 2788 (class 2606 OID 293257)
 -- Name: lsmaterialmap fkhnt1xsspcpujt9wsq1kolqp43; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4860,7 +5609,7 @@ ALTER TABLE ONLY lsmaterialmap
 
 
 --
--- TOC entry 2678 (class 2606 OID 226165)
+-- TOC entry 2758 (class 2606 OID 293107)
 -- Name: lselninstrumentmapping fkhr3ddde0llla0uyhk7ktjpttv; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4869,7 +5618,7 @@ ALTER TABLE ONLY lselninstrumentmapping
 
 
 --
--- TOC entry 2693 (class 2606 OID 226240)
+-- TOC entry 2773 (class 2606 OID 293182)
 -- Name: lsfileversion fkhrxowhem70526dnqxy2r64sif; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4878,7 +5627,7 @@ ALTER TABLE ONLY lsfileversion
 
 
 --
--- TOC entry 2756 (class 2606 OID 226555)
+-- TOC entry 2844 (class 2606 OID 293537)
 -- Name: lsworkflow fkhu7gi01xelpckpgnfd5vxbg56; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4887,7 +5636,7 @@ ALTER TABLE ONLY lsworkflow
 
 
 --
--- TOC entry 2711 (class 2606 OID 226330)
+-- TOC entry 2795 (class 2606 OID 293292)
 -- Name: lsorderworkflowhistory fkhv81jp72qs43ivpvq24uyp3xn; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4896,7 +5645,7 @@ ALTER TABLE ONLY lsorderworkflowhistory
 
 
 --
--- TOC entry 2700 (class 2606 OID 226275)
+-- TOC entry 2780 (class 2606 OID 293217)
 -- Name: lslogilablimsorderdetail fkhw7lgcjjw89mo5myqmiwnlhrk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4905,7 +5654,7 @@ ALTER TABLE ONLY lslogilablimsorderdetail
 
 
 --
--- TOC entry 2666 (class 2606 OID 226105)
+-- TOC entry 2746 (class 2606 OID 293047)
 -- Name: lsactiveuser fkigl6mqurrvjcvewr6loshxk33; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4914,7 +5663,7 @@ ALTER TABLE ONLY lsactiveuser
 
 
 --
--- TOC entry 2747 (class 2606 OID 226510)
+-- TOC entry 2835 (class 2606 OID 293492)
 -- Name: lsusergrouprights fkij5tvapohsj3d7lo41qj6mkg2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4923,7 +5672,7 @@ ALTER TABLE ONLY lsusergrouprights
 
 
 --
--- TOC entry 2737 (class 2606 OID 226460)
+-- TOC entry 2825 (class 2606 OID 293442)
 -- Name: lssheetworkflowgroupmap fkiuo92bmlt2daeco3j23ft0pmh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4932,7 +5681,7 @@ ALTER TABLE ONLY lssheetworkflowgroupmap
 
 
 --
--- TOC entry 2754 (class 2606 OID 226545)
+-- TOC entry 2842 (class 2606 OID 293527)
 -- Name: lsuserteammapping fkj5vgwf1c07kgdbev7ab070tj9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4941,7 +5690,7 @@ ALTER TABLE ONLY lsuserteammapping
 
 
 --
--- TOC entry 2749 (class 2606 OID 226520)
+-- TOC entry 2837 (class 2606 OID 293502)
 -- Name: lsusermaster fkk6iy2wrs0iv2wo31g5hatxn2w; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4950,7 +5699,7 @@ ALTER TABLE ONLY lsusermaster
 
 
 --
--- TOC entry 2751 (class 2606 OID 226530)
+-- TOC entry 2839 (class 2606 OID 293512)
 -- Name: lsusersteam fkkfkbfkft40rf9dhpjswkbwdlx; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4959,7 +5708,7 @@ ALTER TABLE ONLY lsusersteam
 
 
 --
--- TOC entry 2672 (class 2606 OID 226135)
+-- TOC entry 2752 (class 2606 OID 293077)
 -- Name: lscfrreasons fkkwp5lyy42540ud7juxeghcgym; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4968,7 +5717,7 @@ ALTER TABLE ONLY lscfrreasons
 
 
 --
--- TOC entry 2714 (class 2606 OID 226345)
+-- TOC entry 2798 (class 2606 OID 293307)
 -- Name: lsparsedparameters fkkyobqpxnm05kcf9pvwqlhxt06; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4977,7 +5726,7 @@ ALTER TABLE ONLY lsparsedparameters
 
 
 --
--- TOC entry 2718 (class 2606 OID 226365)
+-- TOC entry 2802 (class 2606 OID 293327)
 -- Name: lsprojectmaster fkl27vlkn1seemxwvwrrt43nhnj; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4986,7 +5735,7 @@ ALTER TABLE ONLY lsprojectmaster
 
 
 --
--- TOC entry 2723 (class 2606 OID 226390)
+-- TOC entry 2811 (class 2606 OID 293372)
 -- Name: lsreviewdetails fkl6gsh56s62pv3gctriiukhi9q; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4995,7 +5744,7 @@ ALTER TABLE ONLY lsreviewdetails
 
 
 --
--- TOC entry 2691 (class 2606 OID 226230)
+-- TOC entry 2771 (class 2606 OID 293172)
 -- Name: lsfileversion fkm9auqubrjoiv7mwobbfx8kmb0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5004,7 +5753,7 @@ ALTER TABLE ONLY lsfileversion
 
 
 --
--- TOC entry 2753 (class 2606 OID 226540)
+-- TOC entry 2841 (class 2606 OID 293522)
 -- Name: lsusersteam fkm9b019pp80372xbx0xdem3tt; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5013,7 +5762,16 @@ ALTER TABLE ONLY lsusersteam
 
 
 --
--- TOC entry 2717 (class 2606 OID 226360)
+-- TOC entry 2808 (class 2606 OID 293357)
+-- Name: lsprotocolworkflowgroupmap fkmd9enrt4xi1v2h6dy62b49wjb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsprotocolworkflowgroupmap
+    ADD CONSTRAINT fkmd9enrt4xi1v2h6dy62b49wjb FOREIGN KEY (workflowcode) REFERENCES lsprotocolworkflow(workflowcode);
+
+
+--
+-- TOC entry 2801 (class 2606 OID 293322)
 -- Name: lspasswordpolicy fkmk42loasx2peiaq0sokp1cl47; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5022,7 +5780,7 @@ ALTER TABLE ONLY lspasswordpolicy
 
 
 --
--- TOC entry 2755 (class 2606 OID 226550)
+-- TOC entry 2843 (class 2606 OID 293532)
 -- Name: lsuserteammapping fkn9bt7wnl84xxxpr272tdw1q9p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5031,7 +5789,7 @@ ALTER TABLE ONLY lsuserteammapping
 
 
 --
--- TOC entry 2668 (class 2606 OID 226115)
+-- TOC entry 2748 (class 2606 OID 293057)
 -- Name: lsactivity fknlpilkgdv1xti49gwrykp6jbj; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5040,7 +5798,7 @@ ALTER TABLE ONLY lsactivity
 
 
 --
--- TOC entry 2739 (class 2606 OID 226470)
+-- TOC entry 2827 (class 2606 OID 293452)
 -- Name: lssheetworkflowhistory fko0vq85fq8xy2di7ce8oadcvni; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5049,7 +5807,7 @@ ALTER TABLE ONLY lssheetworkflowhistory
 
 
 --
--- TOC entry 2689 (class 2606 OID 226220)
+-- TOC entry 2769 (class 2606 OID 293162)
 -- Name: lsfileparameter fkoe14hfotdkcimsflx8lanxpix; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5058,7 +5816,7 @@ ALTER TABLE ONLY lsfileparameter
 
 
 --
--- TOC entry 2736 (class 2606 OID 226455)
+-- TOC entry 2824 (class 2606 OID 293437)
 -- Name: lssheetworkflowgroupmap fkq5hlumsd6p7ospyk460c3dks4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5067,7 +5825,7 @@ ALTER TABLE ONLY lssheetworkflowgroupmap
 
 
 --
--- TOC entry 2752 (class 2606 OID 226535)
+-- TOC entry 2840 (class 2606 OID 293517)
 -- Name: lsusersteam fkq7ysimmdiiut1ma6wb2x7q2gq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5076,7 +5834,7 @@ ALTER TABLE ONLY lsusersteam
 
 
 --
--- TOC entry 2684 (class 2606 OID 226195)
+-- TOC entry 2764 (class 2606 OID 293137)
 -- Name: lsfile fkqci4gixen9jfwdiqyfqy32ylq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5085,7 +5843,7 @@ ALTER TABLE ONLY lsfile
 
 
 --
--- TOC entry 2725 (class 2606 OID 226400)
+-- TOC entry 2813 (class 2606 OID 293382)
 -- Name: lssamplefile fkqn1fqn5wwcf64c5h084r5vufw; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5094,7 +5852,7 @@ ALTER TABLE ONLY lssamplefile
 
 
 --
--- TOC entry 2680 (class 2606 OID 226175)
+-- TOC entry 2760 (class 2606 OID 293117)
 -- Name: lselninstrumentmaster fkqrom94fmugl8jpw3f0fv5cuo5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5103,7 +5861,7 @@ ALTER TABLE ONLY lselninstrumentmaster
 
 
 --
--- TOC entry 2688 (class 2606 OID 226215)
+-- TOC entry 2768 (class 2606 OID 293157)
 -- Name: lsfilemethod fkqsln3ah9iegm6csuchm2n76om; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5112,7 +5870,7 @@ ALTER TABLE ONLY lsfilemethod
 
 
 --
--- TOC entry 2705 (class 2606 OID 226300)
+-- TOC entry 2789 (class 2606 OID 293262)
 -- Name: lsmaterialmap fkqwcd2yhl2bx4jhuub5t9n525a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5121,7 +5879,7 @@ ALTER TABLE ONLY lsmaterialmap
 
 
 --
--- TOC entry 2744 (class 2606 OID 226495)
+-- TOC entry 2832 (class 2606 OID 293477)
 -- Name: lsunmappedtags fkqwhvhix3lxsj03wxt4xnxpykk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5130,7 +5888,7 @@ ALTER TABLE ONLY lsunmappedtags
 
 
 --
--- TOC entry 2741 (class 2606 OID 226480)
+-- TOC entry 2829 (class 2606 OID 293462)
 -- Name: lstestmasterlocal fkqwws7lt1iu0inf335qbkxt9l5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5139,7 +5897,7 @@ ALTER TABLE ONLY lstestmasterlocal
 
 
 --
--- TOC entry 2676 (class 2606 OID 226155)
+-- TOC entry 2756 (class 2606 OID 293097)
 -- Name: lselninstfieldmapping fkr2whd8h3j12jt7usq95ttb1m4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5148,7 +5906,7 @@ ALTER TABLE ONLY lselninstfieldmapping
 
 
 --
--- TOC entry 2724 (class 2606 OID 226395)
+-- TOC entry 2812 (class 2606 OID 293377)
 -- Name: lsreviewdetails fkrgqwl5ytp6ychkl7s3nsmbq4a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5157,7 +5915,16 @@ ALTER TABLE ONLY lsreviewdetails
 
 
 --
--- TOC entry 2690 (class 2606 OID 226225)
+-- TOC entry 2783 (class 2606 OID 293232)
+-- Name: lslogilabprotocoldetail fkrtlyee1b230djhesvxa0bs85f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lslogilabprotocoldetail
+    ADD CONSTRAINT fkrtlyee1b230djhesvxa0bs85f FOREIGN KEY (lsprojectmaster_projectcode) REFERENCES lsprojectmaster(projectcode);
+
+
+--
+-- TOC entry 2770 (class 2606 OID 293167)
 -- Name: lsfiletest fks1rp8lpcg8ol5obwqurjw35br; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5166,7 +5933,16 @@ ALTER TABLE ONLY lsfiletest
 
 
 --
--- TOC entry 2728 (class 2606 OID 226415)
+-- TOC entry 2805 (class 2606 OID 293342)
+-- Name: lsprotocolmaster fks885ji8obb52sa5s1bi2498an; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY lsprotocolmaster
+    ADD CONSTRAINT fks885ji8obb52sa5s1bi2498an FOREIGN KEY (lsprotocolworkflow_workflowcode) REFERENCES lsprotocolworkflow(workflowcode);
+
+
+--
+-- TOC entry 2816 (class 2606 OID 293397)
 -- Name: lssamplefileversion fkskj3iq360rjhk095sgmwvof6o; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5175,7 +5951,7 @@ ALTER TABLE ONLY lssamplefileversion
 
 
 --
--- TOC entry 2722 (class 2606 OID 226385)
+-- TOC entry 2810 (class 2606 OID 293367)
 -- Name: lsreviewdetails fksqo9wr51a8wdh04nq4625530u; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5184,7 +5960,7 @@ ALTER TABLE ONLY lsreviewdetails
 
 
 --
--- TOC entry 2701 (class 2606 OID 226280)
+-- TOC entry 2781 (class 2606 OID 293222)
 -- Name: lslogilablimsorderdetail fkt356x9359k0tecr2pjv43c0lr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -5192,7 +5968,7 @@ ALTER TABLE ONLY lslogilablimsorderdetail
     ADD CONSTRAINT fkt356x9359k0tecr2pjv43c0lr FOREIGN KEY (lsusermaster_usercode) REFERENCES lsusermaster(usercode);
 
 
--- Completed on 2021-02-11 12:06:31
+-- Completed on 2021-03-10 18:58:53
 
 --
 -- PostgreSQL database dump complete

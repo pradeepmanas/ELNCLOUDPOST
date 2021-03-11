@@ -1,14 +1,21 @@
 package com.agaram.eln.primary.controller.protocol;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.agaram.eln.primary.model.general.Response;
+import com.agaram.eln.primary.model.protocols.LSlogilabprotocoldetail;
+import com.agaram.eln.primary.model.protocols.LSprotocolmaster;
+import com.agaram.eln.primary.model.protocols.LSprotocolworkflow;
+import com.agaram.eln.primary.model.usermanagement.LSuserMaster;
 import com.agaram.eln.primary.service.protocol.ProtocolService;
 
 @RestController
@@ -38,8 +45,6 @@ public class ProtocolController {
 		objMap = ProtocolMasterService.deleteProtocolMaster(argObj);
 		return objMap;
 	}
-	
-	
 	
 	@RequestMapping(value="/getProtocolMasterLst")
 	protected Map<String, Object> getProtocolMasterLst(@RequestBody Map<String, Object> argObj){
@@ -73,6 +78,55 @@ public class ProtocolController {
 	protected Map<String, Object> sharewithteam(@RequestBody Map<String, Object> argObj){
 		Map<String, Object> objMap = new HashMap<String, Object>();
 		objMap = ProtocolMasterService.sharewithteam(argObj);
+		return objMap;
+	}
+	
+	@RequestMapping(value="/updateworkflowforProtocol")
+	protected Map<String, Object> updateworkflowforProtocol(@RequestBody LSprotocolmaster objClass){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.updateworkflowforProtocol(objClass);
+		return objMap;
+	}
+	
+	@PostMapping("/GetProtocolWorkflow")
+	public List<LSprotocolworkflow> GetProtocolWorkflow(@RequestBody LSprotocolworkflow objclass){
+		return ProtocolMasterService.GetProtocolWorkflow(objclass);
+	}
+	
+	@PostMapping("/InsertUpdatesheetWorkflow")
+	public List<LSprotocolworkflow> InsertUpdatesheetWorkflow(@RequestBody List<LSprotocolworkflow> LSprotocolworkflow)
+	{
+		return ProtocolMasterService.InsertUpdatesheetWorkflow(LSprotocolworkflow);
+	}
+	
+	@PostMapping("/Deletesheetworkflow")
+	public Response Deletesheetworkflow(@RequestBody LSprotocolworkflow objflow)
+	{
+		return ProtocolMasterService.Deletesheetworkflow(objflow);
+	}
+	
+	@RequestMapping(value="/getProtocolMasterList")
+	protected List<LSprotocolmaster> getProtocolMasterList(@RequestBody LSuserMaster objClass){
+		
+		return ProtocolMasterService.getProtocolMasterList(objClass);
+	}
+	
+	@RequestMapping(value="/addProtocolOrder")
+	protected Map<String, Object> addProtocolOrder(@RequestBody LSlogilabprotocoldetail LSlogilabprotocoldetail){
+		
+		return ProtocolMasterService.addProtocolOrder(LSlogilabprotocoldetail);
+		
+	}
+	
+	@RequestMapping(value="/getProtocolOrderList")
+	protected List<LSlogilabprotocoldetail> getProtocolOrderList(@RequestBody LSlogilabprotocoldetail LSlogilabprotocoldetail){
+		return ProtocolMasterService.getProtocolOrderList(LSlogilabprotocoldetail);
+	}
+	
+	@RequestMapping(value="/getProtocolOrderStepLst")
+	protected Map<String, Object> getProtocolOrderStepLst(@RequestBody Map<String, Object> argObj){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.getProtocolOrderStepLst(argObj);
 		return objMap;
 	}
 }

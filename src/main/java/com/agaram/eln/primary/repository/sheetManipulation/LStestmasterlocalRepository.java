@@ -17,4 +17,7 @@ public interface LStestmasterlocalRepository extends JpaRepository<LStestmasterl
 	public List<LStestmasterlocal> findBystatusAndLssitemaster(Integer status,LSSiteMaster lssitemaster);
 	public LStestmasterlocal findByTestnameAndStatusAndLssitemaster(String Testname, Integer status,LSSiteMaster lssitemaster);
 	public LStestmasterlocal findByTestnameAndStatusAndTestcodeNotAndLssitemaster(String Testname, Integer status, Integer testcode,LSSiteMaster lssitemaster);
+	public Object findByTestnameIgnoreCaseAndStatusAndTestcodeNotAndLssitemaster(String testname, Integer status,
+			Integer testcode, LSSiteMaster lssitemaster);
+	public Object findByTestnameIgnoreCaseAndStatusAndLssitemaster(String testname, Integer status, LSSiteMaster lssitemaster);
 }
