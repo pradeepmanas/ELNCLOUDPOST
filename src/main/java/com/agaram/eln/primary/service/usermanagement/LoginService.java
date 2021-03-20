@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -599,7 +600,37 @@ public class LoginService {
 				return objExitinguser;
 
 		 }
-			if(objuser.getsNewPassword().equals(objuser.getsConfirmPassword())) {
+		 
+		 String existingpassword = AESEncryption.decrypt(objExitinguser.getPassword());
+		 if(objuser.getsOLDPassword().equals(existingpassword) && objuser.getsOLDPassword() !="")
+		 {
+			 objectpwd.setPassword(AESEncryption.encrypt(objuser.getsNewPassword()));
+				objectpwd.setPasswordcreatedate(new Date());
+				objectpwd.setLsusermaster(objExitinguser);
+				LSPasswordHistoryDetailsRepository.save(objectpwd);
+				
+				objExitinguser.setPassword(AESEncryption.encrypt(objuser.getsNewPassword()));
+				objExitinguser.setPasswordexpirydate(objuser.getPasswordexpirydate());
+				objExitinguser.setPasswordstatus(0);
+				lSuserMasterRepository.save(objExitinguser);
+				
+				objExitinguser.getObjResponse().setInformation("ID_SUCCESSMSG");
+				objExitinguser.getObjResponse().setStatus(true);
+				
+				if(objuser.getObjsilentaudit() != null)
+		    	{
+		    		objuser.getObjsilentaudit().setLsuserMaster(objExitinguser.getUsercode());
+		    		objuser.getObjsilentaudit().setLssitemaster(objExitinguser.getLssitemaster().getSitecode());
+//		    		objuser.getObjsilentaudit().setModuleName(ModuleName);
+//		    		objuser.getObjsilentaudit().setComments("PassWord Created Successfully");
+//		    		objuser.getObjsilentaudit().setActions("PassWord Created");
+//		    		objuser.getObjsilentaudit().setSystemcoments("System Generated");
+		    		objuser.getObjsilentaudit().setManipulatetype("Password");
+		    		objuser.getObjsilentaudit().setTableName("LSuserMaster");
+		    		lscfttransactionRepository.save(objuser.getObjsilentaudit());
+		    		
+		    	}
+		 }else if(objuser.getsNewPassword().equals(objuser.getsConfirmPassword()) && objuser.getsOLDPassword() =="") {
 				
 
 				objectpwd.setPassword(AESEncryption.encrypt(objuser.getsNewPassword()));
@@ -693,7 +724,7 @@ public class LoginService {
 //		Integer diff=0;
 		 
 		String username = objuser.getsUsername();
-		LSSiteMaster objsite = lSSiteMasterRepository.findBysitecode(Integer.parseInt(objuser.getsSiteCode()));
+		LSSiteMaster objsite = lSSiteMasterRepository.findBysitecode(objuser.getLsusermaster().getLssitemaster().getSitecode());
 		objExitinguser = lSuserMasterRepository.findByusernameAndLssitemaster(username, objsite);
 		LSPasswordPolicy passHistorycount =  LSPasswordPolicyRepository.findByLssitemaster(objExitinguser.getLssitemaster());
 //		 
@@ -1525,12 +1556,19 @@ public LSuserMaster validateuser(LSuserMaster objClass) {
 			objuser.setObjResponse(objResponse);
 			objuser.setLoginfrom("1");
 			lsuserMasterRepository.save(objuser);
+			
+			String unifieduser = objuser.getUsername().toLowerCase().replaceAll("[^a-zA-Z0-9]", "")+"u"+objuser.getUsercode()+"s"+objuser.getLssitemaster().getSitecode()+
+					objuser.getUnifieduserid();
+			
+			objuser.setUnifieduserid(unifieduser);
+			lsuserMasterRepository.save(objuser);
 		}
 		else
 		{
 			Response objResponse = new Response();
 			objResponse.setStatus(true);
 			objResponse.setInformation("");
+			objuser.setUnifieduserid(userDetails.getUnifieduserid());
 			objuser.setObjResponse(objResponse);
 		}
 		
@@ -1543,6 +1581,10 @@ public LSuserMaster validateuser(LSuserMaster objClass) {
 		
 		LSuserMaster userDetails = lsuserMasterRepository.findByUsernameIgnoreCaseAndLoginfromAndLssitemaster(objuser.getUsername(),"1",objuser.getLssitemaster());
 
+		
+		LSPasswordPolicy policydays= LSPasswordPolicyRepository.findByLssitemaster(objuser.getLssitemaster());
+		Calendar c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, policydays.getPasswordexpiry());
 		
 		if(userDetails == null)
 		{
@@ -1574,7 +1616,8 @@ public LSuserMaster validateuser(LSuserMaster objClass) {
 			objuser.setUserstatus("A");
 			objuser.setLockcount(0);
 			objuser.setPassword(objuser.getToken());
-			
+			objuser.setPasswordexpirydate(c.getTime());
+		
 			objuser.setLoginfrom("1");
 			lsuserMasterRepository.save(objuser);
 		}
@@ -1582,6 +1625,8 @@ public LSuserMaster validateuser(LSuserMaster objClass) {
 		{
 			objuser.setPassword(objuser.getToken());
 			userDetails.setPassword(objuser.getToken());
+			objuser.setPasswordexpirydate(userDetails.getPasswordexpirydate()==null? c.getTime(): userDetails.getPasswordexpirydate());
+			userDetails.setPasswordexpirydate(userDetails.getPasswordexpirydate()==null? c.getTime(): userDetails.getPasswordexpirydate());
 			lsuserMasterRepository.save(userDetails);
 		}
 		

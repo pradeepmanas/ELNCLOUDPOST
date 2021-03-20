@@ -22,7 +22,9 @@ public class LoggedUser {
 	private Boolean bStatus;
 	private String sInformation;
 	
-//	private LSSiteMaster objsite;
+	private String sOLDPassword;
+
+	//	private LSSiteMaster objsite;
 	private Integer objsite;
 
 	private Integer ismultitenant;
@@ -40,6 +42,14 @@ public class LoggedUser {
 	private String sConfirmPassword;
 	private Date logindate;
 	private Date passwordexpirydate;
+	
+	public String getsOLDPassword() {
+		return sOLDPassword;
+	}
+
+	public void setsOLDPassword(String sOLDPassword) {
+		this.sOLDPassword = sOLDPassword;
+	}
 	
 	public Date getPasswordexpirydate() {
 		return passwordexpirydate;

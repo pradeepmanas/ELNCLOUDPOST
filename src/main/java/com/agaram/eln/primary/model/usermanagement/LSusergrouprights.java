@@ -38,12 +38,12 @@ public class LSusergrouprights {
 	private String sdelete;
 	@Column(columnDefinition = "char(10)")
 	private String sallow;
-	@Column(columnDefinition = "char(20)")
+	@Column(columnDefinition = "varchar(250)")
 	private String createdby;
 //	@Column(columnDefinition = "date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdon;
-	@Column(columnDefinition = "char(20)")
+	@Column(columnDefinition = "varchar(250)")
 	private String modifiedby;
 //	@Column(columnDefinition = "date")
 	@Temporal(TemporalType.TIMESTAMP)

@@ -39,6 +39,8 @@ import com.agaram.eln.primary.model.instrumentDetails.LSlogilablimsorderdetail;
 import com.agaram.eln.primary.model.instrumentDetails.LSresultdetails;
 import com.agaram.eln.primary.model.instrumentDetails.LsMethodFields;
 import com.agaram.eln.primary.model.instrumentDetails.LsOrderattachments;
+import com.agaram.eln.primary.model.instrumentDetails.Lsordersharedby;
+import com.agaram.eln.primary.model.instrumentDetails.Lsordershareto;
 import com.agaram.eln.primary.model.sheetManipulation.LSfilemethod;
 import com.agaram.eln.primary.model.sheetManipulation.LSsamplefile;
 import com.agaram.eln.primary.model.sheetManipulation.LSsamplefileversion;
@@ -66,6 +68,8 @@ import com.agaram.eln.primary.repository.instrumentDetails.LSresultdetailsReposi
 import com.agaram.eln.primary.repository.instrumentDetails.LsMethodFieldsRepository;
 import com.agaram.eln.primary.repository.instrumentDetails.LsOrderattachmentsRepository;
 import com.agaram.eln.primary.repository.instrumentDetails.LselninstrumentmasterRepository;
+import com.agaram.eln.primary.repository.instrumentDetails.LsordersharedbyRepository;
+import com.agaram.eln.primary.repository.instrumentDetails.LsordersharetoRepository;
 import com.agaram.eln.primary.repository.instrumentDetails.LsorderworkflowhistoryRepositroy;
 import com.agaram.eln.primary.repository.notification.EmailRepository;
 import com.agaram.eln.primary.repository.sheetManipulation.LSfilemethodRepository;
@@ -181,6 +185,12 @@ public class InstrumentService {
 	
 	@Autowired
 	private CloudFileManipulationservice cloudFileManipulationservice;
+	
+	@Autowired
+	private LsordersharetoRepository lsordersharetoRepository;
+	
+	@Autowired
+	private LsordersharedbyRepository lsordersharedbyRepository;
 	
 	
 	public Map<String, Object> getInstrumentparameters(LSSiteMaster lssiteMaster)
@@ -500,6 +510,10 @@ public class InstrumentService {
 				int perviousworkflowcode = previousworkflow != null ? previousworkflow.getWorkflowcode() : -1;
 				String previousworkflowname = previousworkflow != null ? previousworkflow.getWorkflowname():"";
 				
+				 if(previousworkflowname.equals(objorder.getLsworkflow().getWorkflowname())) {
+						Notifiction="ORDERFINALAPPROVAL";
+					}
+				 
 				Details ="{\"ordercode\":\""+objorder.getBatchcode()
 				+"\", \"order\":\""+objorder.getBatchid()
 				+"\", \"previousworkflow\":\""+ previousworkflowname
@@ -2065,7 +2079,64 @@ public class InstrumentService {
 		return objattachments;
 	}
 	
+	public Lsordershareto Insertshareorder(Lsordershareto objordershareto)
+	{
+		Lsordershareto existingshare = lsordersharetoRepository.findBySharebyunifiedidAndSharetounifiedidAndOrdertypeAndSharebatchcode(
+				objordershareto.getSharebyunifiedid(), objordershareto.getSharetounifiedid(), objordershareto.getOrdertype(), objordershareto.getSharebatchcode());
+		if(existingshare != null)
+		{
+			objordershareto.setSharetocode(existingshare.getSharetocode());
+			objordershareto.setSharedon(existingshare.getSharedon());
+		}
 		
+		lsordersharetoRepository.save(objordershareto);
+		
+		return objordershareto;
+	}	
 	
+	public Lsordersharedby Insertshareorderby(Lsordersharedby objordershareby)
+	{
+		Lsordersharedby existingshare = lsordersharedbyRepository.findBySharebyunifiedidAndSharetounifiedidAndOrdertypeAndSharebatchcode(
+				objordershareby.getSharebyunifiedid(), objordershareby.getSharetounifiedid(), objordershareby.getOrdertype(), objordershareby.getSharebatchcode());
+		if(existingshare != null)
+		{
+			objordershareby.setSharedbycode(existingshare.getSharedbycode());
+			objordershareby.setSharedon(existingshare.getSharedon());
+		}
+		lsordersharedbyRepository.save(objordershareby);
+		return objordershareby;
+	}	
+	
+	public List<Lsordersharedby> Getordersharedbyme(Lsordersharedby lsordersharedby)
+	{
+		return lsordersharedbyRepository.findBySharebyunifiedidAndOrdertypeAndSharestatusOrderBySharedbycodeDesc(lsordersharedby.getSharebyunifiedid(), lsordersharedby.getOrdertype(),1);
+	}
+	
+	public List<Lsordershareto> Getordersharetome(Lsordershareto lsordershareto)
+	{
+		return lsordersharetoRepository.findBySharetounifiedidAndOrdertypeAndSharestatusOrderBySharetocodeDesc(lsordershareto.getSharetounifiedid(), lsordershareto.getOrdertype(),1);
+	}
+	
+	public Lsordersharedby Unshareorderby(Lsordersharedby objordershareby)
+	{
+		Lsordersharedby existingshare = lsordersharedbyRepository.findOne(objordershareby.getSharedbycode());
+		
+		existingshare.setSharestatus(0);
+		existingshare.setUnsharedon(objordershareby.getUnsharedon());
+		lsordersharedbyRepository.save(existingshare);
+		
+		return existingshare;
+	}
+
+	public Lsordershareto Unshareorderto(Lsordershareto lsordershareto)
+	{
+		Lsordershareto existingshare = lsordersharetoRepository.findOne(lsordershareto.getSharetocode());
+		
+		existingshare.setSharestatus(0);
+		existingshare.setUnsharedon(lsordershareto.getUnsharedon());
+		lsordersharetoRepository.save(existingshare);
+		
+		return existingshare;
+	}
 }
 	

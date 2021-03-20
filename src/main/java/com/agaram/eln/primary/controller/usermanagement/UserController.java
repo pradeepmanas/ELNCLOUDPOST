@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -31,6 +34,7 @@ import com.agaram.eln.primary.model.general.Response;
 import com.agaram.eln.primary.model.usermanagement.LSPasswordPolicy;
 import com.agaram.eln.primary.model.usermanagement.LSSiteMaster;
 import com.agaram.eln.primary.model.usermanagement.LSactiveUser;
+import com.agaram.eln.primary.model.usermanagement.LScentralisedUsers;
 import com.agaram.eln.primary.model.usermanagement.LSnotification;
 import com.agaram.eln.primary.model.usermanagement.LSuserActions;
 import com.agaram.eln.primary.model.usermanagement.LSuserMaster;
@@ -154,9 +158,10 @@ public class UserController {
 	 * 
 	 * @param objuser
 	 * @return
+	 * @throws MessagingException 
 	 */
 	@PostMapping("/InsertUpdateUser")
-	public LSuserMaster InsertUpdateUser(@RequestBody LSuserMaster objusermaster)
+	public LSuserMaster InsertUpdateUser(@RequestBody LSuserMaster objusermaster) throws MessagingException
 	{
 		if(objusermaster.getObjuser() != null) {
 			if(objusermaster.getUserstatus().trim() == "Active") {
@@ -531,4 +536,35 @@ public class UserController {
 	public LSuserActions UpdatefreshUseraction(@RequestBody LSuserActions objuseractions) {
 		return userService.UpdatefreshUseraction(objuseractions);
 	}
+	
+	@GetMapping("/Loadtenantusergroups")
+	public List<LSusergroup> Loadtenantusergroups(HttpServletRequest request) {
+		return userService.Loadtenantusergroups();
+	}
+	
+	@GetMapping("/Createcentraliseduser")
+	public LScentralisedUsers Createcentraliseduser(@RequestBody LScentralisedUsers objctrluser)
+	{
+		return userService.Createcentraliseduser(objctrluser);
+	}
+
+	@PostMapping("/Usersendpasswormail")
+	public LSuserMaster Usersendpasswormail(@RequestBody LSuserMaster objusermaster) throws MessagingException
+	{
+		return userService.Usersendpasswormail(objusermaster);
+		
+	}
+
+	@GetMapping("/Getallcentraliseduser")
+	public List<LScentralisedUsers> Getallcentraliseduser(@RequestBody LScentralisedUsers objctrluser)
+	{
+		return userService.Getallcentraliseduser(objctrluser);
+	}
+	
+	@GetMapping("/Getcentraliseduserbyid")
+	public LScentralisedUsers Getcentraliseduserbyid(@RequestBody LScentralisedUsers objctrluser) {
+		return userService.Getcentraliseduserbyid(objctrluser);
+	}
 }
+
+

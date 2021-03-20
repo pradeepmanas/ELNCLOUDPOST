@@ -60,6 +60,20 @@ public class ProtocolController {
 		return objMap;
 	}
 	
+	@RequestMapping(value="/getAllProtocolStepLst")
+	protected Map<String, Object> getAllProtocolStepLst(@RequestBody Map<String, Object> argObj){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.getAllProtocolStepLst(argObj);
+		return objMap;
+	}
+	
+	@RequestMapping(value="/getOrdersLinkedToProtocol")
+	protected Map<String, Object> getOrdersLinkedToProtocol(@RequestBody Map<String, Object> argObj){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.getOrdersLinkedToProtocol(argObj);
+		return objMap;
+	}
+	
 	@RequestMapping(value="/addProtocolStep")
 	protected Map<String, Object> addProtocolStep(@RequestBody Map<String, Object> argObj){
 		Map<String, Object> objMap = new HashMap<String, Object>();
@@ -123,10 +137,22 @@ public class ProtocolController {
 		return ProtocolMasterService.getProtocolOrderList(LSlogilabprotocoldetail);
 	}
 	
+	@RequestMapping(value="/updateProtocolOrderStep")
+	protected Map<String, Object> updateProtocolOrderStep(@RequestBody Map<String, Object> argObj){
+		return ProtocolMasterService.updateProtocolOrderStep(argObj);
+	}
+	
 	@RequestMapping(value="/getProtocolOrderStepLst")
 	protected Map<String, Object> getProtocolOrderStepLst(@RequestBody Map<String, Object> argObj){
 		Map<String, Object> objMap = new HashMap<String, Object>();
 		objMap = ProtocolMasterService.getProtocolOrderStepLst(argObj);
 		return objMap;
 	}
+	
+//	@RequestMapping(value="/addProtocolOrderStep")
+//	protected Map<String, Object> addProtocolOrderStep(@RequestBody Map<String, Object> argObj){
+//		Map<String, Object> objMap = new HashMap<String, Object>();
+//		objMap = ProtocolMasterService.addProtocolOrderStep(argObj);
+//		return objMap;
+//	}
 }

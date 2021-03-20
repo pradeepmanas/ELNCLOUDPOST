@@ -45,4 +45,9 @@ public interface LSuserMasterRepository extends JpaRepository<LSuserMaster, Inte
 	 @Modifying
 	 @Query("update LSuserMaster u set u.lsuserActions = ?1 where u.usercode = ?2")
 	 void setuseractionByusercode(LSuserActions lsuserActions, Integer usercode);
+	 
+	 @Transactional
+	 @Modifying
+	 @Query("update LSuserMaster u set u.password = ?1,u.passwordstatus = ?2 where u.usercode = ?3")
+	 void setpasswordandpasswordstatusByusercode(String password,Integer integer, Integer usercode);
 }

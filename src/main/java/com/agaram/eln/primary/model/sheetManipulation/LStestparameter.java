@@ -12,7 +12,7 @@ public class LStestparameter {
 	@Id
 	@Column(name="testparametercode")
 	private Integer ntestparametercode;
-	@Column(name="testcode")
+	@Column(name="testcode",nullable=false)
  	private Integer ntestcode;
 	@Column(name="parametertypecode")
 	private Integer nparametertypecode;

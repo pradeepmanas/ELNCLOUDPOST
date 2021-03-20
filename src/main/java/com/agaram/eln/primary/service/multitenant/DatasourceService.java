@@ -14,6 +14,7 @@ import java.util.Random;
 import javax.mail.MessagingException;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -126,12 +127,11 @@ public class DatasourceService {
 		
 		configRepo.save(Tenantname);
 		
-		
-		
+
 		Email email = new Email();
 		email.setMailto(Tenantname.getUseremail());
 		email.setSubject("UsrName and PassWord");
-		email.setMailcontent("<b>Dear Customer</b>,<br><i>This is for your username and password</i><br><b>UserName:\t\t"+Tenantname.getTenantid()+"</b><br><b>Password:\t\t"+password+"</b>");
+		email.setMailcontent("<b>Dear Customer</b>,<br><i>This is for your username and password</i><br><b>UserName:\t\t"+Tenantname.getTenantid()+"</b><br><b>Password:\t\t"+password+"</b><br><b><a href="+Tenantname.getLoginpath()+">click here to ligin</a></b>");
 		emailService.sendEmail(email);
 		
 		return Tenantname;
@@ -139,29 +139,11 @@ public class DatasourceService {
 	
 	private String Generatetenantpassword()
 	{
-		// lower limit for LowerCase Letters 
-        int lowerLimit = 97; 
-  
-        // lower limit for LowerCase Letters 
-        int upperLimit = 122; 
-  
-        Random random = new Random(); 
-        int n = 6; 
-        // Create a StringBuffer to store the result 
-        StringBuffer r = new StringBuffer(n); 
-  
-        for (int i = 0; i < n; i++) { 
-            int nextRandomChar = lowerLimit 
-                                 + (int)(random.nextFloat() 
-                                         * (upperLimit - lowerLimit + 1));  
-            r.append((char)nextRandomChar); 
-        } 
-        String pass=r.toString();
-        // return the resultant string 
-       System.out.println(pass);
-       
-       
-       return pass;
+		
+       String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*-_=+\',/?";
+       String pwd = RandomStringUtils.random( 15, characters );
+      
+       return pwd;
 	}
 	
 	public boolean createDatabase(String url, String databasename, DataSourceConfig config)
@@ -327,24 +309,17 @@ public class DatasourceService {
 			    		obj.put("user", objExitinguser);
 			    	}
 			    }
+			    else
+			    {
+			    	objExitinguser.getObjResponse().setStatus(false);
+			    	obj.put("user", objExitinguser);
+			    }
 			}
 		
 		}
 		
 		return obj;
-//	String values="";
-//		String Password="admin";
-//		if(Password.equalsIgnoreCase((String) obj.get("Password")))
-//		{
-//			values="Success"	;
-//			obj.put("Success", values);
-//
-//		}
-//		else {
-//			values="Password is  wrong";
-//			obj.put("Failure", values);
-//		}
-//		return obj;
+
 	}
 	
 	public Map<String, Object> checktenantid(DataSourceConfig DataSourceConfig)
@@ -394,17 +369,10 @@ public class DatasourceService {
 	public DataSourceConfig sendotp(DataSourceConfig Tenantname) throws MessagingException
 	{
 		
-		DataSourceConfig objconfig = configRepo.findByTenantid(Tenantname.getTenantid().trim());
-		Response objres = new Response();
-		
 		 Random rnd = new Random();
 		 int number = rnd.nextInt(999999);
 		 String otp=String.format("%06d", number);
-//		 number= Integer.parseInt(ch); 
-		
-//		String password = Generatetenantpassword();
-//		String passwordtenant=AESEncryption.encrypt(password);
-//		Tenantname.setTenantpassword(passwordtenant);
+
 		 Tenantname.setVarificationOTP(otp);
 		
 		configRepo.setotp(Tenantname.getVarificationOTP(),Tenantname.getTenantid());
@@ -474,6 +442,30 @@ public class DatasourceService {
 		return updatetenant;
 	}
 	
-	
+	public DataSourceConfig updatetenantadminpassword(DataSourceConfig Tenant) throws MessagingException
+	{
+		LSuserMaster lsuserMaster =  lsuserMasterRepository.findOne(1);
+		if(lsuserMaster != null)
+		{
+			lsuserMaster.setEmailid(Tenant.getUseremail());
+			String password = Generatetenantpassword();
+			String passwordadmin=AESEncryption.encrypt(password);
+			lsuserMaster.setPassword(passwordadmin);
+			lsuserMaster.setPasswordstatus(1);
+			
+			Email email = new Email();
+			email.setMailto(Tenant.getUseremail());
+			email.setSubject("Registration success");
+			email.setMailcontent("<b>Dear Customer</b>,<br>"
+					+ "<i>You have successfully registered to Logilab ELN.</i><br>"
+					+ "<i>Your organisation ID is <b>"+Tenant.getTenantid()+"</b>.</i><br>"
+					+ "<i>we create a default administrator user for you and this are the login credentials.</i><br>"
+					+ "<b>UserName:\t\t Administrator </b><br><b>Password:\t\t"+password+"</b>");
+			emailService.sendEmail(email);
+			
+			lsuserMasterRepository.save(lsuserMaster);
+		}
+		return Tenant;
+	}
 
 }

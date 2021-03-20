@@ -29,6 +29,8 @@ import com.agaram.eln.primary.model.general.Response;
 import com.agaram.eln.primary.model.instrumentDetails.LSlogilablimsorderdetail;
 import com.agaram.eln.primary.model.instrumentDetails.LSresultdetails;
 import com.agaram.eln.primary.model.instrumentDetails.LsOrderattachments;
+import com.agaram.eln.primary.model.instrumentDetails.Lsordersharedby;
+import com.agaram.eln.primary.model.instrumentDetails.Lsordershareto;
 import com.agaram.eln.primary.model.notification.Email;
 import com.agaram.eln.primary.model.sheetManipulation.LSsamplefile;
 import com.agaram.eln.primary.model.sheetManipulation.LSsamplefileversion;
@@ -457,7 +459,39 @@ public class InstrumentController {
 		return "[{\"e53b1590-7ee9-4d7f-992b-596dae18b9ed-T5\":{\"ParsedData\":{\"MultiFileds\":{\"MultiParserFields\":{\"MultiParsedFields_0\":[{\"No\":\"1\",\"SampleID\":\"TEST\",\"OpRot\":\"0.001\",\"Measurement\":\"0.001\",\"Unit\":\"OR\",\"Field 13\":\"633\",\"Temp\":\"28.7\",\"Time\":\"13:45:12\"},{\"No\":\"2\",\"SampleID\":\"TEST\",\"OpRot\":\"0.000\",\"Measurement\":\"0.000\",\"Unit\":\"OR\",\"Field 13\":\"633\",\"Temp\":\"28.7\",\"Time\":\"13:45:14\"},{\"No\":\"3\",\"SampleID\":\"TEST\",\"OpRot\":\"0.001\",\"Measurement\":\"0.001\",\"Unit\":\"OR\",\"Field 13\":\"633\",\"Temp\":\"28.7\",\"Time\":\"13:45:16\"},{\"No\":\"4\",\"SampleID\":\"TEST\",\"OpRot\":\"0.001\",\"Measurement\":\"0.001\",\"Unit\":\"OR\",\"Field 13\":\"633\",\"Temp\":\"28.7\",\"Time\":\"13:45:18\"},{\"No\":\"5\",\"SampleID\":\"TEST\",\"OpRot\":\"0.001\",\"Measurement\":\"0.001\",\"Unit\":\"OR\",\"Field 13\":\"633\",\"Temp\":\"28.7\",\"Time\":\"13:45:20\"}]},\"MultiParsedFieldsTableInfo\":{\"MultiParsedFieldsTableInfo_0\":[{\"sFieldName\":\"Date:\",\"sFieldValue\":\"Nov 5, 2015\"},{\"sFieldName\":\"LotID\",\"sFieldValue\":\"TEST\"},{\"sFieldName\":\"Set Temp\",\"sFieldValue\":\"20.0\"},{\"sFieldName\":\"Temp Corr\",\"sFieldValue\":\"Off\"},{\"sFieldName\":\"Counts\",\"sFieldValue\":\"5\"},{\"sFieldName\":\"Average\",\"sFieldValue\":\"0.001\"},{\"sFieldName\":\"STD Dev\",\"sFieldValue\":\"0.0004\"},{\"sFieldName\":\"maximum\",\"sFieldValue\":\"0.001\"},{\"sFieldName\":\"minimum\",\"sFieldValue\":\"0.000\"}]}},\"SingleFields\":[{\"FieldName\":\"Date:\",\"FieldValue\":\"Nov 5, 2015\"},{\"FieldName\":\"LotID\",\"FieldValue\":\"TEST\"},{\"FieldName\":\"Set Temp\",\"FieldValue\":\"20.0\"},{\"FieldName\":\"Temp Corr\",\"FieldValue\":\"Off\"},{\"FieldName\":\"Counts\",\"FieldValue\":\"5\"},{\"FieldName\":\"Average\",\"FieldValue\":\"0.001\"},{\"FieldName\":\"STD Dev\",\"FieldValue\":\"0.0004\"},{\"FieldName\":\"maximum\",\"FieldValue\":\"0.001\"},{\"FieldName\":\"minimum\",\"FieldValue\":\"0.000\"}]},\"FileMetaTags\":[{\"Property\":\"Name\",\"Values\":\"or3\"},{\"Property\":\"Size\",\"Values\":\"743 bytes\"},{\"Property\":\"Itemtype\",\"Values\":\"Text Document\"},{\"Property\":\"Date modified\",\"Values\":\"24-09-2020 11:59\"},{\"Property\":\"Date created\",\"Values\":\"25-09-2020 18:49\"},{\"Property\":\"Date accessed\",\"Values\":\"25-09-2020 18:50\"},{\"Property\":\"Attributes\",\"Values\":\"A\"},{\"Property\":\"Perceived type\",\"Values\":\"Text\"},{\"Property\":\"Owner\",\"Values\":\"AGL66\\\\Pasupathi\"},{\"Property\":\"Kind\",\"Values\":\"Document\"},{\"Property\":\"Rating\",\"Values\":\"Unrated\"}],\"Tags\":{\"UnMappedTemplateTags\":[{\"TagName\":\"ARNo\",\"TagValue\":\"arval\",\"CreatedBy\":\"Administrator\",\"CreatedOn\":\"2020-10-09 12:50:58\"},{\"TagName\":\"AR_No\",\"TagValue\":\"arval\",\"CreatedBy\":\"Administrator\",\"CreatedOn\":\"2020-10-10 04:46:56\"}],\"MappedTemplateTags\":{\"QC\":[{\"TagName\":\"Sample\",\"TagValue\":\"Caffeine Oral Citrate\",\"CreatedBy\":\"Administrator\",\"CreatedOn\":\"2020-09-25 13:20:38\"},{\"TagName\":\"Test\",\"TagValue\":\"Assay by HPLC\",\"CreatedBy\":\"Administrator\",\"CreatedOn\":\"2020-09-25 13:20:38\"}],\"Default\":[{\"TagName\":\"Default\",\"TagValue\":\"Default\",\"CreatedBy\":\"Administrator\",\"CreatedOn\":\"2020-09-25 13:20:08\"}],\"Check value\":[{\"TagName\":\"AR_No\",\"TagValue\":\"arval\",\"CreatedBy\":\"Administrator\",\"CreatedOn\":\"2020-10-14 10:00:50\"}]}}}}]";
 	}
 		
+	@PostMapping("/Insertshareorder")
+	public Lsordershareto Insertshareorder(@RequestBody Lsordershareto objordershareto)
+	{
+		return instrumentService.Insertshareorder(objordershareto);
+	}
 	
+	@PostMapping("/Insertshareorderby")
+	public Lsordersharedby Insertshareorderby(@RequestBody Lsordersharedby objordersharedby)
+	{
+		return instrumentService.Insertshareorderby(objordersharedby);
+	}
 	
+	@PostMapping("/Getordersharedbyme")
+	public List<Lsordersharedby> Getordersharedbyme(@RequestBody Lsordersharedby lsordersharedby)
+	{
+		return instrumentService.Getordersharedbyme(lsordersharedby);
+	}
 	
+	@PostMapping("/Getordersharetome")
+	public List<Lsordershareto> Getordersharetome(@RequestBody Lsordershareto lsordershareto)
+	{
+		return instrumentService.Getordersharetome(lsordershareto);
+	}
+	
+	@PostMapping("/Unshareorderby")
+	public Lsordersharedby Unshareorderby(@RequestBody Lsordersharedby objordershareby)
+	{
+		return instrumentService.Unshareorderby(objordershareby);
+	}
+
+	@PostMapping("/Unshareorderto")
+	public Lsordershareto Unshareorderto(@RequestBody Lsordershareto lsordershareto)
+	{
+		return instrumentService.Unshareorderto(lsordershareto);
+	}
 }

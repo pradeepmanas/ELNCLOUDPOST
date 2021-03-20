@@ -31,6 +31,7 @@ public class LSprotocolstep {
 	@Transient
 	private Integer ismultitenant;
 	public String createdbyusername;
+	public Integer sitecode;
 	@Transient
 	private Integer newStep;
 	
@@ -100,6 +101,13 @@ public class LSprotocolstep {
 	public void setCreatedbyusername(String createdbyusername) {
 		this.createdbyusername = createdbyusername;
 	}
+	public Integer getSitecode() {
+		return sitecode;
+	}
+	public void setSitecode(Integer sitecode) {
+		this.sitecode = sitecode;
+	}
+	
 	
 	
 }

@@ -232,4 +232,12 @@ public interface LSlogilablimsorderdetailRepository extends JpaRepository<LSlogi
 	long countByFiletypeAndOrderflagAndAssignedtoAndCreatedtimestampBetweenOrderByBatchcodeDesc(Integer filetype,String string, LSuserMaster lsuserMaster, Date fromdate, Date todate);
 
 	List<LSlogilablimsorderdetail> findByFiletypeAndOrderflagAndAssignedtoAndCreatedtimestampBetweenOrderByBatchcodeDesc(Integer filetype, String string, LSuserMaster lsuserMaster, Date fromdate, Date todate);
+
+	@Transactional
+	@Modifying
+	@Query(value = "select batchcode from"
+	+ " LSlogilablimsorderdetail where ( orderflag = ?1 and lsprojectmaster_projectcode in (?2) and approvelstatus = ?3 ) or ( approved= ?4 and orderflag = ?5 )", nativeQuery=true)
+	public List<Long> countByOrderflagAndLsprojectmasterInOrderByBatchcodeDescInprogress(String orderflag,List<LSprojectmaster> lstproject, Integer approvelstatus , Integer approved,String orderflag1);
+
+
 }

@@ -77,6 +77,17 @@ public class LSlogilabprotocoldetail implements Comparable<LSlogilabprotocoldeta
 	LScfttransaction objmanualaudit;
 	
 	@Transient
+	LScfttransaction objsilentaudit;
+	
+	public LScfttransaction getObjsilentaudit() {
+		return objsilentaudit;
+	}
+
+	public void setObjsilentaudit(LScfttransaction objsilentaudit) {
+		this.objsilentaudit = objsilentaudit;
+	}
+
+	@Transient
 	private Integer ismultitenant;
 
 	public Long getProtocolordercode() {

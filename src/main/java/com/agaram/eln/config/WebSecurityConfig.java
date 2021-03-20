@@ -88,7 +88,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		antMatchers("/Login/UpdatePassword").permitAll().
 		antMatchers("/AuditTrail/AuditConfigurationrecord").permitAll().
 		antMatchers("/User/GetPasswordPolicySitewise").permitAll().
+		antMatchers("/User/Createcentraliseduser").permitAll().
+		antMatchers("/User/Getallcentraliseduser").permitAll().
+		antMatchers("/User/Getcentraliseduserbyid").permitAll().
 		antMatchers("/Instrument/GetInstrumentParameters").permitAll().
+		antMatchers("/Instrument/Insertshareorder").permitAll().
 		antMatchers("/multitenant/Registertenant").permitAll().
 		antMatchers("/multitenant/Validatetenant").permitAll().
 		antMatchers("/multitenant/checktenantid").permitAll().
@@ -98,10 +102,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		antMatchers("/multitenant/Updatetenant").permitAll().
 		antMatchers("/multitenant/Initiatetenant").permitAll().
 		antMatchers("/multitenant/Updaprofiletetenant").permitAll().
-//		antMatchers("/multitenant/tenantadministratorlogin").permitAll().
 		antMatchers("/multitenant/checkusermail").permitAll().
 		antMatchers("/multitenant/tenantcontactno").permitAll().
 		antMatchers("/multitenant/Completeregistration").permitAll().
+		antMatchers("/multitenant/updatetenantadminpassword").permitAll().
 		antMatchers("/reports/cloudsaveDocxsReport").permitAll().
 		antMatchers("/reports/getSheetLSfileWithFileCode").permitAll().
 		antMatchers("/reports/getLSdocreportsLst").permitAll().
@@ -110,6 +114,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		antMatchers("/reports/Getorderbytype").permitAll().
 //		antMatchers("/").permitAll().
 		antMatchers("/User/profile/*").permitAll().
+		antMatchers("/User/Cloudprofile/*").permitAll().
+		antMatchers("/Login/Logout").permitAll().
+		antMatchers("/Instrument/Unshareorderto").permitAll().
 		// all other requests need to be authenticated
 		anyRequest().authenticated().and().
 		// make sure we use stateless session; session won't be used to

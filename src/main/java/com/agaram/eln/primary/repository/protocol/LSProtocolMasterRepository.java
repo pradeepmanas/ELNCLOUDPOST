@@ -1,5 +1,6 @@
 package com.agaram.eln.primary.repository.protocol;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -85,5 +86,7 @@ public interface LSProtocolMasterRepository extends JpaRepository<LSprotocolmast
 
 	List<LSprotocolmaster> findByStatusAndLssitemasterAndLSprotocolworkflowNotAndCreatedbyNotAndSharewithteamAndApproved(
 			int i, Integer lssitemaster, LSprotocolworkflow lsprotocolworkflow, Integer lsuserMaster, int j, int k);
-	
+
+	List<LSprotocolmaster> findByProtocolmastercodeIn( ArrayList<Integer> ids);
+
 }

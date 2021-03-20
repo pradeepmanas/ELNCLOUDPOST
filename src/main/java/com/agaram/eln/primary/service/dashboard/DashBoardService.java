@@ -113,7 +113,8 @@ public class DashBoardService {
 			List<Long> orderinproject = new ArrayList<Long>();
 			if(lstproject != null && lssamplefile != null && lstproject.size() >0 && lssamplefile.size()>0)
 			{
-				orderinproject = lslogilablimsorderdetailRepository.countByOrderflagAndLssamplefileInAndLsprojectmasterIn("N", lssamplefile,lstproject,objuser.getUsercode());
+//				orderinproject = lslogilablimsorderdetailRepository.countByOrderflagAndLssamplefileInAndLsprojectmasterIn("N", lssamplefile,lstproject,objuser.getUsercode());
+				orderinproject = lslogilablimsorderdetailRepository.countByOrderflagAndLsprojectmasterInOrderByBatchcodeDescInprogress("N",lstproject,1,1,"N");
 			}
 			mapOrders.put("orders", (lsorder+lstUserorder));
 			long lstlimspending = lslogilablimsorderdetailRepository.countByFiletypeAndOrderflagOrderByBatchcodeDesc(0, "N");

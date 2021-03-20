@@ -118,4 +118,10 @@ public class DatasourceController {
 	
 		return datasourceService.Completeregistration(DataSourceConfig);
 	}
+	
+	@PostMapping("/updatetenantadminpassword")
+	public DataSourceConfig updatetenantadminpassword(@RequestBody DataSourceConfig Tenant) throws MessagingException
+	{
+		return datasourceService.updatetenantadminpassword(Tenant);
+	}
 }

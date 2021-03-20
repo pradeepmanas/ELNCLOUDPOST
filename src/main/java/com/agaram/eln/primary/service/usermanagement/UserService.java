@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +18,11 @@ import com.agaram.eln.config.AESEncryption;
 import com.agaram.eln.primary.model.cfr.LScfttransaction;
 import com.agaram.eln.primary.model.general.Response;
 import com.agaram.eln.primary.model.instrumentDetails.LSlogilablimsorderdetail;
+import com.agaram.eln.primary.model.notification.Email;
 import com.agaram.eln.primary.model.usermanagement.LSPasswordPolicy;
 import com.agaram.eln.primary.model.usermanagement.LSSiteMaster;
 import com.agaram.eln.primary.model.usermanagement.LSactiveUser;
+import com.agaram.eln.primary.model.usermanagement.LScentralisedUsers;
 import com.agaram.eln.primary.model.usermanagement.LSnotification;
 import com.agaram.eln.primary.model.usermanagement.LSprojectmaster;
 import com.agaram.eln.primary.model.usermanagement.LSuserActions;
@@ -33,6 +38,7 @@ import com.agaram.eln.primary.repository.instrumentDetails.LSlogilablimsorderdet
 import com.agaram.eln.primary.repository.usermanagement.LSPasswordPolicyRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSSiteMasterRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSactiveUserRepository;
+import com.agaram.eln.primary.repository.usermanagement.LScentralisedUsersRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSnotificationRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSprojectmasterRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSuserActionsRepository;
@@ -42,6 +48,7 @@ import com.agaram.eln.primary.repository.usermanagement.LSusergrouprightsReposit
 import com.agaram.eln.primary.repository.usermanagement.LSusergrouprightsmasterRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSusersteamRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSuserteammappingRepository;
+import com.agaram.eln.primary.service.notification.EmailService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
@@ -90,6 +97,12 @@ public class UserService {
 	
 	@Autowired
 	private LSprojectmasterRepository LSprojectmasterRepository;
+	
+	@Autowired
+	private LScentralisedUsersRepository lscentralisedUsersRepository;
+	
+	@Autowired
+    private EmailService emailService;
 	
 	public LSusergroup InsertUpdateUserGroup(LSusergroup objusergroup)
 	{
@@ -213,7 +226,9 @@ public class UserService {
     		lscfttransactionRepository.save(objusergroup.getObjsilentaudit());
     	}
 		
-		return lSusergroupRepository.findByusergroupnameNotOrderByUsergroupcodeDesc("Administrator");
+//		return lSusergroupRepository.findByusergroupnameNotOrderByUsergroupcodeDesc("Administrator");
+		
+	    return lSusergroupRepository.findByusergroupnameNotOrderByUsergroupcodeAsc("Administrator");
 	}
 	
 //	public LSusergroup ActDeactUserGroup(LSusergroup objusergroup) 
@@ -248,8 +263,15 @@ public class UserService {
 		return lsuserMasterRepository.findByUsernameNotAndLssitemaster("Administrator",objclass);
 	}
 	
-	public LSuserMaster InsertUpdateUser(LSuserMaster objusermaster)
+	public LSuserMaster InsertUpdateUser(LSuserMaster objusermaster) throws MessagingException
 	{
+		boolean isnewuser = false;
+		
+		if(objusermaster.getUsercode() == null)
+		{
+			isnewuser = true;
+		}
+		
 		if(objusermaster.getUsercode() == null && lsuserMasterRepository.findByusernameIgnoreCase(objusermaster.getUsername()) != null) {
 			
 			objusermaster.setResponse(new Response());
@@ -262,7 +284,7 @@ public class UserService {
 				objusermaster.getObjsilentaudit().setTableName("LSusergroup");
 	    		lscfttransactionRepository.save(objusermaster.getObjsilentaudit());
 	    	}
-//			manual audit
+
 			if(objusermaster.getObjuser() != null)
 	    	{
 				objusermaster.getObjmanualaudit().setActions("Warning");
@@ -272,18 +294,6 @@ public class UserService {
 	    	}
 			return objusermaster;
 		}
-//		else if(objusermaster.getUsercode() != null && objusermaster.getPassword().equals("reset")) {
-//			
-//			LSuserMaster user = lsuserMasterRepository.findByusercode(objusermaster.getUsercode());
-//			user.setUserstatus(objusermaster.getUserstatus());
-//			lsuserMasterRepository.save(user);
-//		}
-//		if(objusermaster.getUsercode() != null && objusermaster.getUserfullname() != null) {
-//			LSuserMaster updateUser=lsuserMasterRepository.findOne(objusermaster.getUsercode());
-//			updateUser.setUserfullname(objusermaster.getUserfullname());
-//			lsuserMasterRepository.save(updateUser);
-//			return objusermaster;
-//		}
 		else if(objusermaster.getUsercode()!=null && objusermaster.getUserstatus()!= null && objusermaster.getLsusergroup() == null){
 			LSuserMaster updateUser=lsuserMasterRepository.findOne(objusermaster.getUsercode());
 			updateUser.setUserstatus(objusermaster.getUserstatus().equals("Active")?"A":"D");
@@ -325,10 +335,36 @@ public class UserService {
 				
 				return objusermaster;
 			}
+			
+//			int passwordstatus=1;
+//			String password = Generatetenantpassword();
+//			String passwordadmin=AESEncryption.encrypt(password);
+//			LSuserMaster lsuserMaster =new LSuserMaster();
+//			objusermaster.setPassword(passwordadmin);	
+//			objusermaster.setPasswordstatus(passwordstatus);
+//			Email email = new Email();
+//			email.setMailto(objusermaster.getEmailid());
+//			email.setSubject("Usercreation success");
+//			email.setMailcontent("<b>Dear Customer</b>,<br>"
+//					+ "<i>You have successfully create user</i><br>"
+////					+ "<i>Your organisation ID is <b>"+Tenant.getTenantid()+"</b>.</i><br>"
+//					+ "<i>This is for your username and password.</i><br>"
+//					+ "<b>UserName:\t\t "+objusermaster.getUsername()+" </b><br><b>Password:\t\t"+password+"</b>");
+//			
+//			emailService.sendEmail(email);
 		}
 		
-		
 		lsuserMasterRepository.save(objusermaster);
+		
+
+		if(isnewuser)
+		{
+			String unifieduser = objusermaster.getUsername().toLowerCase().replaceAll("[^a-zA-Z0-9]", "")+"u"+objusermaster.getUsercode()+"s"+objusermaster.getLssitemaster().getSitecode()+
+					objusermaster.getUnifieduserid();
+			
+			objusermaster.setUnifieduserid(unifieduser);
+			lsuserMasterRepository.save(objusermaster);
+		}
 
 		if(objusermaster.getObjsilentaudit() != null)
     	{
@@ -350,6 +386,16 @@ public class UserService {
      	objusermaster.getResponse().setInformation("ID_SUCCESSMSG");
 		
 		return objusermaster;
+	}
+	
+	
+	private String Generatetenantpassword()
+	{
+		
+       String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*-_=+\',/?";
+       String pwd = RandomStringUtils.random( 15, characters );
+      
+       return pwd;
 	}
 	
 	public LSuserMaster InsertUpdateUserfromSDMS(LSuserMaster objusermaster)
@@ -769,9 +815,11 @@ public class UserService {
     		lscfttransactionRepository.save(Objclass.getObjsilentaudit());
     	}
 		if(Objclass.getSitecode() == 0) {
-			return lSusergroupRepository.findByusergroupstatusAndUsergroupnameNot("A","Administrator");
+//			return lSusergroupRepository.findByusergroupstatusAndUsergroupnameNot("A","Administrator");
+			return lSusergroupRepository.findByusergroupstatusAndUsergroupnameNotOrderByUsergroupcodeAsc("A","Administrator");
 		}
-		return lSusergroupRepository.findBylssitemasterAndUsergroupnameNotOrderByUsergroupcodeDesc(Objclass.getSitecode(),"Administrator");
+//		return lSusergroupRepository.findBylssitemasterAndUsergroupnameNotOrderByUsergroupcodeDesc(Objclass.getSitecode(),"Administrator");
+		return lSusergroupRepository.findBylssitemasterAndUsergroupstatusAndUsergroupnameNotOrderByUsergroupcodeAsc(Objclass.getSitecode(),"A","Administrator");
 	}
 	
 	public List<LSusergroup> GetUserGroupSiteWise(LSSiteMaster Objclass) {
@@ -968,5 +1016,58 @@ public class UserService {
 		LSuserActions objupdated = lsuserActionsRepository.save(objuseractions);
 		lsuserMasterRepository.setuseractionByusercode(objupdated, objupdated.getUsercode());
 		return objupdated;
+	}
+	
+	public List<LSusergroup> Loadtenantusergroups() {
+        List<LSusergroup> result = new ArrayList<LSusergroup>();
+        result=lSusergroupRepository.findAll();
+        return result;
+    }
+	
+	public LScentralisedUsers Createcentraliseduser(LScentralisedUsers objctrluser)
+	{
+		LScentralisedUsers objunifieduser = lscentralisedUsersRepository.findByUnifieduseridIgnoreCase(objctrluser.getUnifieduserid());
+		if(objunifieduser == null || objunifieduser.getUnifieduserid() == null)
+		{
+			lscentralisedUsersRepository.save(objctrluser);
+		}
+		return objctrluser;
+	}
+	
+	public LSuserMaster Usersendpasswormail(LSuserMaster objusermaster) throws MessagingException
+	{
+		
+		if( objusermaster.getIsmultitenant() != null && objusermaster.getMultitenantusercount() != null && objusermaster.getIsmultitenant() == 1)
+		{
+			int passwordstatus=1;
+			String password = Generatetenantpassword();
+			String passwordadmin=AESEncryption.encrypt(password);
+			LSuserMaster lsuserMaster =new LSuserMaster();
+//			lsuserMaster.setPassword(passwordadmin);
+			objusermaster.setPassword(passwordadmin);	
+			objusermaster.setPasswordstatus(passwordstatus);
+			Email email = new Email();
+			email.setMailto(objusermaster.getEmailid());
+			email.setSubject("Usercreation success");
+			email.setMailcontent("<b>Dear Customer</b>,<br>"
+					+ "<i>You have successfully create user</i><br>"
+//					+ "<i>Your organisation ID is <b>"+Tenant.getTenantid()+"</b>.</i><br>"
+					+ "<i>This is for your username and password.</i><br>"
+					+ "<b>UserName:\t\t "+objusermaster.getUsername()+" </b><br><b>Password:\t\t"+password+"</b>");
+			
+			emailService.sendEmail(email);
+			lsuserMasterRepository.setpasswordandpasswordstatusByusercode(objusermaster.getPassword(),objusermaster.getPasswordstatus(),objusermaster.getUsercode());
+		}
+		return objusermaster;
+		
+	}
+	
+	public List<LScentralisedUsers> Getallcentraliseduser(LScentralisedUsers objctrluser)
+	{
+		return lscentralisedUsersRepository.findAll();
+	}
+	
+	public LScentralisedUsers Getcentraliseduserbyid(LScentralisedUsers objctrluser) {
+		return lscentralisedUsersRepository.findByUnifieduseridIgnoreCase(objctrluser.getUnifieduserid());
 	}
 }

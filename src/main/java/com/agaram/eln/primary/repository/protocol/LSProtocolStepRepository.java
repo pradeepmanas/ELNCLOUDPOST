@@ -17,4 +17,6 @@ public interface LSProtocolStepRepository extends JpaRepository<LSprotocolstep, 
 	
 	@SuppressWarnings("unchecked")
 	LSprotocolstep save(LSprotocolstep LSprotocolstepObj);
+	
+	List<LSprotocolstep> findByStatusAndSitecode(Integer status, Integer sitecode);
 }

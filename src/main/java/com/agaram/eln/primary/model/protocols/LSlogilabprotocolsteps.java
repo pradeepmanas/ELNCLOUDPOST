@@ -33,6 +33,8 @@ public class LSlogilabprotocolsteps {
 	public String createdbyusername;
 	@Transient
 	private Integer newStep;
+	private Integer sitecode;
+	
 	public Integer getProtocolorderstepcode() {
 		return protocolorderstepcode;
 	}
@@ -110,5 +112,13 @@ public class LSlogilabprotocolsteps {
 	}
 	public void setProtocolordercode(Long protocolordercode) {
 		this.protocolordercode = protocolordercode;
+
 	}
+	public Integer getSitecode() {
+		return sitecode;
+	}
+	public void setSitecode(Integer sitecode) {
+		this.sitecode = sitecode;
+	}
+	
 }

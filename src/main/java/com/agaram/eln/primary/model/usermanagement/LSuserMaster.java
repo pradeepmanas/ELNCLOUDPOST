@@ -48,6 +48,10 @@ public class LSuserMaster {
 	private String createdby;
 	@Column(columnDefinition = "varchar(255)")
 	private String modifiedby;
+	
+	@Column(name = "passwordstatus")
+	private Integer passwordstatus;
+	
 	private Integer labsheet;
 	private String emailid;
 	private String profileimage;
@@ -91,12 +95,23 @@ public class LSuserMaster {
 	@Transient
 	private Integer multitenantusercount;
 	
+	@Column(columnDefinition = "varchar(500)")
+	private String unifieduserid;
+	
 	public String getDFormat() {
 		return DFormat;
 	}
 
 	public void setDFormat(String dFormat) {
 		DFormat = dFormat;
+	}
+	
+	public Integer getPasswordstatus() {
+		return passwordstatus;
+	}
+
+	public void setPasswordstatus(Integer passwordstatus) {
+		this.passwordstatus = passwordstatus;
 	}
 	public LScfttransaction getObjmanualaudit() {
 		return Objmanualaudit;
@@ -359,6 +374,14 @@ public class LSuserMaster {
 
 	public void setMultitenantusercount(Integer multitenantusercount) {
 		this.multitenantusercount = multitenantusercount;
+	}
+
+	public String getUnifieduserid() {
+		return unifieduserid;
+	}
+
+	public void setUnifieduserid(String unifieduserid) {
+		this.unifieduserid = unifieduserid;
 	}
 	
 	

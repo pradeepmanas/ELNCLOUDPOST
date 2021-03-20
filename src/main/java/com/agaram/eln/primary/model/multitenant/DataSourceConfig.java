@@ -59,7 +59,16 @@ public class DataSourceConfig implements Serializable {
 	}
 	@Transient
 	Response objResponse;
+	
+	@Transient
+	private String  loginpath ;
     
+	public String getLoginpath() {
+		return loginpath;
+	}
+	public void setLoginpath(String loginpath) {
+		this.loginpath = loginpath;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -25,6 +25,7 @@ public class Email {
 	
 	private String subject;
 	
+	@Column(columnDefinition = "varchar(5000)")
 	private String mailcontent;
 
 	public Integer getId() {
