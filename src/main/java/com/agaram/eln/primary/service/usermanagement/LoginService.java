@@ -604,6 +604,8 @@ public class LoginService {
 		 String existingpassword = AESEncryption.decrypt(objExitinguser.getPassword());
 		 if(objuser.getsOLDPassword().equals(existingpassword) && objuser.getsOLDPassword() !="")
 		 {
+			 if(objuser.getsNewPassword().equals(objuser.getsConfirmPassword()))
+					 {
 			 objectpwd.setPassword(AESEncryption.encrypt(objuser.getsNewPassword()));
 				objectpwd.setPasswordcreatedate(new Date());
 				objectpwd.setLsusermaster(objExitinguser);
@@ -630,7 +632,20 @@ public class LoginService {
 		    		lscfttransactionRepository.save(objuser.getObjsilentaudit());
 		    		
 		    	}
-		 }else if(objuser.getsNewPassword().equals(objuser.getsConfirmPassword()) && objuser.getsOLDPassword() =="") {
+				
+					 }
+				else
+				{
+					objExitinguser.getObjResponse().setInformation("ID_NOTMATCH");
+					objExitinguser.getObjResponse().setStatus(false);
+				}
+		 }
+		 else if(!objuser.getsOLDPassword().equals(existingpassword))
+			{
+				objExitinguser.getObjResponse().setInformation("ID_NOTOLDPASSMATCH");
+				objExitinguser.getObjResponse().setStatus(false);
+			}
+			 else if(objuser.getsNewPassword().equals(objuser.getsConfirmPassword()) && objuser.getsOLDPassword() =="") {
 				
 
 				objectpwd.setPassword(AESEncryption.encrypt(objuser.getsNewPassword()));
