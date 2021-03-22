@@ -1565,6 +1565,7 @@ public LSuserMaster validateuser(LSuserMaster objClass) {
 		}
 		else
 		{
+			objuser = userDetails;
 			Response objResponse = new Response();
 			objResponse.setStatus(true);
 			objResponse.setInformation("");
