@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class LScentralisedUsers {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Basic(optional = false)
 	@Column(name = "centralisedusercode")
 	private int centralisedusercode;
