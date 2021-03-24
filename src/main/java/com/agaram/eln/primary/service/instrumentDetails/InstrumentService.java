@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -770,9 +774,20 @@ public class InstrumentService {
 				objorder.getFiletype(), "R", objorder.getFromdate(), objorder.getTodate());
 		}
 		
+		long sharedbycount = 0;
+		long sharetomecount =0;
+		
+		if(objorder.getObjLoggeduser() != null && objorder.getObjLoggeduser().getUnifieduserid() != null)
+		{
+			sharedbycount = lsordersharedbyRepository.countBySharebyunifiedidAndOrdertypeAndSharestatusOrderBySharedbycodeDesc(objorder.getObjLoggeduser().getUnifieduserid(), objorder.getFiletype(), 1);
+			sharetomecount = lsordersharetoRepository.countBySharetounifiedidAndOrdertypeAndSharestatusOrderBySharetocodeDesc(objorder.getObjLoggeduser().getUnifieduserid(), objorder.getFiletype(), 1);
+		}
+		
 		mapOrders.put("orders", lstorder);
 		mapOrders.put("pendingcount", pendingcount);
 		mapOrders.put("completedcount", completedcount);
+		mapOrders.put("sharedbycount", sharedbycount);
+		mapOrders.put("sharetomecount", sharetomecount);
 		
 		
 		return lstorder;
@@ -1074,16 +1089,30 @@ public class InstrumentService {
 			objorder.getObjsilentaudit().setTableName("LSlogilablimsorderdetail");
     		lscfttransactionRepository.save(objorder.getObjsilentaudit());
     	}
-			mapOrders.put("orders", lstorder);
-			mapOrders.put("pendingcount", pendingcount);
-			mapOrders.put("completedcount", completedcount);
-			mapOrders.put("Assignedcount",Assignedcount);
-			mapOrders.put("myordercount",myordercount);
+		
+		long sharedbycount = 0;
+		long sharetomecount =0;
+		
+		if(objorder.getLsuserMaster() != null && objorder.getLsuserMaster().getUnifieduserid() != null)
+		{
+			sharedbycount = lsordersharedbyRepository.countBySharebyunifiedidAndOrdertypeAndSharestatusOrderBySharedbycodeDesc(objorder.getLsuserMaster().getUnifieduserid(), objorder.getFiletype(), 1);
+			sharetomecount = lsordersharetoRepository.countBySharetounifiedidAndOrdertypeAndSharestatusOrderBySharetocodeDesc(objorder.getLsuserMaster().getUnifieduserid(), objorder.getFiletype(), 1);
+		}
+		
+		
+		mapOrders.put("orders", lstorder);
+		mapOrders.put("pendingcount", pendingcount);
+		mapOrders.put("completedcount", completedcount);
+		mapOrders.put("Assignedcount",Assignedcount);
+		mapOrders.put("myordercount",myordercount);
 			
-			mapOrders.put("Assignedpendingcount",Assignedpendingcount);
-			mapOrders.put("Assignedcompletedcount",Assignedcompletedcount);
-			mapOrders.put("myorderpendingcount",myorderpendingcount);
-			mapOrders.put("myordercompletedcount",myordercompletedcount);
+		mapOrders.put("Assignedpendingcount",Assignedpendingcount);
+		mapOrders.put("Assignedcompletedcount",Assignedcompletedcount);
+		mapOrders.put("myorderpendingcount",myorderpendingcount);
+		mapOrders.put("myordercompletedcount",myordercompletedcount);
+			
+		mapOrders.put("sharedbycount", sharedbycount);
+		mapOrders.put("sharetomecount", sharetomecount);
 			
 		return lstorder;
 	}
@@ -2094,8 +2123,9 @@ public class InstrumentService {
 		return objordershareto;
 	}	
 	
-	public Lsordersharedby Insertshareorderby(Lsordersharedby objordershareby)
+	public Map<String, Object>  Insertshareorderby(Lsordersharedby objordershareby)
 	{
+		Map<String, Object> map=new HashMap<>();
 		Lsordersharedby existingshare = lsordersharedbyRepository.findBySharebyunifiedidAndSharetounifiedidAndOrdertypeAndSharebatchcode(
 				objordershareby.getSharebyunifiedid(), objordershareby.getSharetounifiedid(), objordershareby.getOrdertype(), objordershareby.getSharebatchcode());
 		if(existingshare != null)
@@ -2104,7 +2134,15 @@ public class InstrumentService {
 			objordershareby.setSharedon(existingshare.getSharedon());
 		}
 		lsordersharedbyRepository.save(objordershareby);
-		return objordershareby;
+		
+		long sharedbycount = 0;
+		
+		sharedbycount = lsordersharedbyRepository.countBySharebyunifiedidAndOrdertypeAndSharestatusOrderBySharedbycodeDesc(objordershareby.getSharebyunifiedid(), objordershareby.getOrdertype(), 1);
+				
+		map.put("order", objordershareby);
+		map.put("sharedbycount", sharedbycount);
+		
+		return map;
 	}	
 	
 	public List<Lsordersharedby> Getordersharedbyme(Lsordersharedby lsordersharedby)
@@ -2137,6 +2175,46 @@ public class InstrumentService {
 		lsordersharetoRepository.save(existingshare);
 		
 		return existingshare;
+	}
+	
+	public Lsordersharedby GetsharedorderStatus(Lsordersharedby objorder)
+	{
+		
+		LSlogilablimsorderdetail objorgorder = new LSlogilablimsorderdetail();
+		
+		objorgorder.setBatchcode(objorder.getSharebatchcode());
+		objorgorder.setObjLoggeduser(objorder.getObjLoggeduser());
+		objorgorder.setObjsilentaudit(objorder.getObjsilentaudit());
+		objorgorder.setObjmanualaudit(objorder.getObjmanualaudit());
+		objorgorder.setIsmultitenant(objorder.getIsmultitenant());
+		
+		objorgorder = GetorderStatus(objorgorder);
+		
+		objorder= lsordersharedbyRepository.findOne(objorder.getSharedbycode());
+		
+		objorder.setObjorder(objorgorder);
+		
+		return objorder;
+	}
+	
+	public Lsordershareto GetsharedtomeorderStatus(Lsordershareto objorder)
+	{
+		
+		LSlogilablimsorderdetail objorgorder = new LSlogilablimsorderdetail();
+		
+		objorgorder.setBatchcode(objorder.getSharebatchcode());
+		objorgorder.setObjLoggeduser(objorder.getObjLoggeduser());
+		objorgorder.setObjsilentaudit(objorder.getObjsilentaudit());
+		objorgorder.setObjmanualaudit(objorder.getObjmanualaudit());
+		objorgorder.setIsmultitenant(objorder.getIsmultitenant());
+		
+		objorgorder = GetorderStatus(objorgorder);
+		
+		//objorder= lsordersharetoRepository.findOne(objorder.getSharetocode());
+		
+		objorder.setObjorder(objorgorder);
+		
+		return objorder;
 	}
 }
 	

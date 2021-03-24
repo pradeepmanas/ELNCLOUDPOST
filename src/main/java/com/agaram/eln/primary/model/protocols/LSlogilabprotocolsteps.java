@@ -34,7 +34,7 @@ public class LSlogilabprotocolsteps {
 	@Transient
 	private Integer newStep;
 	private Integer sitecode;
-	
+	private String orderstepflag;
 	public Integer getProtocolorderstepcode() {
 		return protocolorderstepcode;
 	}
@@ -119,6 +119,12 @@ public class LSlogilabprotocolsteps {
 	}
 	public void setSitecode(Integer sitecode) {
 		this.sitecode = sitecode;
+	}
+	public String getOrderstepflag() {
+		return orderstepflag;
+	}
+	public void setOrderstepflag(String orderstepflag) {
+		this.orderstepflag = orderstepflag;
 	}
 	
 }

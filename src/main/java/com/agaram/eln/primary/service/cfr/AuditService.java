@@ -626,7 +626,7 @@ public class AuditService {
 				String username= objMapper.convertValue(objaudit.get("username"), String.class);
 				Integer sitecode= cfttransaction.getLssitemaster();
 				LSSiteMaster objsite = lSSiteMasterRepository.findBysitecode(sitecode);
-				LSuserMaster objuser= lSuserMasterRepository.findByusernameAndLssitemaster(username, objsite);
+				LSuserMaster objuser= lSuserMasterRepository.findByUsernameIgnoreCaseAndLssitemaster(username, objsite);
 				cfttransaction.setLsuserMaster(objuser.getUsercode());
 //				cfttransaction.setLssitemaster(objuser.getLssitemaster());
 				cfttransaction.setLssitemaster(objuser.getLssitemaster().getSitecode());

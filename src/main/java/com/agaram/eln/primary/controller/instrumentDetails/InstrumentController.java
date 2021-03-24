@@ -466,7 +466,7 @@ public class InstrumentController {
 	}
 	
 	@PostMapping("/Insertshareorderby")
-	public Lsordersharedby Insertshareorderby(@RequestBody Lsordersharedby objordersharedby)
+	public Map<String, Object> Insertshareorderby(@RequestBody Lsordersharedby objordersharedby)
 	{
 		return instrumentService.Insertshareorderby(objordersharedby);
 	}
@@ -493,5 +493,17 @@ public class InstrumentController {
 	public Lsordershareto Unshareorderto(@RequestBody Lsordershareto lsordershareto)
 	{
 		return instrumentService.Unshareorderto(lsordershareto);
+	}
+	
+	@PostMapping("/GetsharedorderStatus")
+	public Lsordersharedby GetsharedorderStatus(@RequestBody Lsordersharedby objorder) throws IOException
+	{
+		return instrumentService.GetsharedorderStatus(objorder);
+	}
+	
+	@PostMapping("/GetsharedtomeorderStatus")
+	public Lsordershareto GetsharedtomeorderStatus(@RequestBody Lsordershareto objorder)
+	{
+		return instrumentService.GetsharedtomeorderStatus(objorder);
 	}
 }

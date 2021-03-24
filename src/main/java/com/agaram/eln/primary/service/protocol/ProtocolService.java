@@ -42,6 +42,7 @@ import com.agaram.eln.primary.repository.protocol.lSprotocolworkflowRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSSiteMasterRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSuserMasterRepository;
 import com.agaram.eln.primary.repository.usermanagement.LSuserteammappingRepository;
+import com.agaram.eln.primary.service.basemaster.BaseMasterService;
 import com.agaram.eln.primary.repository.protocol.LSlogilabprotocoldetailRepository;
 import com.agaram.eln.primary.repository.protocol.LSlogilabprotocolstepsRepository;
 
@@ -84,6 +85,9 @@ public class ProtocolService {
 	
 	@Autowired
 	private LSlogilabprotocolstepsRepository LSlogilabprotocolstepsRepository;
+	
+	@Autowired
+    private BaseMasterService masterService;
 	
 	public Map<String, Object> getProtocolMasterInit(Map<String, Object> argObj){
 		Map<String, Object> mapObj = new HashMap<String, Object>();
@@ -277,7 +281,7 @@ public class ProtocolService {
 			@SuppressWarnings("unused")
 			LSprotocolmaster newProtocolMasterObj = new ObjectMapper().convertValue(argObj.get("ProtocolMasterObj"), new TypeReference<LSprotocolmaster>(){});
 			List<LSprotocolstep> LSprotocolsteplst = LSProtocolStepRepositoryObj.findByStatusAndSitecode(1, LScfttransactionobj.getLssitemaster());
-			List<LSprotocolstep> LSprotocolstepLst = new ArrayList<LSprotocolstep>();
+			List<LSprotocolstep> LSprotocolstepLstUpdate = new ArrayList<LSprotocolstep>();
 			for(LSprotocolstep LSprotocolstepObj1: LSprotocolsteplst) {
 				/**
 				 * Added by sathishkumar chandrasekar for smultitenant
@@ -299,11 +303,11 @@ public class ProtocolService {
 //				if(newLSprotocolstepInfo != null) {
 //					LSprotocolstepObj1.setLsprotocolstepInfo(newLSprotocolstepInfo.getContent());
 //				}
-				LSprotocolstepLst.add(LSprotocolstepObj1);
+				LSprotocolstepLstUpdate.add(LSprotocolstepObj1);
 //				LSprotocolstepObj1.setLsprotocolstepInfo(mongoTemplate.findById(LSprotocolstepObj1.getProtocolstepcode(), LSprotocolstepInfo.class).getContent());
 			}
 			if(LSprotocolsteplst != null) {
-				mapObj.put("protocolstepLst", LSprotocolstepLst);
+				mapObj.put("protocolstepLst", LSprotocolstepLstUpdate);
 			}else {
 				mapObj.put("protocolstepLst", new ArrayList<>());
 			}
@@ -770,7 +774,8 @@ public class ProtocolService {
 		}
 		
 		LSprotocolmaster LsProto = LSProtocolMasterRepositoryObj.findFirstByProtocolmastercode(objClass.getProtocolmastercode());
-		LSProtocolMasterRepositoryObj.updateFileWorkflow(objClass.getlSprotocolworkflow(), approved, objClass.getProtocolmastercode());
+		LSProtocolMasterRepositoryObj.updateFileWorkflow(objClass.getlSprotocolworkflow(),
+				approved,objClass.getRejected(), objClass.getProtocolmastercode());
 		
 		LsProto.setlSprotocolworkflow(objClass.getlSprotocolworkflow());
 		if(LsProto.getApproved() == null) {
@@ -853,6 +858,7 @@ public class ProtocolService {
 				String ProtocolOrderName ="ELN"+lSlogilabprotocoldetail.getProtocolordercode();
 				
 				lSlogilabprotocoldetail.setProtoclordername(ProtocolOrderName);
+				lSlogilabprotocoldetail.setOrderflag("N");
 				
 				List<LSprotocolstep> lstSteps=LSProtocolStepRepositoryObj
 						.findByProtocolmastercode(lSlogilabprotocoldetail.getLsprotocolmaster().getProtocolmastercode());
@@ -865,7 +871,7 @@ public class ProtocolService {
 				
 				while(i < lstSteps.size()) {
 					lststep1.get(i).setProtocolordercode(lSlogilabprotocoldetail.getProtocolordercode());
-					
+					lststep1.get(i).setOrderstepflag("N");
 					/*if(lSlogilabprotocoldetail.getIsmultitenant() == 1) {
 							CloudLSprotocolstepInfo updateLSprotocolstepInfo = CloudLSprotocolstepInfoRepository.findById(lststep1.get(i).getProtocolstepcode());
 							updateLSprotocolstepInfo.setLsprotocolstepInfo(lststep1.get(i).getLsprotocolstepInfo());
@@ -1013,6 +1019,70 @@ public class ProtocolService {
 		return mapObj;
 	}
 
+	public Map<String, Object> getAllMasters(LSuserMaster objuser)
+	{
+		Map<String, Object> mapOrders = new HashMap<String, Object>();
+		
+		mapOrders.put("test", masterService.getTestmaster(objuser));
+		mapOrders.put("sample", masterService.getsamplemaster(objuser));
+		mapOrders.put("project", masterService.getProjectmaster(objuser));
+//		mapOrders.put("sheets", GetApprovedSheets(0,objuser));
+		if(objuser.getObjsilentaudit() != null)
+    	{
+			objuser.getObjsilentaudit().setTableName("LSfiletest");
+    		lscfttransactionRepository.save(objuser.getObjsilentaudit());
+    	}
+		return mapOrders;
+	}
+	
+	public Map<String, Object> startStep(LSuserMaster objuser)
+	{
+		Map<String, Object> mapOrders = new HashMap<String, Object>();
+		if(objuser.getObjsilentaudit() != null)
+    	{
+			objuser.getObjsilentaudit().setTableName("lslogilabprotocolsteps");
+    		lscfttransactionRepository.save(objuser.getObjsilentaudit());
+    	}
+		return mapOrders;
+	}
+	
+	public Map<String, Object> updateStepStatus(Map<String, Object> argMap)
+	{
+		Map<String, Object> mapOrders = new HashMap<String, Object>();
+		LScfttransaction LScfttransactionobj = new LScfttransaction();
+		if(argMap.containsKey("objsilentaudit")) {
+			LScfttransactionobj = new ObjectMapper().convertValue(argMap.get("objsilentaudit"),
+					new TypeReference<LScfttransaction>() {
+					});
+			LSlogilabprotocolsteps LSlogilabprotocolstepsObj = new ObjectMapper().convertValue(argMap.get("protocolstep"),
+					new TypeReference<LSlogilabprotocolsteps>() {
+					});
+			LSlogilabprotocolstepsRepository.save(LSlogilabprotocolstepsObj);
+			
+			mapOrders = getProtocolOrderStepLst(argMap);
+			LScfttransactionobj.setTableName("lslogilabprotocolsteps");
+    		lscfttransactionRepository.save(LScfttransactionobj);
+		}
+		return mapOrders;
+	}
+	
+	public Map<String, Object> updateOrderStatus(Map<String, Object> argMap)
+	{
+		Map<String, Object> mapOrders = new HashMap<String, Object>();
+		LScfttransaction LScfttransactionobj = new LScfttransaction();
+		if(argMap.containsKey("objsilentaudit")) {
+			LScfttransactionobj = new ObjectMapper().convertValue(argMap.get("objsilentaudit"),
+					new TypeReference<LScfttransaction>() {
+					});
+			LSlogilabprotocoldetail newProtocolOrderObj = new ObjectMapper().
+					convertValue(argMap.get("ProtocolOrderObj"),new TypeReference<LSlogilabprotocoldetail>(){});
+			LSlogilabprotocoldetailRepository.save(newProtocolOrderObj);
+			LScfttransactionobj.setTableName("LSlogilabprotocoldetail");
+    		lscfttransactionRepository.save(LScfttransactionobj);
+		}
+		return mapOrders;
+	}
+	
 	/*public Map<String, Object> addProtocolOrderStep(Map<String, Object> argObj) {
 		
 		Map<String, Object> mapObj = new HashMap<String, Object>();

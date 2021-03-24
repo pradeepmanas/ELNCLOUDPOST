@@ -45,6 +45,16 @@ public class LSlogilabprotocoldetail implements Comparable<LSlogilabprotocoldeta
 		this.keyword = keyword;
 	}
 
+	private String orderflag;
+	
+	public String getOrderflag() {
+		return orderflag;
+	}
+
+	public void setOrderflag(String orderflag) {
+		this.orderflag = orderflag;
+	}
+
 	@Column(name = "Protocoltype")
 	private Integer protocoltype;
 	

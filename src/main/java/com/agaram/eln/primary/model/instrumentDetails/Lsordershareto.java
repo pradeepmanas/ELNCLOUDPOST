@@ -9,8 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
+
+import com.agaram.eln.primary.model.cfr.LScfttransaction;
+import com.agaram.eln.primary.model.usermanagement.LSuserMaster;
 
 @Entity(name = "Lsordershareto")
 @Table(name = "Lsordershareto")
@@ -52,6 +56,21 @@ public class Lsordershareto {
 	private int sharestatus =0;
 	
 	private int ordertype =0;
+	
+	@Transient
+	LSuserMaster objLoggeduser;
+	
+	@Transient
+	LScfttransaction objsilentaudit;
+	
+	@Transient
+	LScfttransaction objmanualaudit;
+	
+	@Transient
+	private Integer ismultitenant;
+	
+	@Transient
+	private LSlogilablimsorderdetail objorder;
 
 	public Long getSharetocode() {
 		return sharetocode;
@@ -163,6 +182,46 @@ public class Lsordershareto {
 
 	public void setSharemodifiedon(Date sharemodifiedon) {
 		this.sharemodifiedon = sharemodifiedon;
+	}
+
+	public LSuserMaster getObjLoggeduser() {
+		return objLoggeduser;
+	}
+
+	public void setObjLoggeduser(LSuserMaster objLoggeduser) {
+		this.objLoggeduser = objLoggeduser;
+	}
+
+	public LScfttransaction getObjsilentaudit() {
+		return objsilentaudit;
+	}
+
+	public void setObjsilentaudit(LScfttransaction objsilentaudit) {
+		this.objsilentaudit = objsilentaudit;
+	}
+
+	public LScfttransaction getObjmanualaudit() {
+		return objmanualaudit;
+	}
+
+	public void setObjmanualaudit(LScfttransaction objmanualaudit) {
+		this.objmanualaudit = objmanualaudit;
+	}
+
+	public Integer getIsmultitenant() {
+		return ismultitenant;
+	}
+
+	public void setIsmultitenant(Integer ismultitenant) {
+		this.ismultitenant = ismultitenant;
+	}
+
+	public LSlogilablimsorderdetail getObjorder() {
+		return objorder;
+	}
+
+	public void setObjorder(LSlogilablimsorderdetail objorder) {
+		this.objorder = objorder;
 	}
 	
 	

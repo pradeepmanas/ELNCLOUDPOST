@@ -60,10 +60,11 @@ public interface LSProtocolMasterRepository extends JpaRepository<LSprotocolmast
 	
 	@Transactional
 	@Modifying
-	@Query("update LSprotocolmaster set lSprotocolworkflow = :workflow, approved= :approved "
+	@Query("update LSprotocolmaster set lSprotocolworkflow = :workflow, approved= :approved , rejected= :rejected "
 			+ "where protocolmastercode in (:protocolmastercode)")
 	public void updateFileWorkflow(@Param("workflow")  LSprotocolworkflow lsprotocolworkflow, 
-			@Param("approved")  Integer approved ,@Param("protocolmastercode")  Integer protocolmastercode);
+			@Param("approved")  Integer approved ,@Param("rejected")  Integer rejected,
+			@Param("protocolmastercode")  Integer protocolmastercode);
 		
 	
 	public long countBylSprotocolworkflowAndApproved(LSprotocolworkflow lSprotocolworkflow, Integer Approved);

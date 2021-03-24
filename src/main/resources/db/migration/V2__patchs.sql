@@ -87,3 +87,18 @@ ALTER TABLE IF Exists lsordersharedby ADD COLUMN IF NOT EXISTS sharedon timestam
 ALTER TABLE IF Exists lsordersharedby ADD COLUMN IF NOT EXISTS sharemodifiedon timestamp;
 
 ALTER TABLE IF Exists lsordersharedby ADD COLUMN IF NOT EXISTS unsharedon timestamp;
+
+update lsusergrouprights set sedit=1 where lsusergrouprights.displaytopic = 'User Group' and lsusergrouprights.sedit='NA'
+
+update lsusergrouprightsmaster set sedit=1 where lsusergrouprightsmaster.orderno=17 and lsusergrouprightsmaster.sedit='NA'
+
+
+ALTER TABLE IF Exists lslogilabprotocolsteps ADD COLUMN IF NOT EXISTS orderstepflag varchar(2);
+
+update lslogilabprotocolsteps set orderstepflag = 'N';
+
+ALTER TABLE IF Exists lslogilabprotocoldetail ADD COLUMN IF NOT EXISTS orderflag varchar(2);
+
+update lslogilabprotocoldetail set orderflag = 'N';
+
+update lssheetworkflow set lssitemaster_sitecode =1 where lssheetworkflow.workflowname='New' and lssheetworkflow.lssitemaster_sitecode = null;

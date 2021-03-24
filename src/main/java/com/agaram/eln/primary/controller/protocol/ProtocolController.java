@@ -149,6 +149,30 @@ public class ProtocolController {
 		return objMap;
 	}
 	
+	@RequestMapping(value="/getAllMasters")
+	protected Map<String, Object> getAllMasters(@RequestBody LSuserMaster objuser){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.getAllMasters(objuser);
+		return objMap;
+	}
+	@RequestMapping(value="/startStep")
+	protected Map<String, Object> startStep(@RequestBody LSuserMaster objuser){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.startStep(objuser);
+		return objMap;
+	}
+	@RequestMapping(value="/updateStepStatus")
+	protected Map<String, Object> updateStepStatus(@RequestBody Map<String, Object> argMap){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.updateStepStatus(argMap);
+		return objMap;
+	}
+	@RequestMapping(value="/updateOrderStatus")
+	protected Map<String, Object> updateOrderStatus(@RequestBody Map<String, Object> argMap){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.updateOrderStatus(argMap);
+		return objMap;
+	}
 //	@RequestMapping(value="/addProtocolOrderStep")
 //	protected Map<String, Object> addProtocolOrderStep(@RequestBody Map<String, Object> argObj){
 //		Map<String, Object> objMap = new HashMap<String, Object>();

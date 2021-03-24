@@ -10,4 +10,6 @@ public interface LsordersharedbyRepository extends JpaRepository<Lsordersharedby
 
 	public List<Lsordersharedby> findBySharebyunifiedidAndOrdertypeAndSharestatusOrderBySharedbycodeDesc(String unifiedid, Integer ordertype, Integer sharestatus);
 	public Lsordersharedby findBySharebyunifiedidAndSharetounifiedidAndOrdertypeAndSharebatchcode(String sharebyunifiedid, String sharetounifiedid, Integer ordertype, Long sharebatchcode);
+	
+	public long countBySharebyunifiedidAndOrdertypeAndSharestatusOrderBySharedbycodeDesc(String unifiedid, Integer ordertype, Integer sharestatus);
 }
