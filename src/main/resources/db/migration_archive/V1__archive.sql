@@ -1,3 +1,13 @@
+CREATE TABLE IF NOT EXISTS public.lscfrarchivehistory
+(
+    archivecode integer NOT NULL,
+    archivedate timestamp without time zone,
+    archiveusercode integer NOT NULL,
+    archiveusername character varying(255) COLLATE pg_catalog."default",
+    discription character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT lscfrarchivehistory_pkey PRIMARY KEY (archivecode)
+);
+
 CREATE TABLE IF NOT EXISTS public.archivetransactions
 (
     serialno integer NOT NULL,
@@ -23,15 +33,6 @@ CREATE TABLE IF NOT EXISTS public.archivetransactions
         ON DELETE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS public.lscfrarchivehistory
-(
-    archivecode integer NOT NULL,
-    archivedate timestamp without time zone,
-    archiveusercode integer NOT NULL,
-    archiveusername character varying(255) COLLATE pg_catalog."default",
-    discription character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT lscfrarchivehistory_pkey PRIMARY KEY (archivecode)
-);
 
 CREATE TABLE IF NOT EXISTS public.datasourceconfig
 (
