@@ -1039,13 +1039,13 @@ public class UserService {
 		
 		if( objusermaster.getIsmultitenant() != null && objusermaster.getMultitenantusercount() != null && objusermaster.getIsmultitenant() == 1)
 		{
-			int passwordstatus=1;
+//			int passwordstatus=1;
 			String password = Generatetenantpassword();
 			String passwordadmin=AESEncryption.encrypt(password);
 			LSuserMaster lsuserMaster =new LSuserMaster();
 //			lsuserMaster.setPassword(passwordadmin);
 			objusermaster.setPassword(passwordadmin);	
-			objusermaster.setPasswordstatus(passwordstatus);
+//			objusermaster.setPasswordstatus(passwordstatus);
 			Email email = new Email();
 			email.setMailto(objusermaster.getEmailid());
 			email.setSubject("Usercreation success");

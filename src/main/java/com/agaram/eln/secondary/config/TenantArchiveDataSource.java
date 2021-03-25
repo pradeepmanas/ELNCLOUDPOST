@@ -46,7 +46,7 @@ public class TenantArchiveDataSource implements Serializable {
         Map<String, DataSource> result = new HashMap<>();
         result = tenantDataSource.archivedataSources;
         for (String name : result.keySet()) {
-            Flyway flyway = Flyway.configure().dataSource(result.get(name)).locations("filesystem:./src/main/resources/db/migration_archive").load();
+            Flyway flyway = Flyway.configure().dataSource(result.get(name)).locations("classpath:db/migration_archive").load();
             flyway.repair();
             flyway.migrate();
         }

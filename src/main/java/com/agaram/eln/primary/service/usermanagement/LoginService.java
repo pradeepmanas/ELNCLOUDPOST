@@ -640,7 +640,7 @@ public class LoginService {
 					objExitinguser.getObjResponse().setStatus(false);
 				}
 		 }
-		 else if(!objuser.getsOLDPassword().equals(existingpassword) && existingpassword!=null)
+		 else if((!objuser.getsOLDPassword().equals(existingpassword)) && (existingpassword!=null))
 			{
 				objExitinguser.getObjResponse().setInformation("ID_NOTOLDPASSMATCH");
 				objExitinguser.getObjResponse().setStatus(false);

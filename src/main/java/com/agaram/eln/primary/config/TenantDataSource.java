@@ -128,7 +128,7 @@ public class TenantDataSource implements Serializable {
     	if (dataSource != null) {
     		archivedataSources.put(name, dataSource);
             
-            Flyway flyway = Flyway.configure().dataSource(dataSource).locations("filesystem:./src/main/resources/db/migration_archive").load();
+            Flyway flyway = Flyway.configure().dataSource(dataSource).locations("classpath:db/migration_archive").load();
             flyway.repair();
             flyway.migrate();
             
