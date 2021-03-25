@@ -8,31 +8,6 @@ CREATE TABLE IF NOT EXISTS public.lscfrarchivehistory
     CONSTRAINT lscfrarchivehistory_pkey PRIMARY KEY (archivecode)
 );
 
-CREATE TABLE IF NOT EXISTS public.archivetransactions
-(
-    serialno integer NOT NULL,
-    actions text COLLATE pg_catalog."default",
-    affectedclientid character varying(100) COLLATE pg_catalog."default",
-    comments text COLLATE pg_catalog."default",
-    instrumentid character varying(100) COLLATE pg_catalog."default",
-    manipulatetype character varying(100) COLLATE pg_catalog."default",
-    modifieddata character varying(100) COLLATE pg_catalog."default",
-    modulename text COLLATE pg_catalog."default",
-    reason character varying(100) COLLATE pg_catalog."default",
-    requestedclientid character varying(100) COLLATE pg_catalog."default",
-    reviewedstatus character varying(100) COLLATE pg_catalog."default",
-    systemcoments character varying(100) COLLATE pg_catalog."default",
-    tablename character varying(100) COLLATE pg_catalog."default",
-    transactiondate timestamp without time zone,
-    username character varying(255) COLLATE pg_catalog."default",
-    lscfrarchivehistory_archivecode integer,
-    CONSTRAINT archivetransactions_pkey PRIMARY KEY (serialno),
-    CONSTRAINT fkgnkxyqb828u7uc4onvkymaa7p FOREIGN KEY (lscfrarchivehistory_archivecode)
-        REFERENCES public.lscfrarchivehistory (archivecode) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-);
-
 
 CREATE TABLE IF NOT EXISTS public.datasourceconfig
 (
