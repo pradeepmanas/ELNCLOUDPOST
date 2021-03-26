@@ -502,7 +502,8 @@ public class LoginService {
 		
 		LSuserMaster objExitinguser = new LSuserMaster();
 		String username = objuser.getsUsername();
-		objExitinguser = lSuserMasterRepository.findByUsernameIgnoreCaseAndLoginfrom(username,"0");
+//		objExitinguser = lSuserMasterRepository.findByUsernameIgnoreCaseAndLoginfrom(username,"0");
+		objExitinguser = lSuserMasterRepository.findByUsernameIgnoreCaseAndLoginfromAndUserretirestatusNot(username,"0",1);
 		
 		if(objExitinguser != null)
 		{
@@ -1528,7 +1529,8 @@ public LSuserMaster validateuser(LSuserMaster objClass) {
 		{
 			if(objuser.getIsmultitenant() != null && objuser.getMultitenantusercount() != null && objuser.getIsmultitenant() == 1)
 			{
-				if(lsuserMasterRepository.countByusercodeNot(1) >= objuser.getMultitenantusercount())
+//				if(lsuserMasterRepository.countByusercodeNot(1) >= objuser.getMultitenantusercount())
+					if(lsuserMasterRepository.countByusercodeNotAndUserretirestatusNot(1,1) >= objuser.getMultitenantusercount())
 				{
 					Response objResponse = new Response();
 					objResponse.setStatus(false);

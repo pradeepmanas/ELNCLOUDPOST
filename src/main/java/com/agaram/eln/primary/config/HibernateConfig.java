@@ -158,6 +158,10 @@ public class HibernateConfig {
 		        {
 	        		databasePopulator.addScript(new ClassPathResource("import_patchs_ls.sql"));
 		        }
+	        	else 
+		        {
+		        	databasePopulator.addScript(new ClassPathResource("import_patchs_ls.sql"));
+		        }
 	        }
 	        else 
 	        {

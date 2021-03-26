@@ -16,4 +16,5 @@ public interface LSworkflowRepository  extends JpaRepository<LSworkflow, Integer
 	public LSworkflow findTopByAndLssitemasterOrderByWorkflowcodeAsc(LSSiteMaster lssitemaster);
 	public List<LSworkflow> findByLsworkflowgroupmappingIn(List<LSworkflowgroupmapping> lsworkflowgroupmapping);
 	public List<LSworkflow> findBylssitemaster(LSSiteMaster LSSiteMaster);
+	public List<LSworkflow> findByLssitemasterOrderByWorkflowcodeAsc(LSSiteMaster lssitemaster);
 }

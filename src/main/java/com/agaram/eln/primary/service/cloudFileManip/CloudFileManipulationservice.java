@@ -1,20 +1,15 @@
 package com.agaram.eln.primary.service.cloudFileManip;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Writer;
 import java.util.Date;
-import java.util.Scanner;
 
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.agaram.eln.primary.config.TenantContext;
@@ -37,6 +32,7 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
 
 @Service
+@Transactional 
 public class CloudFileManipulationservice {
 	
 	@Autowired
@@ -151,7 +147,7 @@ public class CloudFileManipulationservice {
     
     public CloudOrderAttachment retrieveFile(LsOrderattachments objattachment){
     
-    	CloudOrderAttachment objfile = cloudOrderAttachmentRepository.findById(objattachment.getFileid());
+    	CloudOrderAttachment objfile = cloudOrderAttachmentRepository.findById(Integer.parseInt(objattachment.getFileid()));
 	
         return objfile;
 	}
@@ -185,7 +181,7 @@ public class CloudFileManipulationservice {
     }
     
     public Long deleteattachments(String id) { 
-        return cloudOrderAttachmentRepository.deleteById(id); 
+        return cloudOrderAttachmentRepository.deleteById(Integer.parseInt(id)); 
     }
     
     public void deletelargeattachments(String id) { 

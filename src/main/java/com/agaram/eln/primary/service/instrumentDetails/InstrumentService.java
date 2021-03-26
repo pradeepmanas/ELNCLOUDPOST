@@ -204,15 +204,25 @@ public class InstrumentService {
 		lsInst.add("INST000");
 		lsInst.add("LPRO");
 		List<LsMethodFields> Methods = lsMethodFieldsRepository.findByinstrumentidNotIn(lsInst);
-		List<LSinstruments> Instruments = lSinstrumentsRepository.findAll();
-		List<LSfields> Generalfields = lSfieldsRepository.findByisactive(1);
+		
+		
 		List<LsMappedTemplate> MappedTemplate = LsMappedTemplateRepository.findAll();
 		List<LsUnmappedTemplate> UnmappedTemplate = LsUnmappedTemplateRepository.findAll();
 		
+		if(lssiteMaster.getIsmultitenant()!=1) {
+			List<LSfields> Generalfields = lSfieldsRepository.findByisactive(1);
+			 List<LSinstruments> Instruments = lSinstrumentsRepository.findAll();
+			obj.put("Generalfields", Generalfields);
+			obj.put("Instruments", Instruments);
+			obj.put("elninstrument",lselninstrumentmasterRepository.findBylssitemasterAndStatusOrderByInstrumentcodeDesc(lssiteMaster,1));
+			
+		}
+		else {
+			List<LSfields> Generalfields = lSfieldsRepository.findBymethodname("ID_GENERAL");
+			obj.put("Generalfields", Generalfields);
+		}
+		
 		obj.put("Methods", Methods);
-		obj.put("Instruments", Instruments);
-		obj.put("Generalfields", Generalfields);
-		obj.put("elninstrument",lselninstrumentmasterRepository.findBylssitemasterAndStatusOrderByInstrumentcodeDesc(lssiteMaster,1));
 		obj.put("Mappedtemplates", MappedTemplate);
 		obj.put("Unmappedtemplates", UnmappedTemplate);
 		
@@ -1591,7 +1601,7 @@ public class InstrumentService {
 		{
 			if(objorder.getIsmultitenant() == 1)
 			{
-				CloudOrderCreation file = cloudOrderCreationRepository.findById((long)objorder.getLssamplefile().getFilesamplecode());
+				CloudOrderCreation file = cloudOrderCreationRepository.findById((long)objupdated.getLssamplefile().getFilesamplecode());
 				if(file != null)
 				{
 					objupdated.getLssamplefile().setFilecontent(file.getContent());
@@ -2215,6 +2225,37 @@ public class InstrumentService {
 		objorder.setObjorder(objorgorder);
 		
 		return objorder;
+	}
+	
+	public LSsamplefile GetResultsharedfileverContent(LSsamplefile objfile) {
+		return  GetResultfileverContent(objfile);
+	}
+	
+	public LSsamplefile SaveSharedResultfile(LSsamplefile objfile)
+	{
+		return SaveResultfile(objfile);
+	}
+	
+	public LSlogilablimsorderdetail SharedCloudUploadattachments(MultipartFile file, Long batchcode, String filename ,
+			String fileexe, Integer usercode, Date currentdate,Integer islargefile) throws IOException
+	{
+		return CloudUploadattachments(file, batchcode, filename, fileexe,usercode,currentdate, islargefile);
+	}
+	
+	public LSlogilablimsorderdetail SharedUploadattachments(MultipartFile file, Long batchcode, String filename ,
+			String fileexe, Integer usercode, Date currentdate,Integer islargefile) throws IOException
+	{
+		return Uploadattachments(file, batchcode, filename , fileexe, usercode, currentdate, islargefile);
+	}
+	
+	public LsOrderattachments SharedClouddeleteattachments(LsOrderattachments objattachments)
+	{
+		return Clouddeleteattachments(objattachments);
+	}
+	
+	public LsOrderattachments shareddeleteattachments(LsOrderattachments objattachments)
+	{
+		return deleteattachments(objattachments);
 	}
 }
 	

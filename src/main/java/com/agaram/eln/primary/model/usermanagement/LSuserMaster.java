@@ -52,6 +52,11 @@ public class LSuserMaster {
 	@Column(name = "passwordstatus")
 	private Integer passwordstatus;
 	
+	@Column(name = "userretirestatus")
+	private Integer userretirestatus;
+	
+	
+
 	private Integer labsheet;
 	private String emailid;
 	private String profileimage;
@@ -113,6 +118,16 @@ public class LSuserMaster {
 	public void setPasswordstatus(Integer passwordstatus) {
 		this.passwordstatus = passwordstatus;
 	}
+	
+	public Integer getUserretirestatus() {
+		return userretirestatus;
+	}
+
+	public void setUserretirestatus(Integer userretirestatus) {
+		this.userretirestatus = userretirestatus;
+	}
+	
+	
 	public LScfttransaction getObjmanualaudit() {
 		return Objmanualaudit;
 	}

@@ -63,6 +63,9 @@ public class LSSiteMaster {
 	@Transient
 	private Response response;
 
+	@Transient
+	private Integer ismultitenant;
+	
 	public LSuserMaster getLSuserMaster() {
 		return LSuserMaster;
 	}
@@ -199,6 +202,14 @@ public class LSSiteMaster {
 
 	public void setStatus(Integer istatus) {
 		this.istatus = istatus;
+	}
+
+	public Integer getIsmultitenant() {
+		return ismultitenant;
+	}
+
+	public void setIsmultitenant(Integer ismultitenant) {
+		this.ismultitenant = ismultitenant;
 	}
 
 	

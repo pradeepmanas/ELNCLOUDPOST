@@ -1,5 +1,6 @@
 ALTER TABLE if exists email alter column  mailcontent Type varchar(5000);
 ALTER TABLE IF Exists lsusermaster ADD COLUMN IF NOT EXISTS passwordstatus Integer;
+ALTER TABLE IF Exists lsusermaster ADD COLUMN IF NOT EXISTS userretirestatus Integer;
 
 INSERT into LSusergrouprightsmaster (orderno, displaytopic, modulename, sallow, screate, sdelete,sedit, status,sequenceorder)VALUES (46, 'Pending', 'Protocol Order And Register', '0', '0', 'NA', 'NA', '1,0,0',46) ON CONFLICT(orderno)DO NOTHING;
 INSERT into LSusergrouprightsmaster (orderno, displaytopic, modulename, sallow, screate, sdelete, sedit, status,sequenceorder)VALUES (47, 'Completed', 'Protocol Order And Register', '0', '0', 'NA', 'NA', '1,0,0',47) ON CONFLICT(orderno)DO NOTHING;
@@ -104,3 +105,5 @@ update lslogilabprotocoldetail set orderflag = 'N';
 update lssheetworkflow set lssitemaster_sitecode =1 where lssheetworkflow.workflowname='New' and lssheetworkflow.lssitemaster_sitecode is null;
 
 UPDATE lsworkflow set lssitemaster_sitecode=1 where lsworkflow.workflowname = 'New' and lsworkflow.lssitemaster_sitecode is null;
+
+UPDATE  lsusermaster SET userretirestatus=0 WHERE userretirestatus is null;

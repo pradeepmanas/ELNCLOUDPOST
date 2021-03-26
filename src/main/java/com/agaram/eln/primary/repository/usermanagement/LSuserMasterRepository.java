@@ -28,16 +28,22 @@ public interface LSuserMasterRepository extends JpaRepository<LSuserMaster, Inte
 	 void setpasswordByusercode(String password, Integer usercode);
 	 
 	 public List<LSuserMaster> findByusernameNot(String username);
+	 public List<LSuserMaster> findByusernameNotAndUserretirestatusNot(String username,Integer userretirestatue);
 	 public LSuserMaster findByUsernameAndPassword(String username, String password);
 	 public List<LSuserMaster> findByUsernameNotAndLssitemaster(String username, LSSiteMaster lssitemaster);
-	 
+	 public List<LSuserMaster> findByUsernameNotAndUserretirestatusNotAndLssitemaster(String username,Integer userretirestatue, LSSiteMaster lssitemaster);
 	 public Long countByusercodeNot(Integer usercode);
+	 
+	 public Long countByusercodeNotAndUserretirestatusNot(Integer usercode,Integer userretirestatus);
 
 	 public LSuserMaster findByusernameIgnoreCase(String username);
 	 
 	 public LSuserMaster findByUsernameIgnoreCaseAndLoginfrom(String username, String loginform);
+	 public LSuserMaster findByUsernameIgnoreCaseAndLoginfromAndUserretirestatusNot(String username, String loginform,Integer userretirestatus);
 	 
 	 public LSuserMaster findByUsernameIgnoreCaseAndLssitemaster(String username, LSSiteMaster lssitemaster);
+	 
+	 public LSuserMaster findByUsernameIgnoreCaseAndLssitemasterAndUserretirestatusNot(String username, LSSiteMaster lssitemaster,Integer userretirestatus);
 	 
 	 public LSuserMaster findByUsernameIgnoreCaseAndLoginfromAndLssitemaster(String username, String loginform, LSSiteMaster lssitemaster);
 	

@@ -506,4 +506,46 @@ public class InstrumentController {
 	{
 		return instrumentService.GetsharedtomeorderStatus(objorder);
 	}
+	
+	@PostMapping("/GetResultsharedfileverContent")
+	public LSsamplefile GetResultsharedfileverContent(@RequestBody LSsamplefile objfile)
+	{
+		return instrumentService.GetResultsharedfileverContent(objfile);
+	}
+	
+	@PostMapping("/SaveSharedResultfile")
+	public LSsamplefile SaveSharedResultfile(@RequestBody LSsamplefile objfile)
+	{
+		return instrumentService.SaveSharedResultfile(objfile);
+	}
+	
+	@PostMapping("/SharedCloudUploadattachments")
+    public LSlogilablimsorderdetail SharedCloudUploadattachments(@RequestParam("file") MultipartFile file
+    		, @RequestParam("order") Long batchcode,@RequestParam("filename") String filename
+    		,@RequestParam("fileexe") String fileexe, @RequestParam("usercode") Integer usercode
+    		, @RequestParam("date") Date currentdate, @RequestParam("islargefile") Integer islargefile) throws IOException 
+	{    
+        return instrumentService.SharedCloudUploadattachments(file, batchcode,filename,fileexe,usercode,currentdate,islargefile);
+    }
+	
+	@PostMapping("/SharedUploadattachments")
+    public LSlogilablimsorderdetail SharedUploadattachments(@RequestParam("file") MultipartFile file
+    		, @RequestParam("order") Long batchcode,@RequestParam("filename") String filename
+    		,@RequestParam("fileexe") String fileexe, @RequestParam("usercode") Integer usercode
+    		, @RequestParam("date") Date currentdate, @RequestParam("islargefile") Integer islargefile) throws IOException 
+	{    
+        return instrumentService.SharedUploadattachments(file, batchcode,filename,fileexe,usercode,currentdate,islargefile);
+    }
+	
+	@PostMapping("/SharedClouddeleteattachments")
+	public LsOrderattachments SharedClouddeleteattachments(@RequestBody LsOrderattachments objattachments)
+	{
+		return instrumentService.SharedClouddeleteattachments(objattachments);
+	}
+	
+	@PostMapping("/shareddeleteattachments")
+	public LsOrderattachments shareddeleteattachments(@RequestBody LsOrderattachments objattachments)
+	{
+		return instrumentService.shareddeleteattachments(objattachments);
+	}
 }

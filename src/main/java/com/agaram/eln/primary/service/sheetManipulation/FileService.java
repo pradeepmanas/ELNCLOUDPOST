@@ -532,7 +532,7 @@ public class FileService {
 //		{
 //			return lsworkflowRepository.findAll();	
 //		}
-		return lsworkflowRepository.findBylssitemaster(objflow.getLssitemaster());		
+		return lsworkflowRepository.findByLssitemasterOrderByWorkflowcodeAsc(objflow.getLssitemaster());		
 	}
 	
 	public Response Deleteworkflow(LSworkflow objflow)

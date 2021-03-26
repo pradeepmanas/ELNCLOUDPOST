@@ -245,9 +245,11 @@ public class UserService {
     		lscfttransactionRepository.save(objusergroup.getObjsilentaudit());
     	}
 		if(objusergroup.getUsername().equalsIgnoreCase("Administrator")) {
-			return lsuserMasterRepository.findByusernameNot("Administrator");
+//			return lsuserMasterRepository.findByusernameNot("Administrator");
+			return lsuserMasterRepository.findByusernameNotAndUserretirestatusNot("Administrator",1);
 		}
-		return lsuserMasterRepository.findByUsernameNotAndLssitemaster("Administrator",objusergroup.getLssitemaster());
+//		return lsuserMasterRepository.findByUsernameNotAndLssitemaster("Administrator",objusergroup.getLssitemaster());
+		return lsuserMasterRepository.findByUsernameNotAndUserretirestatusNotAndLssitemaster("Administrator",1,objusergroup.getLssitemaster());
 	}
 	
 	public List<LSuserMaster> GetUsersOnsite(LSSiteMaster objclass)
@@ -325,7 +327,8 @@ public class UserService {
 		
 		if(objusermaster.getUsercode() == null && objusermaster.getIsmultitenant() != null && objusermaster.getMultitenantusercount() != null && objusermaster.getIsmultitenant() == 1)
 		{
-			if(lsuserMasterRepository.countByusercodeNot(1) >= objusermaster.getMultitenantusercount())
+//			if(lsuserMasterRepository.countByusercodeNot(1) >= objusermaster.getMultitenantusercount())
+				if(lsuserMasterRepository.countByusercodeNotAndUserretirestatusNot(1,1) >= objusermaster.getMultitenantusercount())
 			{
 				Response objResponse = new Response();
 				objResponse.setStatus(false);
