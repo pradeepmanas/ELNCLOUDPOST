@@ -809,7 +809,7 @@ public class ProtocolService {
 			
 			lSprotocolworkflow.get(0).getObjmanualaudit().setComments(lSprotocolworkflow.get(0).getObjuser().getComments());
 			lSprotocolworkflow.get(0).getObjmanualaudit().setTableName("lSprotocolworkflow");
-			lSprotocolworkflow.get(0).getObjmanualaudit().setLsuserMaster(lSprotocolworkflow.get(0).getLSuserMaster().getUsercode());
+			lSprotocolworkflow.get(0).getObjmanualaudit().setLsuserMaster(lSprotocolworkflow.get(0).getObjsilentaudit().getLsuserMaster());
 			lSprotocolworkflow.get(0).getObjmanualaudit().setLssitemaster(lSprotocolworkflow.get(0).getLssitemaster().getSitecode());
 			lSprotocolworkflow.get(0).getObjmanualaudit().setTransactiondate(date);
 			lscfttransactionRepository.save(lSprotocolworkflow.get(0).getObjmanualaudit());

@@ -848,8 +848,7 @@ public class UserService {
 		    String Password = AESEncryption.decrypt(objExitinguser.getPassword());
 		    objExitinguser.setObjResponse(new Response());
 		    
-		    if(Password.equals(objuser.getsPassword()))
-		    {
+		    if(objuser.getIsmultitenant() == 1) {
 		    	objExitinguser.getObjResponse().setStatus(true);
 		    	
 		    	LScfttransaction manualAudit=new LScfttransaction();
@@ -866,11 +865,31 @@ public class UserService {
 				manualAudit.setTransactiondate(date);
 	    		lscfttransactionRepository.save(manualAudit);
 		    }
-		    else
-			{
-				objExitinguser.getObjResponse().setInformation("Invalid password");
-				objExitinguser.getObjResponse().setStatus(false);
-			}
+		    else {
+		    	if(Password.equals(objuser.getsPassword()))
+			    {
+			    	objExitinguser.getObjResponse().setStatus(true);
+			    	
+			    	LScfttransaction manualAudit=new LScfttransaction();
+					Date date = new Date();
+					
+					manualAudit.setModuleName("Register Task Orders & Execute");
+					manualAudit.setComments(objuser.getsComments());
+					manualAudit.setActions("E-Signature");
+					manualAudit.setSystemcoments("User Generated");
+					manualAudit.setTableName("E-Signature");
+					manualAudit.setManipulatetype("E-Signature");
+					manualAudit.setLsuserMaster(objExitinguser.getUsercode());
+					manualAudit.setLssitemaster(objExitinguser.getLssitemaster().getSitecode());
+					manualAudit.setTransactiondate(date);
+		    		lscfttransactionRepository.save(manualAudit);
+			    }
+			    else
+				{
+					objExitinguser.getObjResponse().setInformation("Invalid password");
+					objExitinguser.getObjResponse().setStatus(false);
+				}
+		    }
 		}
 		else
 		{   

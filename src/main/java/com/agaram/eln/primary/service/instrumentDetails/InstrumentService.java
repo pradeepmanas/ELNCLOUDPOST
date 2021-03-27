@@ -2257,5 +2257,26 @@ public class InstrumentService {
 	{
 		return deleteattachments(objattachments);
 	}
+	
+	public LsOrderattachments SharedClouddownloadattachments(LsOrderattachments objattachments)
+	{
+		return Clouddownloadattachments(objattachments);
+	}
+	
+	public LsOrderattachments Shareddownloadattachments(LsOrderattachments objattachments)
+	{
+		return downloadattachments(objattachments);
+	}
+	
+	public InputStream  sharedretrieveColudLargeFile(String fileid) throws IOException
+	{
+		return cloudFileManipulationservice.retrieveLargeFile(fileid);
+	}
+	
+	public GridFSDBFile sharedretrieveLargeFile(String fileid) throws IllegalStateException, IOException
+	{
+		return fileManipulationservice.retrieveLargeFile(fileid);
+	}
+
 }
 	

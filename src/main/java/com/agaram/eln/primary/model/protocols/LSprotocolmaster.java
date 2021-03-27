@@ -35,6 +35,9 @@ public class LSprotocolmaster implements Comparable<LSprotocolmaster>{
 	@Column(name="lssitemaster_sitecode")
 	private Integer lssitemaster;
 	
+	@Transient
+	private String createdateprotocol;
+	
 	@ManyToOne
 	private LSprotocolworkflow lSprotocolworkflow;
 	
@@ -132,6 +135,12 @@ public class LSprotocolmaster implements Comparable<LSprotocolmaster>{
 		this.createdbyusername = createdbyusername;
 	}
 	
+	public String getCreatedateprotocol() {
+		return createdateprotocol;
+	}
+	public void setCreatedateprotocol(String createdateprotocol) {
+		this.createdateprotocol = createdateprotocol;
+	}
 	@Override
 	public String toString() {
 		return "LSprotocolmaster [protocolmastercode=" + protocolmastercode + ", protocolmastername="

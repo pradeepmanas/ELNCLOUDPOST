@@ -548,4 +548,39 @@ public class InstrumentController {
 	{
 		return instrumentService.shareddeleteattachments(objattachments);
 	}
+	
+	@PostMapping("/SharedClouddownloadattachments")
+	public LsOrderattachments SharedClouddownloadattachments(@RequestBody LsOrderattachments objattachments) throws IllegalStateException, IOException
+	{
+		return instrumentService.SharedClouddownloadattachments(objattachments);
+	}
+	
+	@PostMapping("/Shareddownloadattachments")
+	public LsOrderattachments Shareddownloadattachments(@RequestBody LsOrderattachments objattachments) throws IllegalStateException, IOException
+	{
+		return instrumentService.Shareddownloadattachments(objattachments);
+	}
+	
+	@RequestMapping(value = "Sharedattachment/{fileid}", method = RequestMethod.GET)
+	@GetMapping
+	public ResponseEntity<InputStreamResource> Shareddownloadlargeattachment(@PathVariable String fileid) throws IllegalStateException, IOException {
+	    GridFSDBFile gridFsFile = instrumentService.sharedretrieveLargeFile(fileid);
+
+	    HttpHeaders header = new HttpHeaders();
+	    header.setContentType(MediaType.parseMediaType(gridFsFile.getContentType()));
+	    header.setContentLength(gridFsFile.getLength());
+	    header.set("Content-Disposition", "attachment; filename=gg.pdf");
+	    
+	    return new ResponseEntity<>(new InputStreamResource(gridFsFile.getInputStream()), header, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "Sharedcloudattachment/{fileid}", method = RequestMethod.GET)
+	@GetMapping
+	public ResponseEntity<InputStreamResource> Shareddownloadlargecloudattachment(@PathVariable String fileid) throws IllegalStateException, IOException {
+	  
+	    HttpHeaders header = new HttpHeaders();
+	    header.set("Content-Disposition", "attachment; filename=gg.pdf");
+	    return new ResponseEntity<>(new InputStreamResource(instrumentService.sharedretrieveColudLargeFile(fileid)), header, HttpStatus.OK);
+	}
+
 }
