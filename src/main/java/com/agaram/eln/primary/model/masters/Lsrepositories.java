@@ -38,6 +38,8 @@ public class Lsrepositories {
 	
 	private Integer sitecode;
 	
+	private Integer fieldcount=-1;
+	
 	@Transient
 	Response objResponse;
 
@@ -103,6 +105,14 @@ public class Lsrepositories {
 
 	public void setObjResponse(Response objResponse) {
 		this.objResponse = objResponse;
+	}
+
+	public Integer getFieldcount() {
+		return fieldcount;
+	}
+
+	public void setFieldcount(Integer fieldcount) {
+		this.fieldcount = fieldcount;
 	}
 	
 	

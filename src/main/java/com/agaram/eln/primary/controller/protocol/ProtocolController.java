@@ -173,6 +173,21 @@ public class ProtocolController {
 		objMap = ProtocolMasterService.updateOrderStatus(argMap);
 		return objMap;
 	}
+	
+	@RequestMapping(value="/getLsrepositoriesLst")
+	protected Map<String, Object> getLsrepositoriesLst(@RequestBody Map<String, Object> argMap){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.getLsrepositoriesLst(argMap);
+		return objMap;
+	}
+	
+	@RequestMapping(value="/getLsrepositoriesDataLst")
+	protected Map<String, Object> getLsrepositoriesDataLst(@RequestBody Map<String, Object> argMap){
+		Map<String, Object> objMap = new HashMap<String, Object>();
+		objMap = ProtocolMasterService.getLsrepositoriesDataLst(argMap);
+		return objMap;
+	}
+	
 //	@RequestMapping(value="/addProtocolOrderStep")
 //	protected Map<String, Object> addProtocolOrderStep(@RequestBody Map<String, Object> argObj){
 //		Map<String, Object> objMap = new HashMap<String, Object>();

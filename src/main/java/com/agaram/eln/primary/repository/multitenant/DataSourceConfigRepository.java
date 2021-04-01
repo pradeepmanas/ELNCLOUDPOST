@@ -18,6 +18,8 @@ public interface DataSourceConfigRepository extends JpaRepository<DataSourceConf
     DataSourceConfig findByTenantidAndIsenable(String tenantid, boolean enabled);
     DataSourceConfig findByNameAndTenantid(String name, String tenantid);
     DataSourceConfig findByArchivename(String archivename);
+    DataSourceConfig findById(Long id);
+    
     List<DataSourceConfig> findByInitialize(boolean initiated);
     
 	 @Transactional

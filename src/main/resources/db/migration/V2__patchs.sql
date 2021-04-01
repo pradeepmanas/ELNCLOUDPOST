@@ -107,3 +107,18 @@ update lssheetworkflow set lssitemaster_sitecode =1 where lssheetworkflow.workfl
 UPDATE lsworkflow set lssitemaster_sitecode=1 where lsworkflow.workflowname = 'New' and lsworkflow.lssitemaster_sitecode is null;
 
 UPDATE  lsusermaster SET userretirestatus=0 WHERE userretirestatus is null;
+
+ALTER TABLE IF Exists lsrepositories ADD COLUMN IF NOT EXISTS fieldcount int;
+
+UPDATE  lsrepositories SET fieldcount=0 WHERE fieldcount is null;
+
+ALTER TABLE IF Exists lsrepositoriesdata ADD COLUMN IF NOT EXISTS itemstatus int;
+
+UPDATE  lsrepositoriesdata SET itemstatus=1 WHERE itemstatus is null;
+
+CREATE TABLE IF NOT EXISTS public.LsLogilabprotocolstepInfoCloud
+(
+    id integer NOT NULL,
+    lsprotocolstepinfo jsonb,
+    CONSTRAINT LsLogilabprotocolstepInfoCloud_pkey PRIMARY KEY (id)
+);

@@ -1,9 +1,5 @@
 package com.agaram.eln.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 //import antlr.collections.List;
@@ -80,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		.authorizeRequests().antMatchers("/authenticate").permitAll().
 		antMatchers("/multitenant/otpvarification").permitAll().
 		antMatchers("/multitenant/sendotp").permitAll().
+		antMatchers("/multitenant/ValidatetenantByID").permitAll().
 		antMatchers("/Login/LoadSite").permitAll().
 		antMatchers("/Login/LoadDomain").permitAll().
 		antMatchers("/Login/azureusertokengenrate").permitAll().
@@ -91,6 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		antMatchers("/User/Createcentraliseduser").permitAll().
 		antMatchers("/User/Getallcentraliseduser").permitAll().
 		antMatchers("/User/Getcentraliseduserbyid").permitAll().
+		antMatchers("/User/getUserOnCode").permitAll().
 		antMatchers("/Instrument/GetInstrumentParameters").permitAll().
 		antMatchers("/Instrument/Insertshareorder").permitAll().
 		antMatchers("/Instrument/GetsharedtomeorderStatus").permitAll().
@@ -103,6 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		antMatchers("/Instrument/SharedClouddownloadattachments").permitAll().
 		antMatchers("/Instrument/Shareddownloadattachments").permitAll().
 		antMatchers("/Instrument/Sharedattachment").permitAll().
+		antMatchers("/Instrument/Getorderforlink").permitAll().
 		antMatchers("/Instrument/Sharedcloudattachment").permitAll().
 		antMatchers("/multitenant/Registertenant").permitAll().
 		antMatchers("/multitenant/Validatetenant").permitAll().
@@ -128,6 +124,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		antMatchers("/User/Cloudprofile/*").permitAll().
 		antMatchers("/Login/Logout").permitAll().
 		antMatchers("/Instrument/Unshareorderto").permitAll().
+		antMatchers("/User/GetUserslocal").permitAll().
 		// all other requests need to be authenticated
 		anyRequest().authenticated().and().
 		// make sure we use stateless session; session won't be used to

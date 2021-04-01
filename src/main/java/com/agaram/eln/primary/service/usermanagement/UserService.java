@@ -1092,4 +1092,25 @@ public class UserService {
 	public LScentralisedUsers Getcentraliseduserbyid(LScentralisedUsers objctrluser) {
 		return lscentralisedUsersRepository.findByUnifieduseridIgnoreCase(objctrluser.getUnifieduserid());
 	}
+	
+	public List<LSuserMaster> GetUserslocal(LSuserMaster objusergroup)
+	{
+		if(objusergroup.getObjsilentaudit() != null)
+    	{
+			objusergroup.getObjsilentaudit().setTableName("LSuserMaster");
+    		lscfttransactionRepository.save(objusergroup.getObjsilentaudit());
+    	}
+		if(objusergroup.getUsername().equalsIgnoreCase("Administrator")) {
+//			return lsuserMasterRepository.findByusernameNot("Administrator");
+			return lsuserMasterRepository.findByusernameNot("Administrator");
+		}
+//		return lsuserMasterRepository.findByUsernameNotAndLssitemaster("Administrator",objusergroup.getLssitemaster());
+		return lsuserMasterRepository.findByUsernameNotAndLssitemaster("Administrator",objusergroup.getLssitemaster());
+	}
+	
+	public LSuserMaster getUserOnCode(LSuserMaster objuser) {
+		return lsuserMasterRepository.findByusercode(objuser.getUsercode());
+	}
+
+	
 }

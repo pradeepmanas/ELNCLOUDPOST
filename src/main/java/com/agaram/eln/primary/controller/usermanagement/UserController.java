@@ -565,6 +565,16 @@ public class UserController {
 	public LScentralisedUsers Getcentraliseduserbyid(@RequestBody LScentralisedUsers objctrluser) {
 		return userService.Getcentraliseduserbyid(objctrluser);
 	}
+	
+	@PostMapping("/GetUserslocal")
+	public List<LSuserMaster> GetUserslocal(@RequestBody LSuserMaster objusermaster)
+	{
+		return userService.GetUserslocal(objusermaster);
+	}
+	
+	@PostMapping("/getUserOnCode")
+	public LSuserMaster getUserOnCode(@RequestBody LSuserMaster objuser)
+	{
+		return userService.getUserOnCode(objuser);
+	}
 }
-
-

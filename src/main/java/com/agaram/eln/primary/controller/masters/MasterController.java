@@ -41,4 +41,16 @@ public class MasterController {
 	{
 		return masterService.Saverepositorydata(lsrepositoriesdata);
 	}
+	
+	@RequestMapping("/GetupdatedRepositorydata")
+	public Lsrepositoriesdata GetupdatedRepositorydata(@RequestBody Lsrepositoriesdata lsrepositoriesdata)
+	{
+		return masterService.GetupdatedRepositorydata(lsrepositoriesdata);
+	}
+	
+	@RequestMapping("/DeleteRepositorydata")
+	public Lsrepositoriesdata DeleteRepositorydata(@RequestBody Lsrepositoriesdata lsrepositoriesdata)
+	{
+		return masterService.DeleteRepositorydata(lsrepositoriesdata);
+	}
 }

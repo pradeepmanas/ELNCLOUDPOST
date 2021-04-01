@@ -41,6 +41,8 @@ public class Lsrepositoriesdata {
 	
 	private Integer sitecode;
 	
+	private Integer itemstatus =1;
+	
 	@Transient
 	Response objResponse;
 
@@ -115,5 +117,15 @@ public class Lsrepositoriesdata {
 	public void setSitecode(Integer sitecode) {
 		this.sitecode = sitecode;
 	}
+
+	public Integer getItemstatus() {
+		return itemstatus;
+	}
+
+	public void setItemstatus(Integer itemstatus) {
+		this.itemstatus = itemstatus;
+	}
+
+	
 	
 }

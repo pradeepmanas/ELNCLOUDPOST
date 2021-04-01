@@ -15,7 +15,6 @@ import javax.mail.MessagingException;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.core.env.Environment;
@@ -270,6 +269,7 @@ public class DatasourceService {
 	
 	}
 
+	@SuppressWarnings("unused")
 	public Map<String, Object> login(LoggedUser objuser) {
 		
 		Map<String, Object> obj = new HashMap<>();
@@ -468,4 +468,75 @@ public class DatasourceService {
 		return Tenant;
 	}
 
+	public DataSourceConfig ValidatetenantByID(DataSourceConfig tenantID) {
+		
+		DataSourceConfig objdatasource = configRepo.findById(tenantID.getId());
+		
+		Response objreponse = new Response();
+		if(objdatasource != null)
+		{
+			if(objdatasource.isInitialize() && objdatasource.isIsenable())
+			{
+				objreponse.setStatus(true);
+				objdatasource.setObjResponse(objreponse);
+			}
+			else if(!objdatasource.isInitialize())
+			{
+				objreponse.setInformation("ID_ORGREGINPROGRESS");
+				objreponse.setStatus(false);
+				objdatasource.setObjResponse(objreponse);
+			}
+			else if(!objdatasource.isIsenable())
+			{
+				objreponse.setInformation("ID_ORGDISABLED");
+				objreponse.setStatus(false);
+				objdatasource.setObjResponse(objreponse);
+			}
+		
+		}
+		else
+		{
+			objreponse.setInformation("ID_ORGNOTEXIST");
+			objreponse.setStatus(false);
+			objdatasource = new DataSourceConfig();
+			objdatasource.setObjResponse(objreponse);
+		}
+		
+		return objdatasource;
+	}
+
+	public DataSourceConfig ValidatetenantByName(DataSourceConfig tenantID) {
+		
+		DataSourceConfig objdatasource = configRepo.findByName(tenantID.getName());
+		
+		Response objreponse = new Response();
+		if(objdatasource != null)
+		{
+			if(objdatasource.isInitialize() && objdatasource.isIsenable())
+			{
+				objreponse.setStatus(true);
+				objdatasource.setObjResponse(objreponse);
+			}
+			else if(!objdatasource.isInitialize())
+			{
+				objreponse.setInformation("ID_ORGREGINPROGRESS");
+				objreponse.setStatus(false);
+				objdatasource.setObjResponse(objreponse);
+			}
+			else if(!objdatasource.isIsenable())
+			{
+				objreponse.setInformation("ID_ORGDISABLED");
+				objreponse.setStatus(false);
+				objdatasource.setObjResponse(objreponse);
+			}
+		}
+		else
+		{
+			objreponse.setInformation("ID_ORGNOTEXIST");
+			objreponse.setStatus(false);
+			objdatasource = new DataSourceConfig();
+			objdatasource.setObjResponse(objreponse);
+		}
+		return objdatasource;
+	}
 }

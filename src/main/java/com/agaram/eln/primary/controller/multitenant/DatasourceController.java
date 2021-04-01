@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agaram.eln.primary.model.multitenant.DataSourceConfig;
-import com.agaram.eln.primary.model.notification.Email;
 import com.agaram.eln.primary.model.usermanagement.LoggedUser;
 import com.agaram.eln.primary.service.multitenant.DatasourceService;
 
@@ -123,5 +122,17 @@ public class DatasourceController {
 	public DataSourceConfig updatetenantadminpassword(@RequestBody DataSourceConfig Tenant) throws MessagingException
 	{
 		return datasourceService.updatetenantadminpassword(Tenant);
+	}
+	
+	@PostMapping("/ValidatetenantByID")
+	public DataSourceConfig ValidatetenantByID(@RequestBody DataSourceConfig TenantID)
+	{
+		return datasourceService.ValidatetenantByID(TenantID);
+	}
+	
+	@PostMapping("/ValidatetenantByName")
+	public DataSourceConfig ValidatetenantByName(@RequestBody DataSourceConfig TenantID)
+	{
+		return datasourceService.ValidatetenantByName(TenantID);
 	}
 }

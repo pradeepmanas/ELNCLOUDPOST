@@ -24,13 +24,22 @@ public class MasterService {
 	
 	public List<Lsrepositories> Getallrepositories(Lsrepositories lsrepositories)
 	{
-		return lsrepositoriesRepository.findBySitecode(lsrepositories.getSitecode());
+		return lsrepositoriesRepository.findBySitecodeOrderByRepositorycodeAsc(lsrepositories.getSitecode());
 	}
 	
 	public Lsrepositories Saverepository(Lsrepositories lsrepositories)
 	{
 		Response objResponse = new Response();
-		Lsrepositories objrepo = lsrepositoriesRepository.findByRepositorynameAndSitecode(lsrepositories.getRepositoryname(), lsrepositories.getSitecode()); 
+		Lsrepositories objrepo = null;
+		if(lsrepositories.getRepositorycode() != null)
+		{
+			objrepo = lsrepositoriesRepository.findByRepositorynameAndSitecodeAndRepositorycodeNot(lsrepositories.getRepositoryname(), lsrepositories.getSitecode(),lsrepositories.getRepositorycode() ); 
+		}
+		else
+		{
+			objrepo = lsrepositoriesRepository.findByRepositorynameAndSitecode(lsrepositories.getRepositoryname(), lsrepositories.getSitecode()); 
+		}
+		
 		if(objrepo != null)
 		{
 			objResponse.setStatus(false);
@@ -48,14 +57,25 @@ public class MasterService {
 	
 	public List<Lsrepositoriesdata> Getallrepositoriesdata(Lsrepositoriesdata lsrepositoriesdata)
 	{
-		return lsrepositoriesdataRepository.findByRepositorycodeAndSitecode(lsrepositoriesdata.getRepositorycode(), lsrepositoriesdata.getSitecode());
+		return lsrepositoriesdataRepository.findByRepositorycodeAndSitecodeAndItemstatusOrderByRepositorydatacodeDesc(lsrepositoriesdata.getRepositorycode(), lsrepositoriesdata.getSitecode(),1);
 	}
 	
 	public Lsrepositoriesdata Saverepositorydata(Lsrepositoriesdata lsrepositoriesdata)
 	{
 		Response objResponse = new Response();
-		Lsrepositoriesdata lsrepodata = lsrepositoriesdataRepository.findByRepositorycodeAndRepositoryitemnameAndSitecode(
-				lsrepositoriesdata.getRepositorycode(), lsrepositoriesdata.getRepositoryitemname(), lsrepositoriesdata.getSitecode());
+		Lsrepositoriesdata lsrepodata = null;
+		
+		if(lsrepositoriesdata.getRepositorydatacode() != null)
+		{
+			lsrepodata = lsrepositoriesdataRepository.findByRepositorycodeAndRepositoryitemnameAndSitecodeAndRepositorydatacodeNot(
+					lsrepositoriesdata.getRepositorycode(), lsrepositoriesdata.getRepositoryitemname(), lsrepositoriesdata.getSitecode(), lsrepositoriesdata.getRepositorydatacode());
+		}
+		else
+		{
+			lsrepodata = lsrepositoriesdataRepository.findByRepositorycodeAndRepositoryitemnameAndSitecode(
+			lsrepositoriesdata.getRepositorycode(), lsrepositoriesdata.getRepositoryitemname(), lsrepositoriesdata.getSitecode());
+				
+		}
 		
 		if(lsrepodata != null)
 		{
@@ -69,6 +89,21 @@ public class MasterService {
 		}
 		
 		lsrepositoriesdata.setObjResponse(objResponse);
+		return lsrepositoriesdata;
+	}
+	
+	public Lsrepositoriesdata GetupdatedRepositorydata(Lsrepositoriesdata lsrepositoriesdata)
+	{
+		lsrepositoriesdata = lsrepositoriesdataRepository.findOne(lsrepositoriesdata.getRepositorydatacode());
+		return lsrepositoriesdata;
+	}
+	
+	public Lsrepositoriesdata DeleteRepositorydata (Lsrepositoriesdata lsrepositoriesdata)
+	{
+		lsrepositoriesdata = lsrepositoriesdataRepository.findOne(lsrepositoriesdata.getRepositorydatacode());
+		lsrepositoriesdata.setItemstatus(0);
+		lsrepositoriesdataRepository.save(lsrepositoriesdata);
+		
 		return lsrepositoriesdata;
 	}
 }

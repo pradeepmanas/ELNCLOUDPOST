@@ -205,17 +205,16 @@ public class InstrumentService {
 		lsInst.add("LPRO");
 		List<LsMethodFields> Methods = lsMethodFieldsRepository.findByinstrumentidNotIn(lsInst);
 		
-		
-		List<LsMappedTemplate> MappedTemplate = LsMappedTemplateRepository.findAll();
-		List<LsUnmappedTemplate> UnmappedTemplate = LsUnmappedTemplateRepository.findAll();
-		
 		if(lssiteMaster.getIsmultitenant()!=1) {
 			List<LSfields> Generalfields = lSfieldsRepository.findByisactive(1);
 			 List<LSinstruments> Instruments = lSinstrumentsRepository.findAll();
+	         List<LsMappedTemplate> MappedTemplate = LsMappedTemplateRepository.findAll();
+			List<LsUnmappedTemplate> UnmappedTemplate = LsUnmappedTemplateRepository.findAll();	
 			obj.put("Generalfields", Generalfields);
 			obj.put("Instruments", Instruments);
 			obj.put("elninstrument",lselninstrumentmasterRepository.findBylssitemasterAndStatusOrderByInstrumentcodeDesc(lssiteMaster,1));
-			
+			obj.put("Mappedtemplates", MappedTemplate);
+			obj.put("Unmappedtemplates", UnmappedTemplate);
 		}
 		else {
 			List<LSfields> Generalfields = lSfieldsRepository.findBymethodname("ID_GENERAL");
@@ -223,8 +222,7 @@ public class InstrumentService {
 		}
 		
 		obj.put("Methods", Methods);
-		obj.put("Mappedtemplates", MappedTemplate);
-		obj.put("Unmappedtemplates", UnmappedTemplate);
+
 		
 		return obj;
 	}
