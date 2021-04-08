@@ -547,7 +547,7 @@ public class DatasourceService {
 		Email email = new Email();
 		email.setMailto(Tenantname.getUseremail());
 		email.setSubject("UsrName and PassWord");
-		email.setMailcontent("<b>Dear Customer</b>,<br><i>You must to validate your OTP for your ID initiation</i><br><b>Your OTP validation Path <br><b><a href="+Tenantname.getLoginpath()+">click here to Validate OTP</a></b>");
+		email.setMailcontent("<b>Dear Customer</b>,<br><i>You need to validate your OTP before organization initiated </i><br><b>Your OTP validation path <br><b><a href="+Tenantname.getLoginpath()+">click here to validate OTP</a></b>");
 		emailService.sendEmail(email);
 		
 		return Tenantname;
