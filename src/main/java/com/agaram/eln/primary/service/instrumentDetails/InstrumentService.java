@@ -1251,6 +1251,12 @@ public class InstrumentService {
 	
 	public LSlogilablimsorderdetail GetorderStatus(LSlogilablimsorderdetail objorder)
 	{
+		if(objorder.getObjsilentaudit() != null)
+    	{
+			objorder.getObjsilentaudit().setTableName("LSlogilablimsorderdetail");
+    		lscfttransactionRepository.save(objorder.getObjsilentaudit());
+    	}
+		
 		LSlogilablimsorderdetail objupdatedorder = lslogilablimsorderdetailRepository.findByBatchcode(objorder.getBatchcode());
 		
 		if(objupdatedorder.getLockeduser() != null)
@@ -1291,17 +1297,14 @@ public class InstrumentService {
 				}
 			}
 		}
-		if(objorder.getObjsilentaudit() != null)
-    	{
-			objorder.getObjsilentaudit().setTableName("LSlogilablimsorderdetail");
-    		lscfttransactionRepository.save(objorder.getObjsilentaudit());
-    	}
+		
 		
 		return objupdatedorder;
 	}
 	
 	public LSlogilablimsorderdetail GetdetailorderStatus(LSlogilablimsorderdetail objupdatedorder)
 	{
+		
 		objupdatedorder.setLsLSlimsorder(lSlimsorderRepository.findBybatchid(objupdatedorder.getBatchid()));
 		
 		if(objupdatedorder.getFiletype() != 0 && objupdatedorder.getOrderflag().toString().trim().equals("N")) {
@@ -1319,6 +1322,7 @@ public class InstrumentService {
 		{
 			objupdatedorder.setLstestparameter(lStestparameterRepository.findByntestcode(objupdatedorder.getTestcode()));
 		}
+		
 
 		return objupdatedorder;
 	}
