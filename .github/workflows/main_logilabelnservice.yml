@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     # checkout the repo
@@ -21,7 +21,7 @@ jobs:
     - name: Set up Java version
       uses: actions/setup-java@v1
       with:
-        java-version: '11'
+        java-version: '8'
 
     - name: Build with Maven
       run: mvn clean install
@@ -32,5 +32,26 @@ jobs:
         app-name: logilabelnservice
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57F02250B87A406E8F7BC1C874E64D2C }}
-        package: ${{ github.workspace }}/target/*.jar
+        package: ${{ github.workspace }}/target/*.war
 
+deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: java-app
+
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'logilabelnservice'
+        slot-name: 'Production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_3109042d632c42a89b698a41dcdb4c15 }}
+        package: '*.war'
