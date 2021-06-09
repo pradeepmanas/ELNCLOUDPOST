@@ -80,6 +80,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.agaram.eln.primary.model.cfr.LScfttransaction;
+import com.agaram.eln.primary.model.cloudFileManip.CloudOrderCreation;
 import com.agaram.eln.primary.model.cloudFileManip.CloudSheetCreation;
 import com.agaram.eln.primary.model.configuration.LSConfiguration;
 import com.agaram.eln.primary.model.general.OrderCreation;
@@ -118,6 +119,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import com.agaram.eln.primary.service.cloudFileManip.CloudFileManipulationservice;
+import com.agaram.eln.primary.repository.cloudFileManip.CloudOrderCreationRepository;
 
 @Service
 @EnableJpaRepositories(basePackageClasses = LSdocreportsRepository.class)
@@ -178,6 +180,9 @@ public class ReportsService {
 	
 	@Autowired
     private CloudFileManipulationservice CloudFileManipulationservice;
+	
+	@Autowired
+	private CloudOrderCreationRepository CloudOrderCreationRepository;
 	
 	LSConfiguration FTPConfig = new LSConfiguration();
 
@@ -738,7 +743,13 @@ public class ReportsService {
 				LSdocreports LSDocReportsObj = LSdocreportsRepositoryObj.findFirstByFileHashNameAndStatus(sKey, 1);
 				if (LSDocReportsObj != null) {
 					if (LSDocReportsObj.getIsTemplate() == 1) {
-						filePath += "\\templates";
+						if(System.getProperty("os.name").contains("Linux")) {
+							filePath += "/templates";
+						}
+						else
+						{
+							filePath += "\\templates";
+						}
 						if (!(new File(filePath)).exists()) {
 							(new File(filePath)).mkdir();
 						}
@@ -948,7 +959,13 @@ public class ReportsService {
 				LSdocreports LSDocReportsObj = LSdocreportsRepositoryObj.findFirstByFileHashNameAndStatus(sKey, 1);
 				if (LSDocReportsObj != null) {
 					if (LSDocReportsObj.getIsTemplate() == 1) {
-						filePath += "\\templates";
+						if(System.getProperty("os.name").contains("Linux")) {
+							filePath += "/templates";
+						}
+						else
+						{
+							filePath += "\\templates";
+						}
 						if (!(new File(filePath)).exists()) {
 							(new File(filePath)).mkdir();
 						}
@@ -1144,8 +1161,7 @@ public class ReportsService {
 				if (!directory.exists()) {
 					directory.mkdirs();
 				}
-				File file = new File(
-						directory.getAbsolutePath() + System.getProperty("file.separator") + uniquefilename + ".docx");
+				File file = new File(directory.getAbsolutePath() + System.getProperty("file.separator") + uniquefilename + ".docx");
 				if (file.exists()) {
 					file.delete();
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
@@ -1192,6 +1208,16 @@ public class ReportsService {
 						LScfttransactionManualobj.setTableName("LSdocreports");
 						lscfttransactionRepository.save(LScfttransactionManualobj);
 					}
+				}
+				if(env.getProperty("fileReceiver") != null) {
+					int httpfileStatus = uploadSingleFile(file.getAbsolutePath(), 0);
+					if(httpfileStatus == 200) {
+						map.put("fileFullPath", "");
+					}else {
+						map.put("fileFullPath", file.getAbsolutePath());
+					}
+				}else {
+					map.put("fileFullPath", file.getAbsolutePath());
 				}
 				map.put("rtnStatus", "Success");
 				map.put("fileFullPath", file.getAbsolutePath());
@@ -1254,7 +1280,13 @@ public class ReportsService {
 						LSDocReportObj.setFileHashName(saveAsHashKey);
 						LSdocreportsRepositoryObj.save(LSDocReportObj);
 						if (LSDocReportObj.getIsTemplate() == 1) {
-							filePath += "\\templates";
+							if(System.getProperty("os.name").contains("Linux")) {
+								filePath += "/templates";
+							}
+							else
+							{
+								filePath += "\\templates";
+							}
 						}
 						File oldFile = new File(filePath, haskKey + ".docx");
 						newFile = new File(filePath, saveAsHashKey + ".docx");
@@ -1634,7 +1666,13 @@ public class ReportsService {
 //			if (canLoad) {
 				String filePath = getDocxAbsolutePath();
 				if (lSdocreportsObj.getIsTemplate() == 1 && !isftpAvailable()) {
-					filePath += "\\templates";
+					if(System.getProperty("os.name").contains("Linux")) {
+						filePath += "/templates";
+					}
+					else
+					{
+						filePath += "\\templates";
+					}
 				}
 				boolean filePresent = false;
 				File directory = new File(filePath);
@@ -1720,7 +1758,13 @@ public class ReportsService {
 //			if (canLoad) {
 				String filePath = getDocxAbsolutePath();
 				if (lSdocreportsObj.getIsTemplate() == 1 && !isftpAvailable()) {
-					filePath += "\\templates";
+					if(System.getProperty("os.name").contains("Linux")) {
+						filePath += "/templates";
+					}
+					else
+					{
+						filePath += "\\templates";
+					}
 				}
 				boolean filePresent = false;
 				boolean status = false;
@@ -2153,7 +2197,12 @@ public class ReportsService {
 						String excelData = "";
 						if(LsSampleFiles.getFilecontent() != null) {
 							excelData = LsSampleFiles.getFilecontent();
-						}else {
+						}else if((int)obj.get("isMultitenant") == 1) {
+							
+							CloudOrderCreation file = CloudOrderCreationRepository.findById((long)SelectedDataObj.getLssamplefile().getFilesamplecode());
+							excelData = file.getContent();
+						}
+						else {
 							OrderCreation file = mongoTemplate.findById(SelectedDataObj.getLssamplefile().getFilesamplecode(), OrderCreation.class);
 							excelData = file.getContent();
 						}
@@ -3393,7 +3442,13 @@ public class ReportsService {
 			FIleVersionName = hashKey;
 		}
 		if (LSdocreportsObj.getIsTemplate() == 1) {
-			filePath += "\\templates";
+			if(System.getProperty("os.name").contains("Linux")) {
+				filePath += "/templates";
+			}
+			else
+			{
+				filePath += "\\templates";
+			}
 			if (!(new File(filePath)).exists()) {
 				(new File(filePath)).mkdir();
 			}
