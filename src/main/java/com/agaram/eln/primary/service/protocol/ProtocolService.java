@@ -29,6 +29,7 @@ import com.agaram.eln.primary.model.masters.Lsrepositoriesdata;
 import com.agaram.eln.primary.model.protocols.LSlogilabprotocoldetail;
 import com.agaram.eln.primary.model.protocols.LSlogilabprotocolsteps;
 import com.agaram.eln.primary.model.protocols.LSprotocolmaster;
+import com.agaram.eln.primary.model.protocols.LSprotocolordersampleupdates;
 import com.agaram.eln.primary.model.protocols.LSprotocolsampleupdates;
 import com.agaram.eln.primary.model.protocols.LSprotocolstep;
 import com.agaram.eln.primary.model.protocols.LSprotocolstepInfo;
@@ -58,6 +59,7 @@ import com.agaram.eln.primary.repository.usermanagement.LSuserteammappingReposit
 import com.agaram.eln.primary.service.basemaster.BaseMasterService;
 import com.agaram.eln.primary.repository.protocol.LSlogilabprotocoldetailRepository;
 import com.agaram.eln.primary.repository.protocol.LSlogilabprotocolstepsRepository;
+import com.agaram.eln.primary.repository.protocol.LSprotocolordersampleupdatesRepository;
 import com.agaram.eln.primary.repository.protocol.LSprotocolupdatesRepository;
 import com.agaram.eln.primary.repository.protocol.LSprotocolversionRepository;
 import com.agaram.eln.primary.repository.masters.LsrepositoriesRepository;
@@ -134,6 +136,9 @@ public class ProtocolService {
 	
 	@Autowired
 	private CloudLsLogilabprotocolstepInfoRepository CloudLsLogilabprotocolstepInfoRepository;
+	
+	@Autowired
+	private LSprotocolordersampleupdatesRepository lsprotocolordersampleupdatesRepository;
 	
 	public Map<String, Object> getProtocolMasterInit(Map<String, Object> argObj){
 		Map<String, Object> mapObj = new HashMap<String, Object>();
@@ -519,6 +524,7 @@ public class ProtocolService {
 					 if(argObj.containsKey("modifiedsamplestep")) {
 						 LSprotocolsampleupdates sample= new ObjectMapper().convertValue(argObj.get("modifiedsamplestep"), new TypeReference<LSprotocolsampleupdates>() {});
 						 sample.setProtocolstepcode(LSprotocolstepObj.getProtocolstepcode());
+						 sample.setProtocolmastercode(LSprotocolstepObj.getProtocolmastercode());
 						 LSprotocolsampleupdatesRepository.save(sample);
 					 }
 					 if(argObj.containsKey("repositorydata")) {
@@ -1128,15 +1134,31 @@ public class ProtocolService {
 								LSprotocolstepObj1.setLsprotocolstepInfo(newLSprotocolstepInfo.getContent());
 							}
 							
-							Query query = new Query(Criteria.where("id").is(LSprotocolstepObj1.getProtocolorderstepcode()));
-							Update update=new Update();
-							update.set("content",LSprotocolstepObj1.getLsprotocolstepInfo());
-		
-							mongoTemplate.upsert(query, update, LsLogilabprotocolstepInfo.class);
+							LsLogilabprotocolstepInfo LsLogilabprotocolstepInfoObj = new LsLogilabprotocolstepInfo();
+							
+							LsLogilabprotocolstepInfoObj.setId(LSprotocolstepObj1.getProtocolorderstepcode());
+							LsLogilabprotocolstepInfoObj.setContent(LSprotocolstepObj1.getLsprotocolstepInfo());
+							mongoTemplate.insert(LsLogilabprotocolstepInfoObj);
+							
+							//Query query = new Query(Criteria.where("id").is(LSprotocolstepObj1.getProtocolorderstepcode()));
+							//Update update=new Update();
+							//update.set("content",LSprotocolstepObj1.getLsprotocolstepInfo());
+							//mongoTemplate.upsert(query, update, LsLogilabprotocolstepInfo.class);
 						}
 					}
 								
-				
+				List<LSprotocolsampleupdates> lstsamplelst=LSprotocolsampleupdatesRepository
+						.findByProtocolmastercode(lSlogilabprotocoldetail.getLsprotocolmaster().getProtocolmastercode());
+			
+				List<LSprotocolordersampleupdates> protocolordersample = new ObjectMapper().convertValue(lstsamplelst,
+						new TypeReference<List<LSprotocolordersampleupdates>>() {
+						});
+			
+				for(LSprotocolordersampleupdates samplelist : protocolordersample) {
+
+					samplelist.setProtocolordercode(lSlogilabprotocoldetail.getProtocolordercode());
+				lsprotocolordersampleupdatesRepository.save(samplelist);
+				}
 				LSlogilabprotocoldetailRepository.save(lSlogilabprotocoldetail);
 			}
 			
@@ -1167,6 +1189,8 @@ public class ProtocolService {
 				new TypeReference<LSlogilabprotocolsteps>() {
 				});
 		
+		LSlogilabprotocolstepsRepository.save(LSprotocolstepObj);
+		
 		CloudLsLogilabprotocolstepInfo CloudLSprotocolstepInfoObj = new CloudLsLogilabprotocolstepInfo();
 		if(LSprotocolstepObj.getIsmultitenant() == 1) {
 			if(LSprotocolstepObj.getNewStep() == 0) {
@@ -1176,20 +1200,38 @@ public class ProtocolService {
 			}
 			else {
 				
-				LSlogilabprotocolstepsRepository.save(LSprotocolstepObj);
-				
 				CloudLSprotocolstepInfoObj.setId(LSprotocolstepObj.getProtocolorderstepcode());
 				CloudLSprotocolstepInfoObj.setLsprotocolstepInfo(LSprotocolstepObj.getLsprotocolstepInfo());
 				CloudLsLogilabprotocolstepInfoRepository.save(CloudLSprotocolstepInfoObj);
 			}
 		}
 		else {
-			Query query = new Query(Criteria.where("id").is(LSprotocolstepObj.getProtocolorderstepcode()));
-			Update update=new Update();
-			update.set("content",LSprotocolstepObj.getLsprotocolstepInfo());
-
-			mongoTemplate.upsert(query, update, LsLogilabprotocolstepInfo.class);
+			if(LSprotocolstepObj.getNewStep() == 0) {
+				Query query = new Query(Criteria.where("id").is(LSprotocolstepObj.getProtocolorderstepcode()));
+				Update update=new Update();
+				update.set("content",LSprotocolstepObj.getLsprotocolstepInfo());
+	
+				mongoTemplate.upsert(query, update, LsLogilabprotocolstepInfo.class);
+			}else {
+				LsLogilabprotocolstepInfo LsLogilabprotocolstepInfoObj = new LsLogilabprotocolstepInfo();
+				
+				LsLogilabprotocolstepInfoObj.setId(LSprotocolstepObj.getProtocolorderstepcode());
+				LsLogilabprotocolstepInfoObj.setContent(LSprotocolstepObj.getLsprotocolstepInfo());
+				mongoTemplate.insert(LsLogilabprotocolstepInfoObj);
+			}
 		}
+		
+		 if(argObj.containsKey("modifiedsamplestep")) {
+			 LSprotocolordersampleupdates sample= new ObjectMapper().convertValue(argObj.get("modifiedsamplestep"), new TypeReference<LSprotocolordersampleupdates>() {});
+			 sample.setProtocolstepcode(LSprotocolstepObj.getProtocolstepcode());
+			 sample.setProtocolmastercode(LSprotocolstepObj.getProtocolmastercode());
+//			 LSprotocolsampleupdatesRepository.save(sample);
+			 lsprotocolordersampleupdatesRepository.save(sample);
+		 }
+		 if(argObj.containsKey("repositorydata")) {
+			 Lsrepositoriesdata lsrepositoriesdata= new ObjectMapper().convertValue(argObj.get("repositorydata"), new TypeReference<Lsrepositoriesdata>() {});
+			 LsrepositoriesdataRepository.save(lsrepositoriesdata);
+		 }
 		
 		List<LSlogilabprotocolsteps> LSprotocolsteplst = 
 				LSlogilabprotocolstepsRepository.findByProtocolordercode(LSprotocolstepObj.getProtocolordercode());
@@ -1498,7 +1540,14 @@ public class ProtocolService {
 		mapObj.put("LSprotocolsteplst",LSprotocolsteplst);
 		return mapObj;
 	}
-
+	public List<LSprotocolordersampleupdates> GetProtocolorderResourcesQuantitylst(LSlogilabprotocolsteps LSlogilabprotocolsteps) {
+		// TODO Auto-generated method stub
+		List<LSprotocolordersampleupdates> sampleupdatelst= new ArrayList<LSprotocolordersampleupdates>();
+		if(LSlogilabprotocolsteps.getProtocolordercode()!=null) {
+			sampleupdatelst=lsprotocolordersampleupdatesRepository.findByprotocolordercodeAndProtocolstepcode(LSlogilabprotocolsteps.getProtocolordercode(),LSlogilabprotocolsteps.getProtocolstepcode());
+		}
+		return sampleupdatelst;
+	}
 	/*public Map<String, Object> addProtocolOrderStep(Map<String, Object> argObj) {
 		
 		Map<String, Object> mapObj = new HashMap<String, Object>();
